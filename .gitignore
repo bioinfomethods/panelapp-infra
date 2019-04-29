@@ -1,0 +1,10 @@
+/.idea/
+*.iml
+.terraform
+*.tfstate*
+.kitchen
+terraform.tfstate
+Gemfile.lock
+.env
+.environment
+modules
