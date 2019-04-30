@@ -7,4 +7,6 @@ terraform.tfstate
 Gemfile.lock
 .env
 .environment
-modules
+.secrets
+terraform/**/backend.conf
+terraform/**/terraform.tfvars
