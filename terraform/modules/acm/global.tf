@@ -2,7 +2,7 @@
 
 resource "aws_acm_certificate" "global_cert" {
   provider = "aws.us_east_1"
-  count    = "${var.create_global_cert}"
+  count    = "${var.create_global_cert ? 1 : 0}"
 
   domain_name       = "*.${replace(data.aws_route53_zone.acm_domain.name, "/[.]$/", "")}"
   validation_method = "DNS"
@@ -14,7 +14,7 @@ resource "aws_acm_certificate" "global_cert" {
 
 resource "aws_route53_record" "global_cert_validation" {
   provider = "aws.us_east_1"
-  count    = "${var.create_global_cert}"
+  count    = "${var.create_global_cert ? 1 : 0}"
 
   name    = "${aws_acm_certificate.global_cert.domain_validation_options.0.resource_record_name}"
   type    = "${aws_acm_certificate.global_cert.domain_validation_options.0.resource_record_type}"
@@ -25,7 +25,7 @@ resource "aws_route53_record" "global_cert_validation" {
 
 resource "aws_acm_certificate_validation" "global_cert" {
   provider = "aws.us_east_1"
-  count    = "${var.create_global_cert}"
+  count    = "${var.create_global_cert ? 1 : 0}"
 
   certificate_arn         = "${aws_acm_certificate.global_cert.arn}"
   validation_record_fqdns = ["${aws_route53_record.global_cert_validation.fqdn}"]

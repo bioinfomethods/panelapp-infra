@@ -1,15 +1,15 @@
 module "acm" {
   source = "../modules/acm"
 
-  create_regional_cert = true
-  create_global_cert   = true
+  create_regional_cert = "${var.generate_ssl_certs}"
+  create_global_cert   = "${var.generate_ssl_certs}"
 
   stack          = "${var.stack}"
   env_name       = "${var.env_name}"
   account_id     = "${var.account_id}"
   region         = "${var.region}"
   default_tags   = "${var.default_tags}"
-  public_zone_id = "${aws_route53_zone.public.zone_id}"
+  public_zone_id = "${module.site.public_dns_zone}"
 
-  local_cert_bucket_id = "${aws_s3_bucket.artifacts.id}"
+  local_cert_bucket_id = "${module.site.artifacts_bucket}"
 }

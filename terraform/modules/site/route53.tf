@@ -1,5 +1,5 @@
 resource "aws_route53_delegation_set" "site" {
-  reference_name = "${var.stack}"
+  reference_name = "${var.stack}-${var.env_name}"
 }
 
 resource "aws_route53_zone" "public" {
