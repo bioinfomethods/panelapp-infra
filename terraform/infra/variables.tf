@@ -4,7 +4,7 @@ variable "region" {
 
 variable "stack" {
   description = "Stack name"
-  default = "panelapp"
+  default     = "panelapp"
 }
 
 variable "env_name" {
@@ -21,7 +21,7 @@ variable "public_dns_zone_name" {
 
 variable "generate_ssl_certs" {
   description = "Enable generation of SSL Certs"
-  default = true
+  default     = true
 }
 
 variable "default_tags" {

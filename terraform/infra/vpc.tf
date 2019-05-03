@@ -4,7 +4,6 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "1.64.0"
 
-
   name = "panelapp-${var.env_name}"
   tags = "${var.default_tags}"
 
