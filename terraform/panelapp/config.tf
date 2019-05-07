@@ -26,7 +26,6 @@ data "aws_ssm_parameter" "email_use_tls" {
   name = "/${var.stack}/${var.env_name}/email/use_tls"
 }
 
-
 data "aws_ssm_parameter" "email_from_address" {
   // DEFAULT_FROM_EMAIL
   name = "/${var.stack}/${var.env_name}/email/from_address"
@@ -41,14 +40,11 @@ data "aws_ssm_parameter" "web_loglevel" {
   name = "/${var.stack}/${var.env_name}/web/loglevel"
 }
 
-
-
 // Secrets
 
 data "aws_ssm_parameter" "db_password" {
   name = "/${var.stack}/${var.env_name}/database/master_password"
 }
-
 
 data "aws_ssm_parameter" "web_secret_key" {
   name = "/${var.stack}/${var.env_name}/web/secret_key"

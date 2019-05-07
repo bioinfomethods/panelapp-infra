@@ -1,10 +1,10 @@
 terraform {
   required_version = "~> 0.11.13"
-  backend "s3" {}
+  backend          "s3"             {}
 }
 
 provider "aws" {
-  region = "${var.region}"
+  region  = "${var.region}"
   version = "~> 2.8"
 }
 
@@ -21,6 +21,4 @@ data "terraform_remote_state" "site" {
 
 locals {
   vpc_id = "${data.terraform_remote_state.site.vpc_id}"
-
 }
-

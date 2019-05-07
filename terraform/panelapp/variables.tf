@@ -4,7 +4,7 @@ variable "region" {
 
 variable "stack" {
   description = "Stack name"
-  default = "panelapp"
+  default     = "panelapp"
 }
 
 variable "env_name" {
