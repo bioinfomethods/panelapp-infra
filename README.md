@@ -10,8 +10,8 @@ Terraform state and lock are in a S3 bucket and DynamoDB table, respectively.
 > Terraform has an egg-and-chicken problem: we must create the S3 bucket and DynamoDB table at the first run,
 > without specifying any backend, than we re-init Terraform explicitly specifying the backend.
 
-1. `init` Terraform without any backend configuration and `apply`: this will also create the state bucket and lock table
-2. `init` Terraform with a backend configuration (see below): 
+1. `init` Terraform without any backend configuration then `apply`: this will also create the state bucket and lock table
+2. `init` Terraform with a backend configuration (with `-backend-config=...`, see below) then `apply` again: this will push the state to S3
 
 Bucket and table are automatically created at the first run, with the following naming:
 
@@ -62,4 +62,4 @@ This may require and additional step, for delegating the DNS Zone to the `NS` Ro
 1. Generate `infra` without generating SSL Certificates: `terraform apply -var="generate_ssl_certs=false"`
     Zone NS are part of the output (`public_dns_zone_ns`)
 2. Do any external operation to delegate the DNS Zone to these NS
-3. Re-`apply` `infra` to also generate SSL Certificates (i.e. without overriding `generate_ssl_certs=false`)
+3. Re-`apply` `infra` to also generate SSL Certificates (i.e. without overriding `generate_ssl_certs`)

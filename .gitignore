@@ -10,3 +10,4 @@ Gemfile.lock
 .secrets
 terraform/**/backend.conf
 terraform/**/terraform.tfvars
+/.DS_Store

@@ -15,9 +15,3 @@ variable "create_global_cert" {
 variable "create_regional_cert" {
   default = false
 }
-
-variable "create_local_cert" {
-  default = false
-}
-
-variable "local_cert_bucket_id" {}
