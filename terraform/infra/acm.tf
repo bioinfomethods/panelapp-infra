@@ -10,6 +10,4 @@ module "acm" {
   region         = "${var.region}"
   default_tags   = "${var.default_tags}"
   public_zone_id = "${module.site.public_dns_zone}"
-
-  local_cert_bucket_id = "${module.site.artifacts_bucket}"
 }
