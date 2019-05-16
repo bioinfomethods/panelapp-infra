@@ -10,8 +10,9 @@ Terraform state and lock are in a S3 bucket and DynamoDB table, respectively.
 > Terraform has an egg-and-chicken problem: we must create the S3 bucket and DynamoDB table at the first run,
 > without specifying any backend, than we re-init Terraform explicitly specifying the backend.
 
-1. `init` Terraform without any backend configuration then `apply`: this will also create the state bucket and lock table
-2. `init` Terraform with a backend configuration (with `-backend-config=...`, see below) then `apply` again: this will push the state to S3
+1. Run `terraform init -backend=false` then `apply`: this will also create the state bucket and lock table
+2. Run `terraform init -backend-config=<backand-config-file>` passing backend configuration file then `plan`: 
+    this will push the state to S3
 
 Bucket and table are automatically created at the first run, with the following naming:
 
