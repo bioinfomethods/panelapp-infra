@@ -1,4 +1,9 @@
-variable "stage" {}
+variable "stack" {
+  description = "Stack name"
+  default     = "panelapp"
+}
+
+variable "env_name" {}
 
 variable "default_tags" {
   type    = "map"
@@ -26,6 +31,10 @@ variable "cluster_size" {
 
 variable "create_reporting_db" {
   default = false
+}
+
+variable "create_aurora" {
+  default = true
 }
 
 variable "auto_minor_version_upgrade" {

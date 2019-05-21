@@ -2,6 +2,8 @@ variable "region" {
   description = "AWS Region"
 }
 
+variable "terraform_state_s3_bucket" {}
+
 variable "stack" {
   description = "Stack name"
   default     = "panelapp"
@@ -21,4 +23,12 @@ variable "public_dns_zone_name" {
 
 variable "default_tags" {
   type = "map"
+}
+
+variable "create_aurora" {
+  default = "true"
+}
+
+variable "cluster_size" {
+  default = 1
 }

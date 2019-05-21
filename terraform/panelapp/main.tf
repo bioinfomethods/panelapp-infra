@@ -9,16 +9,16 @@ provider "aws" {
 }
 
 // State of `site` component
-data "terraform_remote_state" "site" {
+data "terraform_remote_state" "infra" {
   backend = "s3"
 
   config {
     bucket = "${var.terraform_state_s3_bucket}"
-    key    = "site/terraform.tfstate"
+    key    = "infra/terraform.tfstate"
     region = "eu-west-2"
   }
 }
 
 locals {
-  vpc_id = "${data.terraform_remote_state.site.vpc_id}"
+  vpc_id = "${data.terraform_remote_state.infra.vpc_id}"
 }
