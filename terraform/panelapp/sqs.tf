@@ -1,6 +1,7 @@
 module "sqs" {
   source = "../modules/sqs"
 
-  env_name = "${var.env_name}"
-  sqs_name = "pannelapp-dev"
+  default_tags = "${var.default_tags}"
+  env_name     = "${var.env_name}"
+  sqs_name     = "pannelapp-dev"
 }
