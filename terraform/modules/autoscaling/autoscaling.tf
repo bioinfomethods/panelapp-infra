@@ -33,6 +33,25 @@ resource "aws_autoscaling_group" "this" {
   termination_policies = "${var.termination_policies}"
   suspended_processes  = "${var.suspended_processes}"
 
+  tags = [
+    {
+      key                 = "Name"
+      value               = "SSM_Host"
+      propagate_at_launch = true
+    },
+  ]
+
+  # {
+  #   key                 = "Stack"
+  #   value               = "${var.stack}"
+  #   propagate_at_launch = true
+  # },
+  # {
+  #   key                 = "Env"
+  #   value               = "${lookup(var.default_tags, "Env")}"
+  #   propagate_at_launch = true
+  # }
+
   lifecycle {
     create_before_destroy = true
   }

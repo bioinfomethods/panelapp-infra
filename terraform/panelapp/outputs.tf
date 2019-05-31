@@ -11,5 +11,5 @@ output "reader_endpoint" {
 }
 
 output "sqs_url" {
-  value = "${module.sqs.sqs_url}"
+  value = "${aws_sqs_queue.sqs.id}"
 }
