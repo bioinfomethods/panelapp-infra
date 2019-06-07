@@ -1,5 +1,5 @@
 output "psql_security_id" {
-  value = "${aws_security_group.postgres_client.id}"
+  value = "${join("",aws_security_group.postgres_client.*.id)}"
 }
 
 output "user_data" {
