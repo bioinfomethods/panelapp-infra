@@ -4,7 +4,9 @@ module "autoscaling" {
   image_id = "ami-0009a33f033d8b7b6"
   name     = "panelapp_test"
 
-  lc_name = "panelapp"
+  lc_name    = "panelapp"
+  create_asg = true
+  create_lc  = true
 
   instance_type       = "t2.micro"
   vpc_zone_identifier = ["${data.terraform_remote_state.infra.private_subnets}"]

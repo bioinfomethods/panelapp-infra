@@ -48,7 +48,7 @@ variable "sqs_name" {
 
 variable "visibility_timeout_seconds" {
   description = "The visibility timeout for the queue. An integer from 0 to 43200 (12 hours)"
-  default     = 30
+  default     = 360
 }
 
 variable "message_retention_seconds" {
@@ -89,4 +89,8 @@ variable "fifo_queue" {
 variable "content_based_deduplication" {
   description = "Enables content-based deduplication for FIFO queues"
   default     = false
+}
+
+variable "panelapp_replica" {
+  default = 1
 }

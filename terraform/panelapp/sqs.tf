@@ -1,7 +1,7 @@
-resource "aws_sqs_queue" "sqs" {
+resource "aws_sqs_queue" "panelapp" {
   count = "${var.create_sqs && var.sqs_queue_with_kms == 0 ? 1 : 0}"
 
-  name = "${var.sqs_name}"
+  name = "panelapp"
 
   visibility_timeout_seconds  = "${var.visibility_timeout_seconds}"
   message_retention_seconds   = "${var.message_retention_seconds}"
@@ -15,6 +15,6 @@ resource "aws_sqs_queue" "sqs" {
 
   tags = "${merge(
     var.default_tags,
-    map("Name", "${var.sqs_name}")
+    map("Name", "panelapp")
   )}"
 }
