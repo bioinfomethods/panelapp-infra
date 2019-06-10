@@ -1,5 +1,5 @@
 resource "aws_cloudfront_distribution" "panelapp_distribution" {
-  aliases = ["test.panelapp-cloud.genomicsengland.co.uk"]
+  aliases = ["${var.cdn_alis}"]
 
   origin {
     domain_name = "${aws_s3_bucket.panelapp_statics.bucket_regional_domain_name}"

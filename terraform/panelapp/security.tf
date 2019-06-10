@@ -72,13 +72,15 @@ resource "aws_iam_role_policy" "panelapp" {
       "Sid": "Stmt1559654322774",
       "Action": [
         "s3:DeleteObject",
+        "s3:PutObjectAcl",
+        "s3:GetObjectAcl",
         "s3:GetObject",
         "s3:HeadBucket",
         "s3:ListBucket",
         "s3:PutObject"
       ],
       "Effect": "Allow",
-      "Resource": "arn:aws:s3:::panelapp-media"
+      "Resource": ["arn:aws:s3:::panelapp-media/*","arn:aws:s3:::panelapp-statics/*"]
     },
     {
       "Effect": "Allow",

@@ -94,3 +94,12 @@ variable "content_based_deduplication" {
 variable "panelapp_replica" {
   default = 1
 }
+
+variable "cdn_alis" {
+  description = "CDN aliases"
+  default     = ""
+}
+
+variable "dns_record" {
+  default = ""
+}
