@@ -90,7 +90,10 @@ resource "aws_iam_role_policy" "panelapp" {
         "s3:PutObject"
       ],
       "Effect": "Allow",
-      "Resource": ["arn:aws:s3:::panelapp-media/*","arn:aws:s3:::panelapp-statics/*"]
+      "Resource": [
+        "${aws_s3_bucket.panelapp_media.arn}/*",
+        "${aws_s3_bucket.panelapp_statics.arn}/*"
+        ]
     },
     {
       "Effect": "Allow",

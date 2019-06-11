@@ -1,9 +1,7 @@
 resource "aws_s3_bucket" "panelapp_statics" {
-  bucket = "panelapp-statics"
+  bucket = "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-panelapp-statics"
 
   acl = "public-read"
-
-  policy = ""
 
   tags = "${merge(
     var.default_tags,
@@ -11,8 +9,35 @@ resource "aws_s3_bucket" "panelapp_statics" {
   )}"
 }
 
+resource "aws_s3_bucket_policy" "panelapp_statics" {
+  bucket = "${aws_s3_bucket.panelapp_statics.id}"
+  policy = "${data.aws_iam_policy_document.s3_policy.json}"
+}
+
+data "aws_iam_policy_document" "s3_policy" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.panelapp_statics.arn}/*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = ["${aws_cloudfront_origin_access_identity.panelapp_s3.iam_arn}"]
+    }
+  }
+
+  statement {
+    actions   = ["s3:ListBucket"]
+    resources = ["${aws_s3_bucket.panelapp_statics.arn}"]
+
+    principals {
+      type        = "AWS"
+      identifiers = ["${aws_cloudfront_origin_access_identity.panelapp_s3.iam_arn}"]
+    }
+  }
+}
+
 resource "aws_s3_bucket" "panelapp_media" {
-  bucket = "panelapp-media"
+  bucket = "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-panelapp-media"
 
   policy = ""
 

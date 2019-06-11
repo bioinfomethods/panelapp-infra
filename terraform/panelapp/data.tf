@@ -5,6 +5,8 @@ data "template_file" "panelapp_web" {
     database_url           = "${data.aws_ssm_parameter.db_host.value}"
     aurora_writer_endpoint = "${module.aurora.writer_endpoint}"
     aws_region             = "${var.region}"
+    panelapp_statics       = "${aws_s3_bucket.panelapp_statics.id}"
+    panelapp_media         = "${aws_s3_bucket.panelapp_media.id}"
     cdn_domain_name        = "${var.cdn_alis}"
     default_email          = "${var.default_email}"
     panelapp_email         = "${var.panelapp_email}"
@@ -21,6 +23,8 @@ data "template_file" "panelapp_worker" {
     database_url           = "${data.aws_ssm_parameter.db_host.value}"
     aurora_writer_endpoint = "${module.aurora.writer_endpoint}"
     aws_region             = "${var.region}"
+    panelapp_statics       = "${aws_s3_bucket.panelapp_statics.id}"
+    panelapp_media         = "${aws_s3_bucket.panelapp_media.id}"
     cdn_domain_name        = "${var.cdn_alis}"
     default_email          = "${var.default_email}"
     panelapp_email         = "${var.panelapp_email}"
@@ -37,6 +41,8 @@ data "template_file" "panelapp_migrate" {
     database_url           = "${data.aws_ssm_parameter.db_host.value}"
     aurora_writer_endpoint = "${module.aurora.writer_endpoint}"
     aws_region             = "${var.region}"
+    panelapp_statics       = "${aws_s3_bucket.panelapp_statics.id}"
+    panelapp_media         = "${aws_s3_bucket.panelapp_media.id}"
     cdn_domain_name        = "${var.cdn_alis}"
   }
 }
@@ -48,6 +54,8 @@ data "template_file" "panelapp_collectstatic" {
     database_url           = "${data.aws_ssm_parameter.db_host.value}"
     aurora_writer_endpoint = "${module.aurora.writer_endpoint}"
     aws_region             = "${var.region}"
+    panelapp_statics       = "${aws_s3_bucket.panelapp_statics.id}"
+    panelapp_media         = "${aws_s3_bucket.panelapp_media.id}"
     cdn_domain_name        = "${var.cdn_alis}"
   }
 }
@@ -59,6 +67,8 @@ data "template_file" "panelapp_loaddata" {
     database_url           = "${data.aws_ssm_parameter.db_host.value}"
     aurora_writer_endpoint = "${module.aurora.writer_endpoint}"
     aws_region             = "${var.region}"
+    panelapp_statics       = "${aws_s3_bucket.panelapp_statics.id}"
+    panelapp_media         = "${aws_s3_bucket.panelapp_media.id}"
     cdn_domain_name        = "${var.cdn_alis}"
   }
 }
@@ -70,7 +80,10 @@ data "template_file" "panelapp_createsuperuser" {
     database_url           = "${data.aws_ssm_parameter.db_host.value}"
     aurora_writer_endpoint = "${module.aurora.writer_endpoint}"
     aws_region             = "${var.region}"
+    panelapp_statics       = "${aws_s3_bucket.panelapp_statics.id}"
+    panelapp_media         = "${aws_s3_bucket.panelapp_media.id}"
     cdn_domain_name        = "${var.cdn_alis}"
+    admin_email            = "${var.admin_email}"
   }
 }
 

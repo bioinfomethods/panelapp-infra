@@ -96,10 +96,26 @@ variable "panelapp_replica" {
 }
 
 variable "cdn_alis" {
-  description = "CDN aliases"
+  description = "CDN alias"
   default     = ""
 }
 
 variable "dns_record" {
   default = ""
+}
+
+variable "smtp_server" {
+  default = "email-smtp.eu-west-1.amazonaws.com"
+}
+
+variable "default_email" {
+  default = "vahid.farshadfar@contino.io"
+}
+
+variable "panelapp_email" {
+  default = "vahid.farshadfar@contino.io"
+}
+
+variable "admin_email" {
+  default = "vahid.farshadfar@contino.io"
 }

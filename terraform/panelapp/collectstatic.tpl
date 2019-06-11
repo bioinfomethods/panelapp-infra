@@ -11,7 +11,7 @@
       "options": {
         "awslogs-group": "panelapp-collectstatic",
         "awslogs-stream-prefix": "panelapp-collectstatic",
-        "awslogs-region": "eu-west-2"
+        "awslogs-region": "${aws_region}"
       }
 
   },
@@ -24,15 +24,9 @@
     { "name" : "DATABASE_URL", "value" : "${database_url}" },
     { "name" : "DJANGO_LOG_LEVEL", "value" : "DEBUG" },
     { "name" : "AWS_REGION", "value" : "${aws_region}" },
-    { "name" : "AWS_S3_STATICFILES_BUCKET_NAME", "value" : "panelapp-statics" },
-    { "name" : "AWS_S3_MEDIAFILES_BUCKET_NAME", "value" : "panelapp-media" },
-    { "name" : "AWS_S3_STATICFILES_CUSTOM_DOMAIN", "value" : "${cdn_domain_name}" },
-    { "name" : "ALLOWED_HOSTS", "value" : "*" },
-    { "name" : "DEFAULT_FROM_EMAIL", "value" : "panelapp@local.com" },
-    { "name" : "PANEL_APP_EMAIL", "value" : "panelapp@local.com" },
-    { "name" : "EMAIL_HOST", "value" : "local.com" },
-    { "name" : "EMAIL_PORT", "value" : "25" }
-
+    { "name" : "AWS_S3_STATICFILES_BUCKET_NAME", "value" : "${panelapp_statics}" },
+    { "name" : "AWS_S3_MEDIAFILES_BUCKET_NAME", "value" : "${panelapp_media}" },
+    { "name" : "AWS_S3_STATICFILES_CUSTOM_DOMAIN", "value" : "${cdn_domain_name}" }
 ]
 }
 ]

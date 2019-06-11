@@ -1,3 +1,7 @@
+resource "aws_cloudfront_origin_access_identity" "panelapp_s3" {
+  comment = "access identity to access s3"
+}
+
 resource "aws_cloudfront_distribution" "panelapp_distribution" {
   aliases = ["${var.cdn_alis}"]
 
@@ -6,9 +10,9 @@ resource "aws_cloudfront_distribution" "panelapp_distribution" {
     origin_path = ""
     origin_id   = "S3-panelapp-statics"
 
-    # s3_origin_config {
-    #   origin_access_identity = "origin-access-identity/cloudfront/ABCDEFG1234567"
-    # }
+    s3_origin_config {
+      origin_access_identity = "${aws_cloudfront_origin_access_identity.panelapp_s3.cloudfront_access_identity_path}"
+    }
   }
 
   origin {
