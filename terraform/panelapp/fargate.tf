@@ -51,6 +51,28 @@ resource "aws_ecs_task_definition" "panelapp_collectstatic" {
   container_definitions    = "${data.template_file.panelapp_collectstatic.rendered}"
 }
 
+resource "aws_ecs_task_definition" "panelapp_loaddata" {
+  family                   = "panelapp-loaddata-${var.stack}-${var.env_name}"
+  task_role_arn            = "${aws_iam_role.ecs_task_panelapp.arn}"
+  execution_role_arn       = "${aws_iam_role.ecs_task_panelapp.arn}"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = 512
+  memory                   = 1024
+  container_definitions    = "${data.template_file.panelapp_loaddata.rendered}"
+}
+
+resource "aws_ecs_task_definition" "panelapp_createsuperuser" {
+  family                   = "panelapp-createsuperuser-${var.stack}-${var.env_name}"
+  task_role_arn            = "${aws_iam_role.ecs_task_panelapp.arn}"
+  execution_role_arn       = "${aws_iam_role.ecs_task_panelapp.arn}"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = 512
+  memory                   = 1024
+  container_definitions    = "${data.template_file.panelapp_createsuperuser.rendered}"
+}
+
 resource "aws_ecs_service" "panelapp_web" {
   name            = "panelapp-web-${var.stack}-${var.env_name}"
   cluster         = "${aws_ecs_cluster.panelapp_cluster.id}"

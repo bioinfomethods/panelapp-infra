@@ -1,14 +1,16 @@
 [
   {
-    "name": "panelapp-web",
+    "name": "panelapp-createsuperuser",
     "image" : "784145085393.dkr.ecr.eu-west-2.amazonaws.com/panelapp-web:latest",
+    "entryPoint": ["sh","-c"],
+    "command": ["echo \"from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'vahid.farshadfar@contino.io', 'secret')\" | python manage.py shell"],
     "cpu": 512,
     "memory": 1024,
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
-        "awslogs-group": "panelapp-web",
-        "awslogs-stream-prefix": "panelapp-web",
+        "awslogs-group": "panelapp",
+        "awslogs-stream-prefix": "panelapp",
         "awslogs-region": "eu-west-2"
       }
 
@@ -26,12 +28,10 @@
     { "name" : "AWS_S3_MEDIAFILES_BUCKET_NAME", "value" : "panelapp-media" },
     { "name" : "AWS_S3_STATICFILES_CUSTOM_DOMAIN", "value" : "${cdn_domain_name}" },
     { "name" : "ALLOWED_HOSTS", "value" : "*" },
-    { "name" : "DEFAULT_FROM_EMAIL", "value" : "${default_email}" },
-    { "name" : "PANEL_APP_EMAIL", "value" : "${panelapp_email}" },
-    { "name" : "EMAIL_HOST", "value" : "${email_host}" },
-    { "name" : "EMAIL_PORT", "value" : "587" },
-    { "name" : "EMAIL_HOST_USER", "value" : "${email_user}" },
-    { "name" : "EMAIL_HOST_PASSWORD", "value" : "${email_password}" }
+    { "name" : "DEFAULT_FROM_EMAIL", "value" : "panelapp@local.com" },
+    { "name" : "PANEL_APP_EMAIL", "value" : "panelapp@local.com" },
+    { "name" : "EMAIL_HOST", "value" : "local.com" },
+    { "name" : "EMAIL_PORT", "value" : "25" }
 
 ]
 }

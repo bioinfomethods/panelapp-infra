@@ -19,6 +19,16 @@ resource "aws_security_group_rule" "fargate_egress_amazon_london" {
   description       = "Allow calls to aws London"
 }
 
+resource "aws_security_group_rule" "fargate_smtp_egress" {
+  type              = "egress"
+  from_port         = 587
+  to_port           = 587
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.fargte.id}"
+  description       = "Allow calls to smtp server"
+}
+
 resource "aws_security_group_rule" "fargate_ingress_8080_alb" {
   type                     = "ingress"
   from_port                = "8080"

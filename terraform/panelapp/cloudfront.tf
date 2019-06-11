@@ -33,7 +33,7 @@ resource "aws_cloudfront_distribution" "panelapp_distribution" {
   }
 
   default_cache_behavior {
-    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
+    allowed_methods  = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "panelapp-elb"
 
@@ -58,7 +58,7 @@ resource "aws_cloudfront_distribution" "panelapp_distribution" {
 
   ordered_cache_behavior {
     path_pattern           = "static/*"
-    allowed_methods        = ["GET", "HEAD"]
+    allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods         = ["GET", "HEAD"]
     target_origin_id       = "S3-panelapp-statics"
     viewer_protocol_policy = "redirect-to-https"

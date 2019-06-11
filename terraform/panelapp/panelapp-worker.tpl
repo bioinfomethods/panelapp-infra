@@ -19,10 +19,12 @@
     { "name" : "DJANGO_LOG_LEVEL", "value" : "DEBUG" },
     { "name" : "AWS_REGION", "value" : "${aws_region}" },
     { "name" : "AWS_S3_MEDIAFILES_BUCKET_NAME", "value" : "panelapp-media" },
-    { "name" : "DEFAULT_FROM_EMAIL", "value" : "panelapp@local.com" },
-    { "name" : "PANEL_APP_EMAIL", "value" : "panelapp@local.com" },
-    { "name" : "EMAIL_HOST", "value" : "local.com" },
-    { "name" : "EMAIL_PORT", "value" : "25" }
+    { "name" : "DEFAULT_FROM_EMAIL", "value" : "${default_email}" },
+    { "name" : "PANEL_APP_EMAIL", "value" : "${panelapp_email}" },
+    { "name" : "EMAIL_HOST", "value" : "${email_host}" },
+    { "name" : "EMAIL_PORT", "value" : "587" },
+    { "name" : "EMAIL_HOST_USER", "value" : "${email_user}" },
+    { "name" : "EMAIL_HOST_PASSWORD", "value" : "${email_password}" }
 
 ]
 }
