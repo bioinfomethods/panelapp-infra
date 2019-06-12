@@ -1,3 +1,4 @@
+# FIXME Rename "static"
 resource "aws_s3_bucket" "panelapp_statics" {
   bucket = "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-panelapp-statics"
 
@@ -5,15 +6,17 @@ resource "aws_s3_bucket" "panelapp_statics" {
 
   tags = "${merge(
     var.default_tags,
-    map("Name", "panelapp_statics")
+    map("Name", "panelapp_static")
   )}"
 }
 
+# FIXME Rename "static"
 resource "aws_s3_bucket_policy" "panelapp_statics" {
   bucket = "${aws_s3_bucket.panelapp_statics.id}"
   policy = "${data.aws_iam_policy_document.s3_policy.json}"
 }
 
+# FIXME Doesn't this overlap with the policy defined in `aws_iam_role_policy.panelapp` in `security.tf`?
 data "aws_iam_policy_document" "s3_policy" {
   statement {
     actions   = ["s3:GetObject"]

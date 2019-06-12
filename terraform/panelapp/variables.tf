@@ -46,6 +46,8 @@ variable "sqs_name" {
   default = ""
 }
 
+# FIXME Qualify all the variables below, making it clear they refer to the SQS queue
+
 variable "visibility_timeout_seconds" {
   description = "The visibility timeout for the queue. An integer from 0 to 43200 (12 hours)"
   default     = 360
@@ -70,6 +72,7 @@ variable "receive_wait_time_seconds" {
   description = "The time for which a ReceiveMessage call will wait for a message to arrive (long polling) before returning. An integer from 0 to 20 (seconds)"
   default     = 0
 }
+
 
 variable "policy" {
   description = "The JSON policy for the SQS queue"

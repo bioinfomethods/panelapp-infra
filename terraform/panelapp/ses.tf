@@ -1,6 +1,7 @@
 resource "aws_iam_user" "panelapp_ses" {
   name = "ses-user"
 
+  # FIXME merge with default tags
   tags = {
     name = "ses-user"
   }

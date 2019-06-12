@@ -8,7 +8,7 @@ provider "aws" {
   version = "~> 2.8"
 }
 
-// State of `site` component
+// State of `infra` component
 data "terraform_remote_state" "infra" {
   backend = "s3"
 

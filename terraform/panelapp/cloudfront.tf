@@ -86,4 +86,6 @@ resource "aws_cloudfront_distribution" "panelapp_distribution" {
 
     ssl_support_method = "sni-only"
   }
+
+  # FIXME add tags
 }

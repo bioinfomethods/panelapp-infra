@@ -7,15 +7,20 @@ resource "aws_ecs_cluster" "panelapp_cluster" {
   )}"
 }
 
+########################
+## Application cluster
+########################
+
 resource "aws_ecs_task_definition" "panelapp_web" {
   family                   = "panelapp-web-${var.stack}-${var.env_name}"
   task_role_arn            = "${aws_iam_role.ecs_task_panelapp.arn}"
   execution_role_arn       = "${aws_iam_role.ecs_task_panelapp.arn}"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = 512
-  memory                   = 1024
-  container_definitions    = "${data.template_file.panelapp_web.rendered}"
+  cpu                      = 512 # FIXME Externalise as configuration (with default)
+  memory                   = 1024 # FIXME Externalise...
+  container_definitions    = "${data.template_file.panelapp_web.rendered}" # FIXME "image" (in the template) must be externalised
+  # FIXME add tags
 }
 
 resource "aws_ecs_task_definition" "panelapp_worker" {
@@ -24,54 +29,12 @@ resource "aws_ecs_task_definition" "panelapp_worker" {
   execution_role_arn       = "${aws_iam_role.ecs_task_panelapp.arn}"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = 512
-  memory                   = 1024
-  container_definitions    = "${data.template_file.panelapp_worker.rendered}"
+  cpu                      = 512 # FIXME Externalise...
+  memory                   = 1024 # FIXME Externalise...
+  container_definitions    = "${data.template_file.panelapp_worker.rendered}" # FIXME externalise "image"
+  # FIXME add tags
 }
 
-resource "aws_ecs_task_definition" "panelapp_migrate" {
-  family                   = "panelapp-migrate-${var.stack}-${var.env_name}"
-  task_role_arn            = "${aws_iam_role.ecs_task_panelapp.arn}"
-  execution_role_arn       = "${aws_iam_role.ecs_task_panelapp.arn}"
-  network_mode             = "awsvpc"
-  requires_compatibilities = ["FARGATE"]
-  cpu                      = 512
-  memory                   = 1024
-  container_definitions    = "${data.template_file.panelapp_migrate.rendered}"
-}
-
-resource "aws_ecs_task_definition" "panelapp_collectstatic" {
-  family                   = "panelapp-collectstatic-${var.stack}-${var.env_name}"
-  task_role_arn            = "${aws_iam_role.ecs_task_panelapp.arn}"
-  execution_role_arn       = "${aws_iam_role.ecs_task_panelapp.arn}"
-  network_mode             = "awsvpc"
-  requires_compatibilities = ["FARGATE"]
-  cpu                      = 512
-  memory                   = 1024
-  container_definitions    = "${data.template_file.panelapp_collectstatic.rendered}"
-}
-
-resource "aws_ecs_task_definition" "panelapp_loaddata" {
-  family                   = "panelapp-loaddata-${var.stack}-${var.env_name}"
-  task_role_arn            = "${aws_iam_role.ecs_task_panelapp.arn}"
-  execution_role_arn       = "${aws_iam_role.ecs_task_panelapp.arn}"
-  network_mode             = "awsvpc"
-  requires_compatibilities = ["FARGATE"]
-  cpu                      = 512
-  memory                   = 1024
-  container_definitions    = "${data.template_file.panelapp_loaddata.rendered}"
-}
-
-resource "aws_ecs_task_definition" "panelapp_createsuperuser" {
-  family                   = "panelapp-createsuperuser-${var.stack}-${var.env_name}"
-  task_role_arn            = "${aws_iam_role.ecs_task_panelapp.arn}"
-  execution_role_arn       = "${aws_iam_role.ecs_task_panelapp.arn}"
-  network_mode             = "awsvpc"
-  requires_compatibilities = ["FARGATE"]
-  cpu                      = 512
-  memory                   = 1024
-  container_definitions    = "${data.template_file.panelapp_createsuperuser.rendered}"
-}
 
 resource "aws_ecs_service" "panelapp_web" {
   name            = "panelapp-web-${var.stack}-${var.env_name}"
@@ -90,6 +53,8 @@ resource "aws_ecs_service" "panelapp_web" {
     security_groups = ["${module.aurora.aurora_security_group}", "${aws_security_group.fargte.id}"]
     subnets         = ["${data.terraform_remote_state.infra.private_subnets}"]
   }
+
+  # FIXME add tags
 }
 
 resource "aws_ecs_service" "panelapp_worker" {
@@ -103,6 +68,8 @@ resource "aws_ecs_service" "panelapp_worker" {
     security_groups = ["${module.aurora.aurora_security_group}", "${aws_security_group.fargte.id}"]
     subnets         = ["${data.terraform_remote_state.infra.private_subnets}"]
   }
+
+  # FIXME add tags
 }
 
 resource "aws_cloudwatch_log_group" "panelapp_web" {
@@ -125,6 +92,37 @@ resource "aws_cloudwatch_log_group" "panelapp_worker" {
   )}"
 }
 
+
+
+
+######################################
+## Tasks to run on every deployments
+######################################
+
+resource "aws_ecs_task_definition" "panelapp_migrate" {
+  family                   = "panelapp-migrate-${var.stack}-${var.env_name}"
+  task_role_arn            = "${aws_iam_role.ecs_task_panelapp.arn}"
+  execution_role_arn       = "${aws_iam_role.ecs_task_panelapp.arn}"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = 512 # FIXME Externalise...
+  memory                   = 1024 # FIXME Externalise...
+  container_definitions    = "${data.template_file.panelapp_migrate.rendered}" # FIXME externalise "image"
+  # FIXME add tags
+}
+
+resource "aws_ecs_task_definition" "panelapp_collectstatic" {
+  family                   = "panelapp-collectstatic-${var.stack}-${var.env_name}" # FIXME externalise "image"
+  task_role_arn            = "${aws_iam_role.ecs_task_panelapp.arn}"
+  execution_role_arn       = "${aws_iam_role.ecs_task_panelapp.arn}"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = 512 # FIXME Externalise...
+  memory                   = 1024 # FIXME Externalise...
+  container_definitions    = "${data.template_file.panelapp_collectstatic.rendered}"
+  # FIXME add tags
+}
+
 resource "aws_cloudwatch_log_group" "panelapp_migrate" {
   name              = "panelapp-migrate"
   retention_in_days = 14
@@ -144,3 +142,35 @@ resource "aws_cloudwatch_log_group" "panelapp-collectstatic" {
     map("Name", "panelapp_cluster")
   )}"
 }
+
+
+#######################
+## Other one-off tasks
+#######################
+
+## FIXME Move one-off tasks out of terraform
+
+resource "aws_ecs_task_definition" "panelapp_loaddata" {
+  family                   = "panelapp-loaddata-${var.stack}-${var.env_name}"
+  task_role_arn            = "${aws_iam_role.ecs_task_panelapp.arn}"
+  execution_role_arn       = "${aws_iam_role.ecs_task_panelapp.arn}"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = 512 # FIXME Externalise...
+  memory                   = 1024 # FIXME Externalise...
+  container_definitions    = "${data.template_file.panelapp_loaddata.rendered}" # FIXME externalise "image"
+  # FIXME add tags
+}
+
+resource "aws_ecs_task_definition" "panelapp_createsuperuser" {
+  family                   = "panelapp-createsuperuser-${var.stack}-${var.env_name}"
+  task_role_arn            = "${aws_iam_role.ecs_task_panelapp.arn}"
+  execution_role_arn       = "${aws_iam_role.ecs_task_panelapp.arn}"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = 512 # FIXME Externalise...
+  memory                   = 1024 # FIXME Externalise...
+  container_definitions    = "${data.template_file.panelapp_createsuperuser.rendered}" # FIXME externalise "image"
+  # FIXME add tags
+}
+

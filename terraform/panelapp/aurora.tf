@@ -14,7 +14,7 @@ module "aurora" {
   username              = "root"
   restore_from_snapshot = false
   cluster_size          = "${var.create_aurora ? var.cluster_size : 0}"
-  instance_class        = "db.r5.large"
+  instance_class        = "db.r5.large" # FIXME Instance class must be externalise to a variable with a default value.
   slow_query_log        = true
   long_query_time       = "2"
 }

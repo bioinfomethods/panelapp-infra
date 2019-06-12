@@ -1,3 +1,4 @@
+# FIXME Name typo?
 resource "aws_security_group" "fargte" {
   name        = "panelapp-fargate-${var.stack}-${var.env_name}"
   description = "group for panelapp fargte"
@@ -9,6 +10,7 @@ resource "aws_security_group" "fargte" {
   )}"
 }
 
+# FIXME Generalise it. This is not "London" but the CIDR of the Region the stack is deployed into
 resource "aws_security_group_rule" "fargate_egress_amazon_london" {
   type              = "egress"
   from_port         = "443"
