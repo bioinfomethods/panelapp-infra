@@ -2,7 +2,7 @@ version: '3.2'
 
 services:
   terraform:
-    image: hashicorp/terraform:latest
+    image: hashicorp/terraform:0.11.13
     env_file: .secrets
     entrypoint: terraform
     working_dir: /var/tmp/code/${WORKDIR}
