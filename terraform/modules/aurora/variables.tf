@@ -63,10 +63,6 @@ variable "username" {
   default = ""
 }
 
-variable "password" {
-  default = ""
-}
-
 variable "restore_from_snapshot" {
   default = false
 }

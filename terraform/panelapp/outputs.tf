@@ -1,8 +1,15 @@
 # output "aurora_security_group" {
 #   value = "${module.aurora.aurora_security_group}"
 # }
-output "writer_endpoint" {
+
+output "db_host" {
   value = "${module.aurora.writer_endpoint}"
+}
+output "db_port" {
+  value = "${module.aurora.port}"
+}
+output "db_name" {
+  value = "${module.aurora.database_name}"
 }
 
 # output "reader_endpoint" {
@@ -25,7 +32,3 @@ output "writer_endpoint" {
 # output "ses_id" {
 #   value = "${aws_iam_access_key.ses.id}"
 # }
-
-output "db_host" {
-  value = "${data.aws_ssm_parameter.db_host.value}"
-}

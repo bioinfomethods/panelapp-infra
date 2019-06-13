@@ -16,8 +16,6 @@ resource "aws_rds_cluster" "aurora_cluster" {
   database_name   = "${var.database}"
   master_username = "${var.username}"
 
-  //master_password = "${var.password}"
-
   master_password     = "${join("",data.aws_ssm_parameter.root_password.*.value)}"
   snapshot_identifier = "${var.restore_from_snapshot ? var.rds_snapshot : ""}"
   tags = "${merge(
