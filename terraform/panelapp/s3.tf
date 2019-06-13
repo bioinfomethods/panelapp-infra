@@ -16,7 +16,6 @@ resource "aws_s3_bucket_policy" "panelapp_statics" {
   policy = "${data.aws_iam_policy_document.s3_policy.json}"
 }
 
-# FIXME Doesn't this overlap with the policy defined in `aws_iam_role_policy.panelapp` in `security.tf`?
 data "aws_iam_policy_document" "s3_policy" {
   statement {
     actions   = ["s3:GetObject"]

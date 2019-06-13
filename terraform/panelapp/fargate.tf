@@ -19,7 +19,9 @@ resource "aws_ecs_task_definition" "panelapp_web" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = 512 # FIXME Externalise as configuration (with default)
   memory                   = 1024 # FIXME Externalise...
-  container_definitions    = "${data.template_file.panelapp_web.rendered}" # FIXME "image" (in the template) must be externalised
+  container_definitions    = "${data.template_file.panelapp_web.rendered}"
+  # FIXME "image", "log-level" (in the template) must be externalised
+  # FIXME do not pass the DB URL directly but let fargate fetching as secrets (pass db URL as separate elements [IP-3610]
   # FIXME add tags
 }
 
@@ -125,7 +127,7 @@ resource "aws_ecs_task_definition" "panelapp_collectstatic" {
 
 resource "aws_cloudwatch_log_group" "panelapp_migrate" {
   name              = "panelapp-migrate"
-  retention_in_days = 14
+  retention_in_days = 14 # FIXME Make this configurable
 
   tags = "${merge(
     var.default_tags,
@@ -135,7 +137,7 @@ resource "aws_cloudwatch_log_group" "panelapp_migrate" {
 
 resource "aws_cloudwatch_log_group" "panelapp-collectstatic" {
   name              = "panelapp-collectstatic"
-  retention_in_days = 14
+  retention_in_days = 14 # FIXME Make this configurable
 
   tags = "${merge(
     var.default_tags,
@@ -148,7 +150,7 @@ resource "aws_cloudwatch_log_group" "panelapp-collectstatic" {
 ## Other one-off tasks
 #######################
 
-## FIXME Move one-off tasks out of terraform
+## FIXME Move one-off tasks out of terraform (verify if possible to override the entrypoint when running the task)
 
 resource "aws_ecs_task_definition" "panelapp_loaddata" {
   family                   = "panelapp-loaddata-${var.stack}-${var.env_name}"

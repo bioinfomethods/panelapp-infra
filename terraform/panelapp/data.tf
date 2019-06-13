@@ -1,9 +1,10 @@
 # FIXME these should be moved in the files creating the resources using each template
-
+# FIXME move template files in subdirectories
 data "template_file" "panelapp_web" {
   template = "${file("panelapp-web.tpl")}"
 
   vars = {
+    # FIXME pass the DB URL as separate element; specify the password as 'secret' fetching from paramenter store (after [IP-3610])
     database_url           = "${data.aws_ssm_parameter.db_host.value}"
     aurora_writer_endpoint = "${module.aurora.writer_endpoint}"
     aws_region             = "${var.region}"
