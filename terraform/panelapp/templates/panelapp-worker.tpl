@@ -1,9 +1,9 @@
 [
   {
     "name": "panelapp-worker",
-    "image" : "784145085393.dkr.ecr.eu-west-2.amazonaws.com/panelapp-worker:latest",
-    "cpu": 512,
-    "memory": 1024,
+    "image" : "${image_repository_url}/${image_name}:${image_tag}",
+    "cpu": ${cpu},
+    "memory": ${memory},
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
@@ -11,7 +11,6 @@
         "awslogs-stream-prefix": "panelapp-worker",
         "awslogs-region": "${aws_region}"
       }
-
     },
     "environment" : [
       { "name" : "DATABASE_HOST", "value" : "${database_host}" },

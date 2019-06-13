@@ -1,9 +1,9 @@
 [
   {
     "name": "panelapp-web",
-    "image" : "784145085393.dkr.ecr.eu-west-2.amazonaws.com/panelapp-web:latest",
-    "cpu": 512,
-    "memory": 1024,
+    "image" : "${image_repository_url}/${image_name}:${image_tag}",
+    "cpu": ${cpu},
+    "memory": ${memory},
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
@@ -11,9 +11,8 @@
         "awslogs-stream-prefix": "panelapp-web",
         "awslogs-region": "${aws_region}"
       }
-
-  },
-  "portMappings": [
+    },
+    "portMappings": [
         {
           "containerPort": 8080
         }
