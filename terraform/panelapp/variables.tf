@@ -73,7 +73,6 @@ variable "receive_wait_time_seconds" {
   default     = 0
 }
 
-
 variable "policy" {
   description = "The JSON policy for the SQS queue"
   default     = ""
@@ -121,4 +120,29 @@ variable "panelapp_email" {
 
 variable "admin_email" {
   default = "vahid.farshadfar@contino.io"
+}
+
+variable "image_tag" {
+  default = "latest"
+}
+
+variable "task_cpu" {
+  default = 512
+}
+
+variable "task_memory" {
+  default = 1024
+}
+
+variable "log_retention" {
+  default = 14
+}
+
+variable "log_level" {
+  default = "INFO"
+}
+
+variable "db_instance_class" {
+  description = "size of the database"
+  default     = "db.r5.large"
 }

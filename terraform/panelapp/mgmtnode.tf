@@ -1,4 +1,3 @@
-# FIXME I guess this is the Management Box. The fact we may use an autoscaling group for it is accidental.
 module "autoscaling" {
   source = "../modules/autoscaling"
 

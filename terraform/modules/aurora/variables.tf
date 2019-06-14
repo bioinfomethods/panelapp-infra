@@ -75,6 +75,10 @@ variable "enable_monitoring" {
   default = false
 }
 
+variable "engine_version" {
+  description = "postgres version"
+}
+
 variable "db_max_conns" {
   default = "500"
 }

@@ -7,6 +7,7 @@ module "aurora" {
   subnets      = "${data.terraform_remote_state.infra.private_subnets}"
   private_zone = "${data.terraform_remote_state.infra.dns_private_zone}"
 
+  engine_version        = "9.6.9"
   skip_final_snapshot   = true
   enable_monitoring     = false
   mon_interval          = false
@@ -14,7 +15,7 @@ module "aurora" {
   username              = "root"
   restore_from_snapshot = false
   cluster_size          = "${var.create_aurora ? var.cluster_size : 0}"
-  instance_class        = "db.r5.large" # FIXME Instance class must be externalise to a variable with a default value.
+  instance_class        = "${var.db_instance_class}"
   slow_query_log        = true
   long_query_time       = "2"
 }

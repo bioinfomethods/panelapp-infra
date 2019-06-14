@@ -16,34 +16,55 @@ resource "aws_lb" "panelapp" {
   )}"
 }
 
-# FIXME this does not seem to be used
-data "aws_ip_ranges" "european_us_cloudfront" {
-  regions  = ["eu-west-1", "eu-central-1", "eu-west-2", "eu-west-3", "eu-north-1", "us-east-1", "us-east-2", "us-east-1", "us-west-1", "us-west-2"]
+data "aws_ip_ranges" "cloudfront_global" {
+  regions  = ["global"]
   services = ["cloudfront"]
 }
 
-# FIXME Ingress and egress open to the world is too lenient.
-#       ALB must only accept ingress from the CloudFront only and egress to the `panelapp_app_web` Security Group
-
 resource "aws_security_group_rule" "panelapp_egress" {
-  type              = "egress"
-  from_port         = 0
-  to_port           = 65535
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
+  type      = "egress"
+  from_port = 0
+  to_port   = 65535
+  protocol  = "tcp"
+
+  cidr_blocks = ["${data.aws_ip_ranges.cloudfront_global.cidr_blocks}"]
+
+  # cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.panelapp_elb.id}"
   description       = "egress for panelapp"
 }
 
+resource "aws_security_group_rule" "self_egress" {
+  type      = "egress"
+  from_port = 0
+  to_port   = 65535
+  protocol  = "tcp"
+  self      = true
+
+  security_group_id = "${aws_security_group.panelapp_elb.id}"
+  description       = "egress for panelapp"
+}
 
 resource "aws_security_group_rule" "panelapp_ingress" {
-  type        = "ingress"
-  from_port   = 0
-  to_port     = 65535
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
+  type      = "ingress"
+  from_port = 0
+  to_port   = 65535
+  protocol  = "tcp"
 
-  # cidr_blocks       = ["${data.aws_ip_ranges.european_us_cloudfront.cidr_blocks}"]
+  # cidr_blocks = ["0.0.0.0/0"]
+
+  cidr_blocks       = ["${data.aws_ip_ranges.cloudfront_global.cidr_blocks}"]
+  security_group_id = "${aws_security_group.panelapp_elb.id}"
+  description       = "egress for panelapp"
+}
+
+resource "aws_security_group_rule" "self_ingress" {
+  type      = "ingress"
+  from_port = 0
+  to_port   = 65535
+  protocol  = "tcp"
+  self      = true
+
   security_group_id = "${aws_security_group.panelapp_elb.id}"
   description       = "egress for panelapp"
 }
@@ -70,7 +91,6 @@ resource "aws_lb_target_group" "panelapp_app_web" {
   target_type = "ip"
   vpc_id      = "${data.terraform_remote_state.infra.vpc_id}"
 
-  # FIXME use /health_check/ (must make it public first [IP-3595])
   health_check {
     path = "/version/"
   }

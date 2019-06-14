@@ -1,7 +1,7 @@
 [
   {
     "name": "${container_name}",
-    "image" : "${image_repository_url}/${image_name}:${image_tag}",
+    "image" : "${image_name}:${image_tag}",
     "entryPoint": ["sh","-c"],
     "command": ["${command}"],
     "cpu": ${cpu},
@@ -19,7 +19,7 @@
       { "name" : "DATABASE_PORT", "value" : "${database_port}" },
       { "name" : "DATABASE_NAME", "value" : "${database_name}" },
       { "name" : "DATABASE_USER", "value" : "${database_user}" },
-      { "name" : "DJANGO_LOG_LEVEL", "value" : "DEBUG" },
+      { "name" : "DJANGO_LOG_LEVEL", "value" : "${log_level}" },
       { "name" : "AWS_REGION", "value" : "${aws_region}" },
       { "name" : "AWS_S3_STATICFILES_BUCKET_NAME", "value" : "${panelapp_statics}" },
       { "name" : "AWS_S3_MEDIAFILES_BUCKET_NAME", "value" : "${panelapp_media}" },

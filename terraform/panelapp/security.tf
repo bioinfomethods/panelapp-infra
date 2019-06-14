@@ -1,7 +1,6 @@
-# FIXME Name typo?
-resource "aws_security_group" "fargte" {
+resource "aws_security_group" "fargate" {
   name        = "panelapp-fargate-${var.stack}-${var.env_name}"
-  description = "group for panelapp fargte"
+  description = "group for panelapp fargate"
   vpc_id      = "${data.terraform_remote_state.infra.vpc_id}"
 
   tags = "${merge(
@@ -10,15 +9,19 @@ resource "aws_security_group" "fargte" {
   )}"
 }
 
-# FIXME Generalise it. This is not "London" but the CIDR of the Region the stack is deployed into
-resource "aws_security_group_rule" "fargate_egress_amazon_london" {
+data "aws_ip_ranges" "amazon_region" {
+  regions  = ["${var.region}"]
+  services = ["amazon"]
+}
+
+resource "aws_security_group_rule" "fargate_egress" {
   type              = "egress"
   from_port         = "443"
   to_port           = "443"
   protocol          = "tcp"
-  cidr_blocks       = ["${data.aws_ip_ranges.amazon_london.cidr_blocks}"]
-  security_group_id = "${aws_security_group.fargte.id}"
-  description       = "Allow calls to aws London"
+  cidr_blocks       = ["${data.aws_ip_ranges.amazon_region.cidr_blocks}"]
+  security_group_id = "${aws_security_group.fargate.id}"
+  description       = "Allow calls to aws for the region"
 }
 
 resource "aws_security_group_rule" "fargate_smtp_egress" {
@@ -27,7 +30,7 @@ resource "aws_security_group_rule" "fargate_smtp_egress" {
   to_port           = 587
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = "${aws_security_group.fargte.id}"
+  security_group_id = "${aws_security_group.fargate.id}"
   description       = "Allow calls to smtp server"
 }
 
@@ -37,20 +40,9 @@ resource "aws_security_group_rule" "fargate_ingress_8080_alb" {
   to_port                  = "8080"
   protocol                 = "tcp"
   source_security_group_id = "${aws_security_group.panelapp_elb.id}"
-  security_group_id        = "${aws_security_group.fargte.id}"
+  security_group_id        = "${aws_security_group.fargate.id}"
   description              = "Allow 8080 from elb"
 }
-
-# resource "aws_security_group_rule" "fargate_ingress_amazon_london" {
-#   type        = "ingress"
-#   from_port   = "0" 
-#   to_port     = "65535"
-#   protocol    = "tcp"
-#   cidr_blocks = ["0.0.0.0/0"]
-
-#   # cidr_blocks       = ["${data.aws_ip_ranges.amazon_london.cidr_blocks}"]
-#   security_group_id = "${aws_security_group.fargte.id}"
-# }
 
 resource "aws_iam_role" "ecs_task_panelapp" {
   name = "panelapp-${var.stack}-${var.env_name}"
@@ -129,6 +121,18 @@ resource "aws_iam_role_policy" "panelapp" {
         "logs:PutLogEvents"
       ],
       "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameters",
+        "secretsmanager:GetSecretValue",
+        "kms:Decrypt"
+      ],
+      "Resource": [
+        "${local.db_password_secret_arn}/*",
+        "*"
+      ]
     }
   ]
 }

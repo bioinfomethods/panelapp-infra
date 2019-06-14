@@ -5,9 +5,11 @@
 output "db_host" {
   value = "${module.aurora.writer_endpoint}"
 }
+
 output "db_port" {
   value = "${module.aurora.port}"
 }
+
 output "db_name" {
   value = "${module.aurora.database_name}"
 }
@@ -25,10 +27,13 @@ output "db_name" {
 #   value = "${data.aws_ip_ranges.european_us_cloudfront.cidr_blocks}"
 # }
 
+
 # output "ses_password" {
 #   value = "${aws_iam_access_key.ses.ses_smtp_password}"
 # }
 
+
 # output "ses_id" {
 #   value = "${aws_iam_access_key.ses.id}"
 # }
+
