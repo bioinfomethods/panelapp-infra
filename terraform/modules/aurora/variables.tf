@@ -63,10 +63,6 @@ variable "username" {
   default = ""
 }
 
-variable "password" {
-  default = ""
-}
-
 variable "restore_from_snapshot" {
   default = false
 }
@@ -77,6 +73,10 @@ variable "sns_topic" {
 
 variable "enable_monitoring" {
   default = false
+}
+
+variable "engine_version" {
+  description = "postgres version"
 }
 
 variable "db_max_conns" {

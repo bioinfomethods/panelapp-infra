@@ -1,9 +1,10 @@
 resource "aws_iam_user" "panelapp_ses" {
   name = "ses-user"
 
-  tags = {
-    name = "ses-user"
-  }
+  tags = "${merge(
+    var.default_tags,
+    map("Name", "ses-user")
+  )}"
 }
 
 resource "aws_iam_access_key" "ses" {

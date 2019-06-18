@@ -1,3 +1,5 @@
+# FIXME Either we delete this or use the `enable_monitoring` switch to turn it on and off
+
 # resource "aws_cloudwatch_metric_alarm" "alarm_rds_database_connections_writer" {
 #   count               = "${var.enable_monitoring ? 1 : 0}"
 #   alarm_name          = "${aws_rds_cluster.aurora_cluster.id}-writer-database-connections"

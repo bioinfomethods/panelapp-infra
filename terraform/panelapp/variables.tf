@@ -46,6 +46,8 @@ variable "sqs_name" {
   default = ""
 }
 
+# FIXME Qualify all the variables below, making it clear they refer to the SQS queue
+
 variable "visibility_timeout_seconds" {
   description = "The visibility timeout for the queue. An integer from 0 to 43200 (12 hours)"
   default     = 360
@@ -118,4 +120,29 @@ variable "panelapp_email" {
 
 variable "admin_email" {
   default = "vahid.farshadfar@contino.io"
+}
+
+variable "image_tag" {
+  default = "latest"
+}
+
+variable "task_cpu" {
+  default = 512
+}
+
+variable "task_memory" {
+  default = 1024
+}
+
+variable "log_retention" {
+  default = 14
+}
+
+variable "log_level" {
+  default = "INFO"
+}
+
+variable "db_instance_class" {
+  description = "size of the database"
+  default     = "db.r5.large"
 }

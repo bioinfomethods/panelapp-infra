@@ -5,7 +5,7 @@ resource "aws_s3_bucket" "panelapp_statics" {
 
   tags = "${merge(
     var.default_tags,
-    map("Name", "panelapp_statics")
+    map("Name", "panelapp_static")
   )}"
 }
 
