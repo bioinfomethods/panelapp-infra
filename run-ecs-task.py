@@ -1,6 +1,6 @@
 #!/usr/local/bin/python3
 
-# This is just an example to start one of task, has to be improved
+# This is just an example to start one off task, has to be improved
 
 import boto3
 from botocore.exceptions import ClientError
