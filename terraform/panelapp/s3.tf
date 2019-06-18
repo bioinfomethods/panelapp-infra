@@ -3,6 +3,10 @@ resource "aws_s3_bucket" "panelapp_statics" {
 
   acl = "public-read"
 
+  versioning {
+    enabled = true
+  }
+
   tags = "${merge(
     var.default_tags,
     map("Name", "panelapp_static")
@@ -40,6 +44,10 @@ resource "aws_s3_bucket" "panelapp_media" {
   bucket = "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-panelapp-media"
 
   policy = ""
+
+  versioning {
+    enabled = true
+  }
 
   tags = "${merge(
     var.default_tags,
