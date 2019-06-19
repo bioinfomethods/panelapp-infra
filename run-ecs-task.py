@@ -24,16 +24,16 @@ def get_security_id(sec_group_names):
 
 
 
-def run_fargate_task(tasks, security_group_ids):
+def run_fargate_task(tasks, security_group_ids, cluster):
 
   """
-  This will run a list of tasks with provided security group ids list attached to it
+  This will run a list of tasks with provided security group ids list attached to it in a given cluster
   """
   ecs = boto3.client('ecs')
   for task in tasks:
     try:
       run_task = ecs.run_task(
-      cluster='panelapp-cluster-dev',
+      cluster=cluster,
       launchType = 'FARGATE',
       taskDefinition=task,
       count = 1,
@@ -54,4 +54,4 @@ def run_fargate_task(tasks, security_group_ids):
 panelapp_security_groups = ['panelapp-fargate-panelapp-dev','aurora-dev']
 panelapp_tasks = ['panelapp-migrate-panelapp-dev','panelapp-collectstatic-panelapp-dev','panelapp-loaddata-panelapp-dev','panelapp-createsuperuser-panelapp-dev']
 panelapp_security_group_ids = get_security_id(panelapp_security_groups)
-run_fargate_task(panelapp_tasks,panelapp_security_group_ids)
+run_fargate_task(panelapp_tasks,panelapp_security_group_ids,'panelapp-cluster-dev')
