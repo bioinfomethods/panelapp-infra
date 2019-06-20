@@ -16,6 +16,16 @@ resource "aws_cloudfront_distribution" "panelapp_distribution" {
   }
 
   origin {
+    domain_name = "${aws_s3_bucket.panelapp_media.bucket_regional_domain_name}"
+    origin_path = ""
+    origin_id   = "S3-panelapp_media"
+
+    s3_origin_config {
+      origin_access_identity = "${aws_cloudfront_origin_access_identity.panelapp_s3.cloudfront_access_identity_path}"
+    }
+  }
+
+  origin {
     domain_name = "${aws_lb.panelapp.dns_name}"
     origin_path = ""
     origin_id   = "panelapp-elb"
@@ -65,6 +75,25 @@ resource "aws_cloudfront_distribution" "panelapp_distribution" {
     allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods         = ["GET", "HEAD"]
     target_origin_id       = "S3-panelapp-statics"
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
+  }
+
+  ordered_cache_behavior {
+    path_pattern           = "media/*"
+    allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods         = ["GET", "HEAD"]
+    target_origin_id       = "S3-panelapp_media"
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
     default_ttl            = 3600

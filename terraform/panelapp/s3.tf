@@ -15,10 +15,10 @@ resource "aws_s3_bucket" "panelapp_statics" {
 
 resource "aws_s3_bucket_policy" "panelapp_statics" {
   bucket = "${aws_s3_bucket.panelapp_statics.id}"
-  policy = "${data.aws_iam_policy_document.s3_policy.json}"
+  policy = "${data.aws_iam_policy_document.s3_static_policy.json}"
 }
 
-data "aws_iam_policy_document" "s3_policy" {
+data "aws_iam_policy_document" "s3_static_policy" {
   statement {
     actions   = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.panelapp_statics.arn}/*"]
@@ -40,10 +40,34 @@ data "aws_iam_policy_document" "s3_policy" {
   }
 }
 
+data "aws_iam_policy_document" "s3_media_policy" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.panelapp_media.arn}/*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = ["${aws_cloudfront_origin_access_identity.panelapp_s3.iam_arn}"]
+    }
+  }
+
+  statement {
+    actions   = ["s3:ListBucket"]
+    resources = ["${aws_s3_bucket.panelapp_media.arn}"]
+
+    principals {
+      type        = "AWS"
+      identifiers = ["${aws_cloudfront_origin_access_identity.panelapp_s3.iam_arn}"]
+    }
+  }
+}
+
 resource "aws_s3_bucket" "panelapp_media" {
   bucket = "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-panelapp-media"
 
   policy = ""
+
+  acl = "public-read"
 
   versioning {
     enabled = true
@@ -53,4 +77,9 @@ resource "aws_s3_bucket" "panelapp_media" {
     var.default_tags,
     map("Name", "panelapp_media")
   )}"
+}
+
+resource "aws_s3_bucket_policy" "panelapp_media" {
+  bucket = "${aws_s3_bucket.panelapp_media.id}"
+  policy = "${data.aws_iam_policy_document.s3_media_policy.json}"
 }
