@@ -83,3 +83,18 @@ resource "aws_s3_bucket_policy" "panelapp_media" {
   bucket = "${aws_s3_bucket.panelapp_media.id}"
   policy = "${data.aws_iam_policy_document.s3_media_policy.json}"
 }
+
+resource "aws_s3_bucket" "panelapp_scripts" {
+  bucket = "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-panelap-scripts"
+
+  policy = ""
+
+  versioning {
+    enabled = true
+  }
+
+  tags = "${merge(
+    var.default_tags,
+    map("Name", "panelapp_scripts")
+  )}"
+}

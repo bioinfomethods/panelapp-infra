@@ -86,7 +86,8 @@ resource "aws_iam_role_policy" "panelapp" {
       "Effect": "Allow",
       "Resource": [
         "${aws_s3_bucket.panelapp_media.arn}/*",
-        "${aws_s3_bucket.panelapp_statics.arn}/*"
+        "${aws_s3_bucket.panelapp_statics.arn}/*",
+        "${aws_s3_bucket.panelapp_scripts.arn}/*"
         ]
     },
     {
