@@ -1,0 +1,154 @@
+resource "aws_ecs_task_definition" "gitlab_runner_tf" {
+  count              = "${var.create_gitlab_runner_tf ? 1 : 0}"
+  family             = "gitlab-runner-terraform"
+  execution_role_arn = "${aws_iam_role.ecs_tasks_gitlab_runner_tf.arn}"
+
+  container_definitions = <<DEFINITION
+[
+  {
+    "cpu": ${var.app_cpu},
+    "image": "${var.app_image}",
+    "memory": ${var.app_memory},
+    "name": "terraform",
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "gitlab-runners",
+        "awslogs-stream-prefix": "terraform",
+        "awslogs-region": "eu-west-2"
+      }
+    },
+    "environment": [
+      {
+        "name": "RUNNER_NAME",
+        "value": "terraform"
+      },
+      { 
+        "name": "RUNNER_TAG_LIST",
+        "value": "terraform"
+      },
+      { 
+        "name": "RUNNER_EXECUTOR",
+        "value": "shell"
+      },
+      { 
+        "name": "RUNNER_REQUEST_CONCURRENCY",
+        "value": "2"
+      },
+      { 
+        "name": "CI_SERVER_URL",
+        "value": "https://gitlab.com"
+      },
+      { 
+        "name": "REGISTRATION_TOKEN",
+        "value": "neaQS8sAE8stdTkhDdso"
+      }
+    ],
+    "portMappings": []
+  }
+]
+DEFINITION
+}
+
+resource "aws_ecs_service" "gitlab_runner_tf" {
+  count           = "${var.create_gitlab_runner_tf ? 1 : 0}"
+  name            = "terraform"
+  cluster         = "${aws_ecs_cluster.gitlab_runners.id}"
+  task_definition = "${aws_ecs_task_definition.gitlab_runner_tf.arn}"
+  desired_count   = "${var.create_gitlab_runner_tf && var.start_terraform ? 1 : 0}"
+}
+
+resource "aws_iam_role" "ecs_tasks_gitlab_runner_tf" {
+  count = "${var.create_gitlab_runner_tf ? 1 : 0}"
+  name  = "ecs-task-gitlab-runner-tf"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+  EOF
+}
+
+resource "aws_iam_role_policy" "gitlab-runner" {
+  count = "${var.create_gitlab_runner_tf ? 1 : 0}"
+  name  = "gitlab-runner"
+  role  = "${aws_iam_role.ecs_tasks_gitlab_runner_tf.id}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:ListBucket",
+        "s3:ListBucketVersions",
+        "s3:GetObjectVersion",
+	"dynamodb:*",
+        "ec2:*",
+        "route53:*",
+        "lambda:*",
+        "logs:*",
+        "events:*",
+        "sns:*",
+        "acm:*",
+        "elasticloadbalancing:*",
+        "autoscaling:*",
+        "acm:ListCertificates",
+        "iam:GetInstanceProfile",
+        "iam:GetRolePolicy",
+        "iam:AddRoleToInstanceProfile",
+        "iam:CreateInstanceProfile",
+        "iam:DeleteInstanceProfile",
+        "iam:GetRole",
+        "iam:CreateRole",
+        "iam:DeleteRole",
+        "iam:DeleteRolePolicy",
+        "iam:PassRole",
+        "iam:PutRolePolicy",
+        "iam:RemoveRoleFromInstanceProfile",
+        "iam:ListInstanceProfilesForRole",
+        "iam:ListAttachedRolePolicies",
+        "iam:AttachRolePolicy",
+        "iam:DetachRolePolicy",
+        "ssm:*",
+        "s3:*",
+        "emr:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "iam:*",
+      "Resource": "arn:aws:iam::*:role/aws-service-role/*"
+    },
+    {
+      "Effect":"Allow",
+      "Action":[
+        "kms:*"
+      ],
+      "Resource": [
+        "${var.site_kms_key}"
+      ]
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_policy_gitlab_runner_tf" {
+  count      = "${var.create_gitlab_runner_tf ? 1 : 0}"
+  role       = "${aws_iam_role.ecs_tasks_gitlab_runner_tf.name}"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}

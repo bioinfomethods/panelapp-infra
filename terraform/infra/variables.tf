@@ -27,3 +27,12 @@ variable "generate_ssl_certs" {
 variable "default_tags" {
   type = "map"
 }
+
+variable "gitlab_runner_image_tag" {
+  description = "Image tag of the gitlab runner image in the ECR"
+  default     = "0.11.13"
+}
+
+variable "create_runner_terraform" {
+  default = false
+}
