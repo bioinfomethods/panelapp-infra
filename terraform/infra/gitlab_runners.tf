@@ -11,4 +11,6 @@ module "gitlab-runners" {
   app_image = "${var.account_id}.dkr.ecr.${var.region}.amazonaws.com/gitlab-runner:${var.gitlab_runner_image_tag}"
 
   create_runner_terraform = "${var.create_runner_terraform}"
+  app_region = "${var.region}"
+  additional_runner_tag = "TF_${var.stack}_${var.env_name}"
 }

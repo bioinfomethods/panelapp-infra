@@ -47,3 +47,7 @@ variable "token_from" {
   description = "arn for the tocken in parameter store"
   default = ""
 }
+
+variable "app_region" {}
+
+variable "additional_runner_tag" {}
