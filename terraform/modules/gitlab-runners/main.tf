@@ -17,5 +17,8 @@ data "template_file" "gitlab_runner" {
     app_image  = "${var.app_image}"
     app_memory = "${var.app_memory}"
     token_from = "${var.token_from}"
+    app_region = "${var.app_region}"
+    additional_runner_tag = "${var.additional_runner_tag}"
+
   }
 }

@@ -10,7 +10,7 @@
       "options": {
         "awslogs-group": "gitlab-runners",
         "awslogs-stream-prefix": "terraform",
-        "awslogs-region": "eu-west-2"
+        "awslogs-region": "${app_region}"
       }
     },
     "environment": [
@@ -20,7 +20,7 @@
       },
       {
         "name": "RUNNER_TAG_LIST",
-        "value": "terraform"
+        "value": "terraform,${additional_runner_tag}"
       },
       {
         "name": "RUNNER_EXECUTOR",
