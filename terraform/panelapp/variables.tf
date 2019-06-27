@@ -146,3 +146,8 @@ variable "db_instance_class" {
   description = "size of the database"
   default     = "db.r5.large"
 }
+
+variable "panelapp_image_repo" {
+  description = "location for the panelapp name docker image repo"
+  default = "784145085393.dkr.ecr.eu-west-2.amazonaws.com"
+}
