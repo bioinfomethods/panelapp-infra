@@ -82,6 +82,8 @@ resource "aws_iam_role_policy" "gitlab_runner_tf" {
         "iam:CreateInstanceProfile",
         "iam:DeleteInstanceProfile",
         "iam:GetPolicy",
+        "iam:ListAccessKeys",
+        "iam:GetUserPolicy",
         "iam:GetPolicyVersion",
         "iam:ListPolicyVersions",
         "iam:CreatePolicy",
