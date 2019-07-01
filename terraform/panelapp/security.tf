@@ -34,6 +34,16 @@ resource "aws_security_group_rule" "fargate_smtp_egress" {
   description       = "Allow calls to smtp server"
 }
 
+resource "aws_security_group_rule" "fargate_https_egress" {
+  type              = "egress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.fargate.id}"
+  description       = "Allow calls to https server"
+}
+
 resource "aws_security_group_rule" "fargate_ingress_8080_alb" {
   type                     = "ingress"
   from_port                = "8080"
