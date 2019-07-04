@@ -120,22 +120,26 @@ def get_panelapp_cluster_service():
 
   panelapp_cluster = ''.join([arn for arn in cluster['clusterArns'] if "panelapp-cluster" in arn])
 
-  services = ecs.list_services(
+  panelapp_services = ecs.list_services(
     cluster = panelapp_cluster
     )
 
-  return panelapp_cluster, services['serviceArns']
+  return panelapp_cluster, panelapp_services['serviceArns']
 
-try:
 
-  if args.panelapp:
-    panelapp_cluster, panelapp_service = get_panelapp_cluster_service()
-    panelapp_security_groups, panelapp_subnets = get_subnet_security(panelapp_cluster, panelapp_service)
-    run_fargate_task(args.tasks, panelapp_security_groups, panelapp_cluster, panelapp_subnets, args.command)
-  else:
-    panelapp_security_groups, panelapp_subnets = get_subnet_security(args.cluster, args.services)
-    run_fargate_task(args.tasks, panelapp_security_groups, args.cluster, panelapp_subnets, args.command)
 
-except (IndexError, TypeError, ParamValidationError) as error:
-  print('\nIt is likely that one or some of the arguments has not been defined or provided incorrectly, see the error and the usage below\n'),print(error),parser.print_help()
+if __name__ == "__main__" :
+
+  try:
+
+    if args.panelapp:
+      panelapp_cluster, panelapp_service = get_panelapp_cluster_service()
+      panelapp_security_groups, panelapp_subnets = get_subnet_security(panelapp_cluster, panelapp_service)
+      run_fargate_task(args.tasks, panelapp_security_groups, panelapp_cluster, panelapp_subnets, args.command)
+    else:
+      panelapp_security_groups, panelapp_subnets = get_subnet_security(args.cluster, args.services)
+      run_fargate_task(args.tasks, panelapp_security_groups, args.cluster, panelapp_subnets, args.command)
+
+  except (IndexError, TypeError, ParamValidationError) as error:
+    print('\nIt is likely that one or some of the arguments has not been defined or provided incorrectly, see the error and the usage below\n'),print(error),parser.print_help()
 
