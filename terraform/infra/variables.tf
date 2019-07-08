@@ -36,3 +36,17 @@ variable "gitlab_runner_image_tag" {
 variable "create_runner_terraform" {
   default = false
 }
+
+variable "cidr" {
+  description = "cidr for VPC"
+}
+
+variable "public_subnets" {
+  description = "cidr list for public subnets"
+  type        = "list"
+}
+
+variable "private_subnets" {
+  description = "cidr list for private subnets"
+  type        = "list"
+}
