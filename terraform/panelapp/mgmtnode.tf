@@ -10,6 +10,7 @@ module "autoscaling" {
 
   instance_type       = "t2.micro"
   vpc_zone_identifier = ["${data.terraform_remote_state.infra.private_subnets}"]
+  vpc_id              = "${local.vpc_id}"
   max_size            = 0
   min_size            = 0
   desired_capacity    = 0

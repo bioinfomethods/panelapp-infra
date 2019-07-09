@@ -24,7 +24,7 @@ resource "aws_security_group" "postgres_client" {
   count       = "${var.create_asg ? 1 : 0}"
   name        = "postgres-client"
   description = "default group for postgres_client"
-  vpc_id      = "${data.terraform_remote_state.infra.vpc_id}"
+  vpc_id      = "${var.vpc_id}"
 
   lifecycle {
     create_before_destroy = true

@@ -1,7 +1,8 @@
 resource "aws_acm_certificate" "regional_cert" {
-  count             = "${var.create_regional_cert ? 1 : 0}"
-  domain_name       = "*.${replace(data.aws_route53_zone.acm_domain.name, "/[.]$/", "")}"
-  validation_method = "DNS"
+  count                     = "${var.create_regional_cert ? 1 : 0}"
+  domain_name               = "*.${replace(data.aws_route53_zone.acm_domain.name, "/[.]$/", "")}"
+  subject_alternative_names = ["${replace(data.aws_route53_zone.acm_domain.name, "/[.]$/", "")}"]
+  validation_method         = "DNS"
 
   tags {
     Name = "${var.stack}-${var.env_name}"
@@ -19,7 +20,7 @@ resource "aws_acm_certificate" "regional_cert" {
 //  Also, this way we are not checking whether the Regional Cert Validation has actually passed.
 
 resource "aws_route53_record" "cert_validation" {
-  count   = "${var.create_regional_cert && !var.create_global_cert ? 1 : 0}"
+  count = "${var.create_regional_cert && !var.create_global_cert ? 1 : 0}"
 
   name    = "${aws_acm_certificate.regional_cert.domain_validation_options.0.resource_record_name}"
   type    = "${aws_acm_certificate.regional_cert.domain_validation_options.0.resource_record_type}"

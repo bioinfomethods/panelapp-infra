@@ -4,8 +4,9 @@ resource "aws_acm_certificate" "global_cert" {
   provider = "aws.us_east_1"
   count    = "${var.create_global_cert ? 1 : 0}"
 
-  domain_name       = "*.${replace(data.aws_route53_zone.acm_domain.name, "/[.]$/", "")}"
-  validation_method = "DNS"
+  domain_name               = "*.${replace(data.aws_route53_zone.acm_domain.name, "/[.]$/", "")}"
+  subject_alternative_names = ["${replace(data.aws_route53_zone.acm_domain.name, "/[.]$/", "")}"]
+  validation_method         = "DNS"
 
   tags {
     Name = "${var.stack}-${var.env_name}"

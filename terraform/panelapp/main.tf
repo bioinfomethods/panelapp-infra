@@ -1,6 +1,7 @@
 terraform {
   required_version = "~> 0.11.13, < 0.12"
-  backend          "s3"             {}
+
+  backend "s3" {}
 }
 
 provider "aws" {
@@ -24,6 +25,6 @@ data "terraform_remote_state" "infra" {
 }
 
 locals {
-  vpc_id = "${data.terraform_remote_state.infra.vpc_id}"
+  vpc_id                 = "${data.terraform_remote_state.infra.vpc_id}"
   db_password_secret_arn = "arn:aws:ssm:${var.region}:${var.account_id}:parameter/${var.stack}/${var.env_name}/database/master_password"
 }
