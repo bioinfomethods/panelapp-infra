@@ -27,3 +27,26 @@ variable "generate_ssl_certs" {
 variable "default_tags" {
   type = "map"
 }
+
+variable "gitlab_runner_image_tag" {
+  description = "Image tag of the gitlab runner image in the ECR"
+  default     = "0.11.13"
+}
+
+variable "create_runner_terraform" {
+  default = false
+}
+
+variable "cidr" {
+  description = "cidr for VPC"
+}
+
+variable "public_subnets" {
+  description = "cidr list for public subnets"
+  type        = "list"
+}
+
+variable "private_subnets" {
+  description = "cidr list for private subnets"
+  type        = "list"
+}

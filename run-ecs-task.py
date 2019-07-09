@@ -55,6 +55,13 @@ def get_security_id(sec_group_names):
     return id_list
 
 
+def get_container_name(task_def):
+    ecs = boto3.client('ecs')
+
+    container_name = ecs.describe_task_definition(taskDefinition=task_def)
+    return container_name['taskDefinition']['containerDefinitions'][0]['name']
+
+
 def run_fargate_task(
         tasks,
         security_group_ids,
@@ -86,6 +93,8 @@ def run_fargate_task(
                 )
             else:
 
+                container = get_container_name(''.join(args.tasks))
+
                 ecs.run_task(
                     cluster=cluster,
                     launchType='FARGATE',
@@ -101,7 +110,7 @@ def run_fargate_task(
                     },
                     overrides={
                         'containerOverrides': [{
-                            'name': 'panelapp-loaddata',
+                            'name': container,
                             'command': [command]
                         }]
                     },

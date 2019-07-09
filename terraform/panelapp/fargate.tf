@@ -59,7 +59,7 @@ data "template_file" "panelapp_web" {
   template = "${file("templates/panelapp-web.tpl")}"
 
   vars = {
-    image_name = "784145085393.dkr.ecr.eu-west-2.amazonaws.com/panelapp-web"
+    image_name = "${var.panelapp_image_repo}/panelapp-web"
     image_tag  = "${var.image_tag}"
 
     cpu    = "${var.task_cpu}"
@@ -135,7 +135,7 @@ data "template_file" "panelapp_worker" {
   template = "${file("templates/panelapp-worker.tpl")}"
 
   vars = {
-    image_name = "784145085393.dkr.ecr.eu-west-2.amazonaws.com/panelapp-worker"
+    image_name = "${var.panelapp_image_repo}/panelapp-worker"
     image_tag  = "${var.image_tag}"
 
     cpu    = "${var.task_cpu}"
@@ -199,7 +199,7 @@ data "template_file" "panelapp_migrate" {
   vars = {
     container_name = "panelapp-migrate"
 
-    image_name = "784145085393.dkr.ecr.eu-west-2.amazonaws.com/panelapp-web"
+    image_name = "${var.panelapp_image_repo}/panelapp-web"
     image_tag  = "${var.image_tag}"
 
     command = "python manage.py migrate"
@@ -264,7 +264,7 @@ data "template_file" "panelapp_collectstatic" {
   vars = {
     container_name = "panelapp-collectstatic"
 
-    image_name = "784145085393.dkr.ecr.eu-west-2.amazonaws.com/panelapp-web"
+    image_name = "${var.panelapp_image_repo}/panelapp-web"
     image_tag  = "${var.image_tag}"
 
     command = "python manage.py collectstatic --noinput"
@@ -336,7 +336,7 @@ data "template_file" "panelapp_loaddata" {
   vars = {
     container_name = "panelapp-loaddata"
 
-    image_name = "784145085393.dkr.ecr.eu-west-2.amazonaws.com/panelapp-web"
+    image_name = "${var.panelapp_image_repo}/panelapp-web"
     image_tag  = "${var.image_tag}"
 
     command = "python -c \\\"import boto3,botocore;boto3.resource('s3').Bucket('${aws_s3_bucket.panelapp_scripts.id}').download_file('genes.json.gz', '/var/tmp/genes.json.gz')\\\" ; python manage.py loaddata --verbosity 3 /var/tmp/genes.json"
@@ -383,7 +383,7 @@ data "template_file" "panelapp_createsuperuser" {
   vars = {
     container_name = "panelapp-createsuperuser"
 
-    image_name = "784145085393.dkr.ecr.eu-west-2.amazonaws.com/panelapp-web"
+    image_name = "${var.panelapp_image_repo}/panelapp-web"
     image_tag  = "${var.image_tag}"
 
     command = "echo \\\"from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', '${var.admin_email}', 'secret')\\\" | python manage.py shell"
