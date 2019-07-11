@@ -23,3 +23,33 @@ resource "aws_route53_record" "test" {
     "ns-797.awsdns-35.net",
   ]
 }
+
+resource "aws_route53_record" "stage" {
+  allow_overwrite = true
+  name            = "stage"
+  ttl             = 30
+  type            = "NS"
+  zone_id         = "${aws_route53_zone.public.zone_id}"
+
+  records = [
+    "ns-1448.awsdns-53.org",
+    "ns-1934.awsdns-49.co.uk",
+    "ns-80.awsdns-10.com",
+    "ns-959.awsdns-55.net",
+  ]
+}
+
+resource "aws_route53_record" "prod" {
+  allow_overwrite = true
+  name            = "prod"
+  ttl             = 30
+  type            = "NS"
+  zone_id         = "${aws_route53_zone.public.zone_id}"
+
+  records = [
+    "ns-1448.awsdns-53.org",
+    "ns-1977.awsdns-55.co.uk",
+    "ns-482.awsdns-60.com",
+    "ns-600.awsdns-11.net",
+  ]
+}

@@ -1,8 +1,10 @@
 resource "aws_cloudfront_origin_access_identity" "panelapp_s3" {
+  count   = "${var.create_cloudfront ? 1 : 0}"
   comment = "access identity to access s3"
 }
 
 resource "aws_cloudfront_distribution" "panelapp_distribution" {
+  count   = "${var.create_cloudfront ? 1 : 0}"
   aliases = ["${var.cdn_alis}"]
 
   origin {

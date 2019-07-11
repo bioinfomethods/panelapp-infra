@@ -149,5 +149,7 @@ variable "db_instance_class" {
 
 variable "panelapp_image_repo" {
   description = "location for the panelapp name docker image repo"
-  default = "genomicsengland"
+  default     = "genomicsengland"
 }
+
+variable "create_cloudfront" {}
