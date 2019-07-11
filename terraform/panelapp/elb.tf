@@ -21,7 +21,8 @@ data "aws_ip_ranges" "cloudfront_global" {
   services = ["cloudfront"]
 }
 
-resource "aws_security_group_rule" "panelapp_egress" {
+resource "aws_security_group_rule" "panelapp_egress_cloudfront" {
+  count     = "${var.create_cloudfront ? 1 : 0}"
   type      = "egress"
   from_port = 0
   to_port   = 65535
@@ -30,6 +31,17 @@ resource "aws_security_group_rule" "panelapp_egress" {
   cidr_blocks = ["${data.aws_ip_ranges.cloudfront_global.cidr_blocks}"]
 
   # cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.panelapp_elb.id}"
+  description       = "egress for panelapp"
+}
+
+resource "aws_security_group_rule" "panelapp_egress_cloudflare" {
+  count             = "${!var.create_cloudfront ? 1 : 0}"
+  type              = "egress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.panelapp_elb.id}"
   description       = "egress for panelapp"
 }
@@ -45,7 +57,8 @@ resource "aws_security_group_rule" "self_egress" {
   description       = "egress for panelapp"
 }
 
-resource "aws_security_group_rule" "panelapp_ingress" {
+resource "aws_security_group_rule" "panelapp_ingress_cloudfront" {
+  count     = "${var.create_cloudfront ? 1 : 0}"
   type      = "ingress"
   from_port = 0
   to_port   = 65535
@@ -54,6 +67,18 @@ resource "aws_security_group_rule" "panelapp_ingress" {
   # cidr_blocks = ["0.0.0.0/0"]
 
   cidr_blocks       = ["${data.aws_ip_ranges.cloudfront_global.cidr_blocks}"]
+  security_group_id = "${aws_security_group.panelapp_elb.id}"
+  description       = "egress for panelapp"
+}
+
+resource "aws_security_group_rule" "panelapp_ingress_cloudflare" {
+  count     = "${!var.create_cloudfront ? 1 : 0}"
+  type      = "ingress"
+  from_port = 443
+  to_port   = 443
+  protocol  = "tcp"
+
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.panelapp_elb.id}"
   description       = "egress for panelapp"
 }

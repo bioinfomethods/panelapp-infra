@@ -51,6 +51,16 @@ data "aws_iam_policy_document" "s3_static_policy_cloudfront" {
 
 data "aws_iam_policy_document" "s3_static_policy_cloudflare" {
   count = "${!var.create_cloudfront ? 1 : 0}"
+
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.panelapp_statics.arn}/*"]
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+  }
 }
 
 resource "aws_s3_bucket" "panelapp_media" {
@@ -108,6 +118,16 @@ data "aws_iam_policy_document" "s3_media_policy_cloudfront" {
 
 data "aws_iam_policy_document" "s3_media_policy_cloudflare" {
   count = "${!var.create_cloudfront ? 1 : 0}"
+
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.panelapp_media.arn}/*"]
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+  }
 }
 
 resource "aws_s3_bucket" "panelapp_scripts" {
