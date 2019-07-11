@@ -13,6 +13,12 @@ provider "template" {
   version = "~> 2.1"
 }
 
+provider "cloudflare" {
+  version = "~> 1.16"
+  email   = "${var.cloudflare_email}"
+  token   = "${var.cloudflare_token}"
+}
+
 // State of `infra` component
 data "terraform_remote_state" "infra" {
   backend = "s3"
