@@ -161,3 +161,15 @@ variable "cloudflare_email" {
 variable "cloudflare_token" {
   description = "cloudflare token used to config"
 }
+
+variable "cloudflare_record" {
+  description = "record to be added to the cloudflare"
+}
+
+variable "cloudflare_zone" {
+  description = "zone on cloudflare"
+}
+
+variable "cloudflare_static_files_record" {
+  description = "cloudflare record to add page rule for static files"
+}
