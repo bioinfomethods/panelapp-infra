@@ -50,3 +50,7 @@ variable "private_subnets" {
   description = "cidr list for private subnets"
   type        = "list"
 }
+
+variable "master_account" {
+  default = ""
+}
