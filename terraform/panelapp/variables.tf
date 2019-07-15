@@ -171,5 +171,9 @@ variable "cloudflare_zone" {
 }
 
 variable "cloudflare_static_files_record" {
-  description = "cloudflare record to add page rule for static files"
+  description = "cloudflare record to add page rule for static files, pointing to static s3 bucket"
+}
+
+variable "cloudflare_media_files_record" {
+  description = "cloudflare record to add page rule for media files, pointing to media s3 bucket"
 }
