@@ -40,7 +40,7 @@ variable "site_kms_key" {
 }
 
 variable "master_account" {
-  default = "784145085393"
+  default = ""
 }
 
 variable "token_from" {
