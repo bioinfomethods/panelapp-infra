@@ -1,5 +1,6 @@
 resource "aws_ecs_cluster" "panelapp_cluster" {
-  name = "panelapp-cluster-${var.env_name}"
+  count = "${var.create_panelapp_cluster ? 1 : 0}"
+  name  = "panelapp-cluster-${var.env_name}"
 
   tags = "${merge(
     var.default_tags,

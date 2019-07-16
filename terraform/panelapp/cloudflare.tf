@@ -17,10 +17,9 @@ resource "cloudflare_record" "static" {
 }
 
 resource "cloudflare_page_rule" "static" {
-  count    = "${!var.create_cloudfront ? 1 : 0}"
-  zone     = "${var.cloudflare_zone}"
-  target   = "${var.cloudflare_record}.${var.cloudflare_zone}/static/*"
-  priority = 1
+  count  = "${!var.create_cloudfront ? 1 : 0}"
+  zone   = "${var.cloudflare_zone}"
+  target = "${var.cloudflare_record}.${var.cloudflare_zone}/static/*"
 
   actions {
     resolve_override     = "${cloudflare_record.static.hostname}"
@@ -38,10 +37,9 @@ resource "cloudflare_record" "media" {
 }
 
 resource "cloudflare_page_rule" "media" {
-  count    = "${!var.create_cloudfront ? 1 : 0}"
-  zone     = "${var.cloudflare_zone}"
-  target   = "${var.cloudflare_record}.${var.cloudflare_zone}/media/*"
-  priority = 1
+  count  = "${!var.create_cloudfront ? 1 : 0}"
+  zone   = "${var.cloudflare_zone}"
+  target = "${var.cloudflare_record}.${var.cloudflare_zone}/media/*"
 
   actions {
     resolve_override     = "${cloudflare_record.media.hostname}"

@@ -177,3 +177,7 @@ variable "cloudflare_static_files_record" {
 variable "cloudflare_media_files_record" {
   description = "cloudflare record to add page rule for media files, pointing to media s3 bucket"
 }
+
+variable "create_panelapp_cluster" {
+  description = "To whether create panelapp fargate cluster"
+}
