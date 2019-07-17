@@ -12,7 +12,7 @@ module "aurora" {
   enable_monitoring     = false
   mon_interval          = false
   database              = "panelapp"
-  username              = "root"
+  username              = "panelapp"
   restore_from_snapshot = false
   cluster_size          = "${var.create_aurora ? var.cluster_size : 0}"
   instance_class        = "${var.db_instance_class}"

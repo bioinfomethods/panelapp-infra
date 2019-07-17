@@ -270,3 +270,5 @@ variable "vpc_id" {
   description = "id of the vpc"
   default     = "default value"
 }
+
+variable "aritfacts_bucket" {}

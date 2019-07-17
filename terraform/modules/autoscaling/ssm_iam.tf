@@ -1,3 +1,8 @@
+resource "aws_iam_instance_profile" "ssm_session_profile" {
+  name = "ssm_session_profile"
+  role = "${aws_iam_role.ssm_session.name}"
+}
+
 resource "aws_iam_role" "ssm_session" {
   name = "ssm_session"
 
@@ -18,12 +23,35 @@ resource "aws_iam_role" "ssm_session" {
 POLICY
 }
 
+## policies
 resource "aws_iam_role_policy_attachment" "ssm_session_role" {
   role       = "${aws_iam_role.ssm_session.name}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
 
-resource "aws_iam_instance_profile" "ssm_session_profile" {
-  name = "ssm_session_profile"
-  role = "${aws_iam_role.ssm_session.name}"
+resource "aws_iam_role_policy_attachment" "s3" {
+  role       = "${aws_iam_role.ssm_session.name}"
+  policy_arn = "${aws_iam_policy.s3.arn}"
+}
+
+resource "aws_iam_policy" "s3" {
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1563367067849",
+      "Action": [
+        "s3:ListBucket",
+        "s3:GetObject"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::${var.aritfacts_bucket}",
+        "arn:aws:s3:::${var.aritfacts_bucket}/*"
+      ]
+    }
+  ]
+}
+EOF
 }
