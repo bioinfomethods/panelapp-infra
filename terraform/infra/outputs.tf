@@ -47,3 +47,7 @@ output "terraform_s3_bucket_id" {
   description = "ID of the Terraform state S3 bucket"
   value       = "${module.site.terraform_bucket}"
 }
+
+output "kms_arn" {
+  value = "${module.site.site_key}"
+}

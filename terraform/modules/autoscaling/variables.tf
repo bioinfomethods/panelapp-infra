@@ -272,3 +272,5 @@ variable "vpc_id" {
 }
 
 variable "aritfacts_bucket" {}
+
+variable "kms_arn" {}

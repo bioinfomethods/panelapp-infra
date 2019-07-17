@@ -1,8 +1,24 @@
+data "aws_ami" "amazon_linux_2" {
+  most_recent = true
+
+  owners = ["amazon"]
+
+  filter {
+    name   = "state"
+    values = ["available"]
+  }
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm-2.0.*-x86_64-gp2"]
+  }
+}
+
 resource "aws_launch_configuration" "this" {
   count = "${var.create_lc}"
 
   # name_prefix                 = "${coalesce(var.lc_name, var.name)}-"
-  image_id                    = "${var.image_id}"
+  image_id                    = "${data.aws_ami.amazon_linux_2.id}"
   instance_type               = "${var.instance_type}"
   key_name                    = "${var.key_name}"
   security_groups             = ["${var.security_groups}"]

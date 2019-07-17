@@ -27,3 +27,7 @@ output "public_dns_zone_name" {
   description = "Public DNS Zone name"
   value       = "${coalesce(join("", aws_route53_zone.public.*.name), "not_created")}"
 }
+
+output "site_key" {
+  value = "${aws_kms_key.site.arn}"
+}

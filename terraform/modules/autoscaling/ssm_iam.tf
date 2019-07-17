@@ -50,6 +50,22 @@ resource "aws_iam_policy" "s3" {
         "arn:aws:s3:::${var.aritfacts_bucket}",
         "arn:aws:s3:::${var.aritfacts_bucket}/*"
       ]
+    },
+    {
+      "Sid": "Stmt1563367067850",
+      "Action": [
+        "kms:Describe*",
+        "kms:List*",
+        "kms:Get*",
+        "kms:Encrypt",
+        "kms:Decrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "${var.kms_arn}"
+      ]
     }
   ]
 }
