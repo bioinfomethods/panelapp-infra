@@ -43,9 +43,17 @@ variable "master_account" {
   default = ""
 }
 
-variable "token_from" {
+variable "gitlab_runner_token" {
   description = "arn for the tocken in parameter store"
   default = ""
+}
+
+variable "cloudflare_token" {
+  description = "cloudflare API tocken"
+}
+
+variable "cloudflare_email" {
+  description = "cloudflare API e-mail"
 }
 
 variable "app_region" {}
