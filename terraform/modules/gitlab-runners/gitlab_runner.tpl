@@ -35,10 +35,20 @@
         "value": "https://gitlab.com"
       }
     ],
-    "secrets": [ {
-          "name": "REGISTRATION_TOKEN",
-          "valueFrom": "${token_from}"
-    } ],
+    "secrets": [
+        {
+              "name": "REGISTRATION_TOKEN",
+              "valueFrom": "${gitlab_runner_token}"
+        },
+        {
+              "name": "CLOUDFLARE_EMAIL",
+              "valueFrom": "${cloudflare_email}"
+        },
+        {
+              "name": "CLOUDFLARE_TOKEN",
+              "valueFrom": "${cloudflare_token}"
+        }
+    ],
     "portMappings": []
   }
 ]
