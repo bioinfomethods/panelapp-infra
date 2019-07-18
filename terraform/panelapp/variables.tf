@@ -154,14 +154,6 @@ variable "panelapp_image_repo" {
 
 variable "create_cloudfront" {}
 
-variable "cloudflare_email" {
-  description = "cloudflare email used to config"
-}
-
-variable "cloudflare_token" {
-  description = "cloudflare token used to config"
-}
-
 variable "cloudflare_record" {
   description = "record to be added to the cloudflare"
 }
