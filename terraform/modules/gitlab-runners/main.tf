@@ -16,9 +16,10 @@ data "template_file" "gitlab_runner" {
     app_cpu    = "${var.app_cpu}"
     app_image  = "${var.app_image}"
     app_memory = "${var.app_memory}"
-    token_from = "${var.token_from}"
+    gitlab_runner_token = "${var.gitlab_runner_token}"
     app_region = "${var.app_region}"
     additional_runner_tag = "${var.additional_runner_tag}"
-
+    cloudflare_email = "${var.cloudflare_email}"
+    cloudflare_token = "${var.cloudflare_token}"
   }
 }
