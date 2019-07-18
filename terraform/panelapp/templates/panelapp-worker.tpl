@@ -24,6 +24,7 @@
       { "name" : "PANEL_APP_EMAIL", "value" : "${panelapp_email}" },
       { "name" : "EMAIL_HOST", "value" : "${email_host}" },
       { "name" : "EMAIL_PORT", "value" : "587" },
+      { "name" : "PANEL_APP_BASE_URL", "value" : "https://${panel_app_base_host}" },
       { "name" : "DJANGO_ADMIN_URL", "value" : "${admin_url}" },
       { "name" : "EMAIL_HOST_USER", "value" : "${email_user}" },
       { "name" : "EMAIL_HOST_PASSWORD", "value" : "${email_password}" }

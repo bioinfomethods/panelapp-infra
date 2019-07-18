@@ -67,6 +67,7 @@ data "template_file" "panelapp_web" {
     memory = "${var.task_memory}"
 
     # Application parameters
+    panel_app_base_host    = "${var.cdn_alis}"
     admin_url              = "${var.admin_url}"
     log_level              = "${var.log_level}"
     database_host          = "${module.aurora.writer_endpoint}"
@@ -140,6 +141,7 @@ data "template_file" "panelapp_worker" {
     image_name = "${var.panelapp_image_repo}/panelapp-worker"
     image_tag  = "${var.image_tag}"
 
+    panel_app_base_host    = "${var.cdn_alis}"
     cpu                    = "${var.task_cpu}"
     memory                 = "${var.task_memory}"
     admin_url              = "${var.admin_url}"
@@ -213,6 +215,7 @@ data "template_file" "panelapp_migrate" {
     log_stream_prefix = "panelapp-migrate"
 
     # Application parameters
+    panel_app_base_host    = "${var.cdn_alis}"
     admin_url              = "${var.admin_url}"
     log_level              = "${var.log_level}"
     database_host          = "${module.aurora.writer_endpoint}"
@@ -279,6 +282,7 @@ data "template_file" "panelapp_collectstatic" {
     log_stream_prefix = "panelapp-collectstatic"
 
     # Application parameters
+    panel_app_base_host    = "${var.cdn_alis}"
     admin_url              = "${var.admin_url}"
     log_level              = "${var.log_level}"
     database_host          = "${module.aurora.writer_endpoint}"
@@ -352,6 +356,7 @@ data "template_file" "panelapp_loaddata" {
     log_stream_prefix = "panelapp-oneoff"
 
     # Application parameters
+    panel_app_base_host    = "${var.cdn_alis}"
     admin_url              = "${var.admin_url}"
     log_level              = "${var.log_level}"
     database_host          = "${module.aurora.writer_endpoint}"
@@ -399,6 +404,7 @@ data "template_file" "panelapp_createsuperuser" {
     log_stream_prefix = "panelapp-oneoff"
 
     # Application parameters
+    panel_app_base_host    = "${var.cdn_alis}"
     admin_url              = "${var.admin_url}"
     log_level              = "${var.log_level}"
     database_host          = "${module.aurora.writer_endpoint}"
