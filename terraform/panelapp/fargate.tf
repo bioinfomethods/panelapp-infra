@@ -67,6 +67,7 @@ data "template_file" "panelapp_web" {
     memory = "${var.task_memory}"
 
     # Application parameters
+    admin_url              = "${var.admin_url}"
     log_level              = "${var.log_level}"
     database_host          = "${module.aurora.writer_endpoint}"
     database_port          = "${module.aurora.port}"
@@ -139,9 +140,9 @@ data "template_file" "panelapp_worker" {
     image_name = "${var.panelapp_image_repo}/panelapp-worker"
     image_tag  = "${var.image_tag}"
 
-    cpu    = "${var.task_cpu}"
-    memory = "${var.task_memory}"
-
+    cpu                    = "${var.task_cpu}"
+    memory                 = "${var.task_memory}"
+    admin_url              = "${var.admin_url}"
     log_level              = "${var.log_level}"
     database_host          = "${module.aurora.writer_endpoint}"
     database_port          = "${module.aurora.port}"
@@ -212,6 +213,7 @@ data "template_file" "panelapp_migrate" {
     log_stream_prefix = "panelapp-migrate"
 
     # Application parameters
+    admin_url              = "${var.admin_url}"
     log_level              = "${var.log_level}"
     database_host          = "${module.aurora.writer_endpoint}"
     database_port          = "${module.aurora.port}"
@@ -277,6 +279,7 @@ data "template_file" "panelapp_collectstatic" {
     log_stream_prefix = "panelapp-collectstatic"
 
     # Application parameters
+    admin_url              = "${var.admin_url}"
     log_level              = "${var.log_level}"
     database_host          = "${module.aurora.writer_endpoint}"
     database_port          = "${module.aurora.port}"
@@ -349,6 +352,7 @@ data "template_file" "panelapp_loaddata" {
     log_stream_prefix = "panelapp-oneoff"
 
     # Application parameters
+    admin_url              = "${var.admin_url}"
     log_level              = "${var.log_level}"
     database_host          = "${module.aurora.writer_endpoint}"
     database_port          = "${module.aurora.port}"
@@ -395,6 +399,7 @@ data "template_file" "panelapp_createsuperuser" {
     log_stream_prefix = "panelapp-oneoff"
 
     # Application parameters
+    admin_url              = "${var.admin_url}"
     log_level              = "${var.log_level}"
     database_host          = "${module.aurora.writer_endpoint}"
     database_port          = "${module.aurora.port}"

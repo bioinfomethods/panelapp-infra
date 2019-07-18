@@ -1,8 +1,5 @@
 # Notes about cloud-native PanelApp porting
 
-> This repo has a submodule, containing the PanelApp application hosted on GitHub.
-> Clone it with `--recurse-submodules` (`git clone --recurse-submodules ...`)
-
 ## Terraform state backend
 
 Terraform state and lock are in a S3 bucket and DynamoDB table, respectively.
@@ -10,8 +7,8 @@ Terraform state and lock are in a S3 bucket and DynamoDB table, respectively.
 > Terraform has an egg-and-chicken problem: we must create the S3 bucket and DynamoDB table at the first run,
 > without specifying any backend, than we re-init Terraform explicitly specifying the backend.
 
-1. Run `terraform init -backend=false` then `apply`: this will also create the state bucket and lock table
-2. Run `terraform init -backend-config=<backand-config-file>` passing backend configuration file then `plan`: 
+1. Comment out  `backend "s3" {}` in main.tf and Run `terraform init` then `apply`: this will also create the state bucket and lock table
+2. Remove the comment and Run `terraform init -backend-config=<backand-config-file>` passing backend configuration file then `plan`: 
     this will push the state to S3
 
 Bucket and table are automatically created at the first run, with the following naming:

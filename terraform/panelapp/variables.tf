@@ -111,15 +111,16 @@ variable "smtp_server" {
 }
 
 variable "default_email" {
-  default = "vahid.farshadfar@contino.io"
+  description = "email used as sender"
 }
 
 variable "panelapp_email" {
-  default = "vahid.farshadfar@contino.io"
+  description = "contact email"
 }
 
 variable "admin_email" {
-  default = "vahid.farshadfar@contino.io"
+  description = "email used to creat super user task"
+  default     = "test@test.com"
 }
 
 variable "image_tag" {
@@ -172,4 +173,8 @@ variable "cloudflare_media_files_record" {
 
 variable "create_panelapp_cluster" {
   description = "To whether create panelapp fargate cluster"
+}
+
+variable "admin_url" {
+  description = "admin path"
 }
