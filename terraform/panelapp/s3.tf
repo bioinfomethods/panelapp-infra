@@ -1,3 +1,5 @@
+data "cloudflare_ip_ranges" "cloudflare" {}
+
 resource "aws_s3_bucket" "panelapp_statics" {
   bucket = "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-panelapp-statics"
 
@@ -55,6 +57,12 @@ data "aws_iam_policy_document" "s3_static_policy_cloudflare" {
   statement {
     actions   = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.panelapp_statics.arn}/*"]
+
+    condition {
+      test     = "IpAddress"
+      variable = "aws:SourceIp"
+      values   = ["${data.cloudflare_ip_ranges.cloudflare.ipv4_cidr_blocks}"]
+    }
 
     principals {
       type        = "*"
@@ -122,6 +130,12 @@ data "aws_iam_policy_document" "s3_media_policy_cloudflare" {
   statement {
     actions   = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.panelapp_media.arn}/*"]
+
+    condition {
+      test     = "IpAddress"
+      variable = "aws:SourceIp"
+      values   = ["${data.cloudflare_ip_ranges.cloudflare.ipv4_cidr_blocks}"]
+    }
 
     principals {
       type        = "*"
