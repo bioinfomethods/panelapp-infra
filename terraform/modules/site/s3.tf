@@ -25,5 +25,5 @@ resource "aws_s3_bucket" "artifacts" {
   }
 
   tags = "${merge(var.default_tags,
-          map("Name", "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-artifacts"))}"
+  map("Name", "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-artifacts"))}"
 }

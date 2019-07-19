@@ -54,3 +54,11 @@ variable "private_subnets" {
 variable "master_account" {
   default = ""
 }
+
+variable "enable_datadog" {
+  default = false
+}
+
+variable "datadog_aws_integration_external_id" {
+  default = ""
+}

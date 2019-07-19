@@ -12,3 +12,11 @@ variable "public_dns_zone_name" {}
 variable "default_tags" {
   type = "map"
 }
+
+variable "enable_datadog" {
+  default = false
+}
+
+variable "datadog_aws_integration_external_id" {
+  default = ""
+}

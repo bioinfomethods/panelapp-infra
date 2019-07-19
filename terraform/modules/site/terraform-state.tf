@@ -27,7 +27,7 @@ resource "aws_s3_bucket" "terraform" {
   }
 
   tags = "${merge(var.default_tags,
-          map("Name", "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-terraform-state"))}"
+  map("Name", "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-terraform-state"))}"
 }
 
 resource "aws_dynamodb_table" "terraform_state_lock" {
