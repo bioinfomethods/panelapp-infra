@@ -68,7 +68,7 @@ data "template_file" "panelapp_web" {
 
     # Application parameters
     gunicorn_workers       = "${var.gunicorn_workers}"
-    gunicorn_timeout       = "${var.gunicorn_timeout}"
+    gunicorn_timeout       = "${var.application_connection_timeout}"
     panel_app_base_host    = "${var.cdn_alis}"
     admin_url              = "${var.admin_url}"
     log_level              = "${var.log_level}"
@@ -144,7 +144,7 @@ data "template_file" "panelapp_worker" {
     image_tag  = "${var.image_tag}"
 
     gunicorn_workers       = "${var.gunicorn_workers}"
-    gunicorn_timeout       = "${var.gunicorn_timeout}"
+    gunicorn_timeout       = "${var.application_connection_timeout}"
     panel_app_base_host    = "${var.cdn_alis}"
     cpu                    = "${var.task_cpu}"
     memory                 = "${var.task_memory}"
@@ -220,7 +220,7 @@ data "template_file" "panelapp_migrate" {
 
     # Application parameters
     gunicorn_workers       = "${var.gunicorn_workers}"
-    gunicorn_timeout       = "${var.gunicorn_timeout}"
+    gunicorn_timeout       = "${var.application_connection_timeout}"
     panel_app_base_host    = "${var.cdn_alis}"
     admin_url              = "${var.admin_url}"
     log_level              = "${var.log_level}"
@@ -289,7 +289,7 @@ data "template_file" "panelapp_collectstatic" {
 
     # Application parameters
     gunicorn_workers       = "${var.gunicorn_workers}"
-    gunicorn_timeout       = "${var.gunicorn_timeout}"
+    gunicorn_timeout       = "${var.application_connection_timeout}"
     panel_app_base_host    = "${var.cdn_alis}"
     admin_url              = "${var.admin_url}"
     log_level              = "${var.log_level}"
@@ -365,7 +365,7 @@ data "template_file" "panelapp_loaddata" {
 
     # Application parameters
     gunicorn_workers       = "${var.gunicorn_workers}"
-    gunicorn_timeout       = "${var.gunicorn_timeout}"
+    gunicorn_timeout       = "${var.application_connection_timeout}"
     panel_app_base_host    = "${var.cdn_alis}"
     admin_url              = "${var.admin_url}"
     log_level              = "${var.log_level}"
@@ -415,7 +415,7 @@ data "template_file" "panelapp_createsuperuser" {
 
     # Application parameters
     gunicorn_workers       = "${var.gunicorn_workers}"
-    gunicorn_timeout       = "${var.gunicorn_timeout}"
+    gunicorn_timeout       = "${var.application_connection_timeout}"
     panel_app_base_host    = "${var.cdn_alis}"
     admin_url              = "${var.admin_url}"
     log_level              = "${var.log_level}"

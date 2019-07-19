@@ -187,6 +187,6 @@ variable "gunicorn_workers" {
   default = 8
 }
 
-variable "gunicorn_timeout" {
-  default = 150
+variable "application_connection_timeout" {
+  default = 300
 }
