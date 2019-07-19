@@ -18,4 +18,5 @@ module "aurora" {
   instance_class        = "${var.db_instance_class}"
   slow_query_log        = true
   long_query_time       = "2"
+  cluster_size          = "${var.aurora_replica}"
 }

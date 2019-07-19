@@ -94,7 +94,7 @@ variable "content_based_deduplication" {
 }
 
 variable "panelapp_replica" {
-  default = 1
+  default = 2
 }
 
 variable "cdn_alis" {
@@ -128,11 +128,11 @@ variable "image_tag" {
 }
 
 variable "task_cpu" {
-  default = 512
+  default = 2048
 }
 
 variable "task_memory" {
-  default = 1024
+  default = 4096
 }
 
 variable "log_retention" {
@@ -177,4 +177,16 @@ variable "create_panelapp_cluster" {
 
 variable "admin_url" {
   description = "admin path"
+}
+
+variable "aurora_replica" {
+  default = 2
+}
+
+variable "gunicorn_workers" {
+  default = 8
+}
+
+variable "gunicorn_timeout" {
+  default = 150
 }
