@@ -43,6 +43,7 @@ data "aws_iam_policy_document" "datadog" {
       "cloudwatch:Get*",
       "cloudwatch:List*",
       "ec2:Describe*",
+      "ec2:List*",
       "ecs:Describe*",
       "ecs:List*",
       "elasticloadbalancing:Describe*",
