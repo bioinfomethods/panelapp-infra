@@ -6,7 +6,7 @@ resource "aws_s3_bucket" "panelapp_statics" {
   acl = "public-read"
 
   versioning {
-    enabled = true
+    enabled = false
   }
 
   tags = "${merge(
@@ -80,6 +80,15 @@ resource "aws_s3_bucket" "panelapp_media" {
 
   versioning {
     enabled = true
+  }
+
+  lifecycle_rule {
+    prefix  = "*"
+    enabled = true
+
+    noncurrent_version_expiration {
+      days = 180
+    }
   }
 
   tags = "${merge(
