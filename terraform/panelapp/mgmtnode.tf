@@ -10,9 +10,9 @@ module "autoscaling" {
   instance_type       = "t2.micro"
   vpc_zone_identifier = ["${data.terraform_remote_state.infra.private_subnets}"]
   vpc_id              = "${local.vpc_id}"
-  max_size            = 1
-  min_size            = 1
-  desired_capacity    = 1
+  max_size            = "${var.EC2_mgmt_count}"
+  min_size            = "${var.EC2_mgmt_count}"
+  desired_capacity    = "${var.EC2_mgmt_count}"
   health_check_type   = "EC2"
 
   security_groups = ["${module.aurora.aurora_security_group}", "${module.autoscaling.psql_security_id}"]

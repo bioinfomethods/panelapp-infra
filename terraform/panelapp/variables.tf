@@ -189,3 +189,7 @@ variable "gunicorn_workers" {
 variable "application_connection_timeout" {
   default = 300
 }
+
+variable "EC2_mgmt_count" {
+  default = 1
+}
