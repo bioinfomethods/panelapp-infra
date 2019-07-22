@@ -124,7 +124,6 @@ variable "admin_email" {
 }
 
 variable "image_tag" {
-  default = "latest"
 }
 
 variable "task_cpu" {
