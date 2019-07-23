@@ -13,7 +13,7 @@ resource "cloudflare_filter" "block_public_access" {
 resource "cloudflare_firewall_rule" "block_pubilc_access" {
   count       = "${var.create_cloudflare ? 1 : 0}"
   zone        = "${var.cloudflare_zone}"
-  description = "BlockPublicAccess"
+  description = "BlockPublicAccess-${local.hostname}"
   filter_id   = "${cloudflare_filter.block_public_access.id}"
   action      = "block"
   paused      = "${! var.block_public_access}"
