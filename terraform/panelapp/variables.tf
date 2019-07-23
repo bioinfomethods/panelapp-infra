@@ -171,6 +171,7 @@ variable "cloudflare_media_files_record" {
 
 variable "create_panelapp_cluster" {
   description = "To whether create panelapp fargate cluster"
+  default = true
 }
 
 variable "admin_url" {
