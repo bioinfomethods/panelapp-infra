@@ -29,3 +29,7 @@ variable "cloudflare_media_files_record" {
 variable "media_bucket" {
   description = "media bucket dns"
 }
+
+variable "block_public_access" {
+  default = false
+}
