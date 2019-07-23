@@ -31,3 +31,7 @@ output "public_dns_zone_name" {
 output "site_key" {
   value = "${aws_kms_key.site.arn}"
 }
+
+output "rds_shared_key" {
+  value = "${aws_kms_key.rds_shared.arn}"
+}

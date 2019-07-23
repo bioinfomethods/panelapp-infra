@@ -115,3 +115,6 @@ variable "query_cache_size" {
 variable "backtrack_window" {
   default = "0"
 }
+
+
+variable "rds_db_kms_key" {}

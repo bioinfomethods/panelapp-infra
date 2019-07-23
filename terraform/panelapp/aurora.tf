@@ -19,4 +19,5 @@ module "aurora" {
   slow_query_log        = true
   long_query_time       = "2"
   cluster_size          = "${var.aurora_replica}"
+  rds_db_kms_key        = "${data.terraform_remote_state.infra.rds_shared_kms_arn}"
 }
