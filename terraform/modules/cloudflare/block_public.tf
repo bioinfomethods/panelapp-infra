@@ -18,3 +18,12 @@ resource "cloudflare_firewall_rule" "block_pubilc_access" {
   action      = "block"
   paused      = "${! var.block_public_access}"
 }
+
+# customise 1000 cloudflare error page
+#resource "cloudflare_custom_pages" "holding_page" {
+#  count = "${var.create_cloudflare ? 1 : 0}"
+#  zone  = "${var.cloudflare_zone}"
+#  type  = "1000_errors"
+#  url   = "https://holding page todo"
+#  state = "customized"
+#}
