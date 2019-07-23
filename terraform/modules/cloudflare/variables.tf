@@ -33,3 +33,8 @@ variable "media_bucket" {
 variable "block_public_access" {
   default = false
 }
+
+variable "whitelisted_ips" {
+  type    = "list"
+  default = ["127.0.0.1"]
+}

@@ -123,8 +123,7 @@ variable "admin_email" {
   default     = "test@test.com"
 }
 
-variable "image_tag" {
-}
+variable "image_tag" {}
 
 variable "task_cpu" {
   default = 2048
@@ -192,4 +191,13 @@ variable "application_connection_timeout" {
 
 variable "EC2_mgmt_count" {
   default = 1
+}
+
+variable "block_public_access" {
+  default = false
+}
+
+variable "whitelisted_ips" {
+  type    = "list"
+  default = []
 }
