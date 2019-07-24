@@ -203,3 +203,7 @@ variable "restore_from_snapshot" {
   default = false
 }
 
+variable "rds_backup_retention_period" {
+  default = 7
+}
+
