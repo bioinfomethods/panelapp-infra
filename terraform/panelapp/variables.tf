@@ -194,8 +194,6 @@ variable "EC2_mgmt_count" {
   default = 1
 }
 
-<<<<<<< terraform/panelapp/variables.tf
-
 variable "snapshot_identifier" {
   default = ""
 }
