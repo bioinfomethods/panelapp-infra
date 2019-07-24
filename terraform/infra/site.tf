@@ -6,6 +6,8 @@ module "site" {
   account_id   = "${var.account_id}"
   region       = "${var.region}"
   default_tags = "${var.default_tags}"
+  share_rds_kms_key = "${var.share_rds_kms_key}"
+  trusted_accounts  = "${var.trusted_accounts}"
 
   create_public_dns_zone = true
   public_dns_zone_name   = "${var.public_dns_zone_name}"

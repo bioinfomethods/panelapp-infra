@@ -193,3 +193,9 @@ variable "application_connection_timeout" {
 variable "EC2_mgmt_count" {
   default = 1
 }
+
+
+variable "snapshot_identifier" {
+  default = ""
+}
+
