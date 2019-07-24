@@ -29,3 +29,12 @@ variable "cloudflare_media_files_record" {
 variable "media_bucket" {
   description = "media bucket dns"
 }
+
+variable "block_public_access" {
+  default = false
+}
+
+variable "whitelisted_ips" {
+  type    = "list"
+  default = ["127.0.0.1"]
+}

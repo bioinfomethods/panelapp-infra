@@ -123,8 +123,7 @@ variable "admin_email" {
   default     = "test@test.com"
 }
 
-variable "image_tag" {
-}
+variable "image_tag" {}
 
 variable "task_cpu" {
   default = 2048
@@ -172,6 +171,7 @@ variable "cloudflare_media_files_record" {
 
 variable "create_panelapp_cluster" {
   description = "To whether create panelapp fargate cluster"
+  default     = true
 }
 
 variable "admin_url" {
@@ -194,6 +194,7 @@ variable "EC2_mgmt_count" {
   default = 1
 }
 
+<<<<<<< terraform/panelapp/variables.tf
 
 variable "snapshot_identifier" {
   default = ""
@@ -205,5 +206,14 @@ variable "restore_from_snapshot" {
 
 variable "rds_backup_retention_period" {
   default = 7
+}
+
+variable "block_public_access" {
+  default = false
+}
+
+variable "whitelisted_ips" {
+  type    = "list"
+  default = ["172.0.0.1"]
 }
 
