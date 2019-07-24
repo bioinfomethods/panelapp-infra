@@ -13,7 +13,7 @@ module "aurora" {
   mon_interval          = false
   database              = "panelapp"
   username              = "panelapp"
-  restore_from_snapshot = false
+  restore_from_snapshot = "${var.restore_from_snapshot}"
   rds_snapshot          = "${var.snapshot_identifier}"
   cluster_size          = "${var.create_aurora ? var.cluster_size : 0}"
   instance_class        = "${var.db_instance_class}"

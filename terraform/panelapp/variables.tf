@@ -199,3 +199,7 @@ variable "snapshot_identifier" {
   default = ""
 }
 
+variable "restore_from_snapshot" {
+  default = false
+}
+
