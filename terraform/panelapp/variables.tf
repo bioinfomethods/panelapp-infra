@@ -194,6 +194,18 @@ variable "EC2_mgmt_count" {
   default = 1
 }
 
+variable "snapshot_identifier" {
+  default = ""
+}
+
+variable "restore_from_snapshot" {
+  default = false
+}
+
+variable "rds_backup_retention_period" {
+  default = 7
+}
+
 variable "block_public_access" {
   default = false
 }
@@ -202,3 +214,4 @@ variable "whitelisted_ips" {
   type    = "list"
   default = ["172.0.0.1"]
 }
+

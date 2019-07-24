@@ -51,3 +51,7 @@ output "terraform_s3_bucket_id" {
 output "kms_arn" {
   value = "${module.site.site_key}"
 }
+
+output "rds_shared_kms_arn" {
+  value = "${module.site.rds_shared_key}"
+}

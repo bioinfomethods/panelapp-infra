@@ -62,3 +62,13 @@ variable "enable_datadog" {
 variable "datadog_aws_integration_external_id" {
   default = ""
 }
+
+
+variable "trusted_accounts" {
+  type        = "list"
+  description = "List accounts allowed to acess RDS KMS key"
+}
+
+variable "share_rds_kms_key" {
+  default = false
+}

@@ -7,7 +7,7 @@ resource "aws_rds_cluster" "aurora_cluster" {
   skip_final_snapshot       = "${var.skip_final_snapshot}"
   storage_encrypted         = true
   db_subnet_group_name      = "${aws_db_subnet_group.aurora.name}"
-
+  kms_key_id                = "${var.rds_db_kms_key}"
   vpc_security_group_ids = [
     "${aws_security_group.aurora.id}",
     "${var.additional_security_groups}",
@@ -15,6 +15,7 @@ resource "aws_rds_cluster" "aurora_cluster" {
 
   database_name   = "${var.database}"
   master_username = "${var.username}"
+  backup_retention_period = "${var.rds_backup_retention_period}"
 
   master_password     = "${join("",data.aws_ssm_parameter.root_password.*.value)}"
   snapshot_identifier = "${var.restore_from_snapshot ? var.rds_snapshot : ""}"

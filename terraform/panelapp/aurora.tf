@@ -13,10 +13,13 @@ module "aurora" {
   mon_interval          = false
   database              = "panelapp"
   username              = "panelapp"
-  restore_from_snapshot = false
+  restore_from_snapshot = "${var.restore_from_snapshot}"
+  rds_snapshot          = "${var.snapshot_identifier}"
   cluster_size          = "${var.create_aurora ? var.cluster_size : 0}"
   instance_class        = "${var.db_instance_class}"
   slow_query_log        = true
   long_query_time       = "2"
   cluster_size          = "${var.aurora_replica}"
+  rds_db_kms_key        = "${data.terraform_remote_state.infra.rds_shared_kms_arn}"
+  rds_backup_retention_period = "${var.rds_backup_retention_period}"
 }

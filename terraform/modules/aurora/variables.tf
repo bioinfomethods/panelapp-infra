@@ -115,3 +115,11 @@ variable "query_cache_size" {
 variable "backtrack_window" {
   default = "0"
 }
+
+
+variable "rds_db_kms_key" {}
+
+variable "rds_backup_retention_period"
+{
+  description = "Number of days to keep the rds DB snapshot backups"
+}
