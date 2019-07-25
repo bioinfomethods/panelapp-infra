@@ -5,10 +5,14 @@ runcmd:
 - [ systemctl, enable, --now, docker ]
 - [ usermod, -a, -G, docker, ec2-user ]
 - [ usermod, -a, -G, docker, ssm-user ]
-- [ yum, install, python2-pip, -y ]
+- [ yum, install, jq python2-pip, -y ]
 - [ pip, install, docker-compose ]
+- [ echo "PGPASSWORD=$(aws --region eu-west-2 ssm get-parameters --name /panelapp/test/database/master_password --with-decryption | jq -r .Parameters[].Value) >> /home/ssm-user/ ]
 
 write_files:
+- path: /etc/profile.d/ssm_vars.sh
+  content |
+    PGPASSWORD=$(aws --region eu-west-2 ssm get-parameters --name /panelapp/test/database/master_password --with-decryption | jq -r '.Parameters[].Value')
 - path: /home/ssm-user/docker-compose.yml   
   content: |
     version: '3'

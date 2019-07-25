@@ -29,18 +29,17 @@ resource "aws_iam_role_policy_attachment" "ssm_session_role" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
 
-resource "aws_iam_role_policy_attachment" "s3" {
+resource "aws_iam_role_policy_attachment" "ssm_session" {
   role = "${aws_iam_role.ssm_session.name}"
-  policy_arn = "${aws_iam_policy.s3.arn}"
+  policy_arn = "${aws_iam_policy.ssm_session.arn}"
 }
 
-resource "aws_iam_policy" "s3" {
+resource "aws_iam_policy" "ssm_session" {
   policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "Stmt1563367067849",
       "Action": [
         "s3:ListBucket",
         "s3:GetObject"
@@ -49,6 +48,16 @@ resource "aws_iam_policy" "s3" {
       "Resource": [
         "arn:aws:s3:::${var.aritfacts_bucket}",
         "arn:aws:s3:::${var.aritfacts_bucket}/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameters",
+        "secretsmanager:GetSecretValue"
+      ],
+      "Resource": [
+        "arn:aws:ssm:::parameter/*/database/master_password"
       ]
     },
     {
