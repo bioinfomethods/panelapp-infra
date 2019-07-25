@@ -33,5 +33,5 @@ output "site_key" {
 }
 
 output "rds_shared_key" {
-  value = "${aws_kms_key.rds_shared.arn}"
+  value = "${join("", aws_kms_key.rds_shared.*.arn)}"
 }
