@@ -25,12 +25,12 @@ POLICY
 
 ## policies
 resource "aws_iam_role_policy_attachment" "ssm_session_role" {
-  role       = "${aws_iam_role.ssm_session.name}"
+  role = "${aws_iam_role.ssm_session.name}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
 
 resource "aws_iam_role_policy_attachment" "s3" {
-  role       = "${aws_iam_role.ssm_session.name}"
+  role = "${aws_iam_role.ssm_session.name}"
   policy_arn = "${aws_iam_policy.s3.arn}"
 }
 
@@ -50,6 +50,16 @@ resource "aws_iam_policy" "s3" {
         "arn:aws:s3:::${var.aritfacts_bucket}",
         "arn:aws:s3:::${var.aritfacts_bucket}/*"
       ]
+    },
+    {
+      "Action": [
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage"
+      ],
+      "Effect": "Allow",
+      "Resource": ["*"]
     },
     {
       "Sid": "Stmt1563367067850",

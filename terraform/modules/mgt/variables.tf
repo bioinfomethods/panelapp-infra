@@ -274,3 +274,49 @@ variable "vpc_id" {
 variable "aritfacts_bucket" {}
 
 variable "kms_arn" {}
+
+
+# docker-compose.yml panelapp 
+variable "image_name" {
+  default = ""
+}
+
+variable "image_tag" {
+  default = ""
+}
+
+variable "database_host" {
+  default = ""
+}
+
+variable "database_port" {
+  default = ""
+}
+
+variable "database_name" {
+  default = ""
+}
+
+variable "database_user" {
+  default = ""
+}
+
+variable "db_password" {
+  default = "lorenzo"
+}
+
+variable "aws_region" {
+  default = "eu-west-2"
+}
+
+variable "panelapp_statics" {
+  default = ""
+}
+
+variable "panelapp_media" {
+  default = ""
+}
+
+variable "cdn_domain_name" {
+  default = ""
+}

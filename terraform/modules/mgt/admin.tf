@@ -1,19 +1,3 @@
-data "aws_ami" "amazon_linux_2" {
-  most_recent = true
-
-  owners = ["amazon"]
-
-  filter {
-    name   = "state"
-    values = ["available"]
-  }
-
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-hvm-2.0.*-x86_64-gp2"]
-  }
-}
-
 resource "aws_launch_configuration" "this" {
   count = "${var.create_lc}"
 
@@ -34,9 +18,9 @@ resource "aws_launch_configuration" "this" {
 }
 
 resource "aws_autoscaling_group" "this" {
-  count = "${var.create_asg && !var.create_asg_with_initial_lifecycle_hook ? 1 : 0}"
+  count = "${var.create_asg && ! var.create_asg_with_initial_lifecycle_hook ? 1 : 0}"
 
-  # name_prefix          = "${join("-", compact(list(coalesce(var.asg_name, var.name), var.recreate_asg_when_lc_changes ? element(concat(random_pet.asg_name.*.id, list("")), 0) : "")))}-"
+  name                 = "mgt-${var.name}"
   launch_configuration = "${var.create_lc ? element(concat(aws_launch_configuration.this.*.name, list("")), 0) : var.launch_configuration}"
   vpc_zone_identifier  = ["${var.vpc_zone_identifier}"]
   max_size             = "${var.max_size}"
@@ -52,7 +36,7 @@ resource "aws_autoscaling_group" "this" {
   tags = [
     {
       key                 = "Name"
-      value               = "SSM_Host"
+      value               = "mgt"
       propagate_at_launch = true
     },
   ]
