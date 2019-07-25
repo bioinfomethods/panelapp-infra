@@ -76,8 +76,12 @@ def rds_share_snapshot(SNAPSHOTNAME, account):
         AttributeName='restore',
         ValuesToAdd=[account]
     )
+    snapshot_description = client.describe_db_cluster_snapshots(
+        DBClusterSnapshotIdentifier=SNAPSHOTNAME
+    )
     print("Snapshot {} has been successfully shared with account - {}".format(SNAPSHOTNAME, account))
-
+    print("\nPlease use this snapshort arn name for the snapshot copy in account {} - {}\n".format(account, snapshot_description['DBClusterSnapshots'][0]['DBClusterSnapshotArn']))
+    return snapshot_description['DBClusterSnapshots'][0]['DBClusterSnapshotArn']
 
 if __name__ == '__main__':
     try:
