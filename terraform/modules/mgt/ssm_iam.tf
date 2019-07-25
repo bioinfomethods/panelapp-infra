@@ -52,16 +52,6 @@ resource "aws_iam_policy" "s3" {
       ]
     },
     {
-      "Action": [
-        "ecr:GetAuthorizationToken",
-        "ecr:BatchCheckLayerAvailability",
-        "ecr:GetDownloadUrlForLayer",
-        "ecr:BatchGetImage"
-      ],
-      "Effect": "Allow",
-      "Resource": ["*"]
-    },
-    {
       "Sid": "Stmt1563367067850",
       "Action": [
         "kms:Describe*",
