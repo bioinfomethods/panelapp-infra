@@ -32,10 +32,10 @@ resource "aws_route53_record" "stage" {
   zone_id         = "${aws_route53_zone.public.zone_id}"
 
   records = [
-    "ns-1448.awsdns-53.org",
-    "ns-1934.awsdns-49.co.uk",
-    "ns-80.awsdns-10.com",
-    "ns-959.awsdns-55.net",
+    "ns-344.awsdns-43.com",
+    "ns-550.awsdns-04.net",
+    "ns-1354.awsdns-41.org",
+    "ns-1693.awsdns-19.co.uk"
   ]
 }
 
