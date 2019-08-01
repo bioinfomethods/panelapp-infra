@@ -4,10 +4,11 @@ import argparse
 import boto3
 import datetime
 import time
+import sys
 
-SNAPSHOT_NAME = datetime.datetime.now().strftime("%y-%m-%d-%H-%S")
+SNAPSHOT_NAME = datetime.datetime.now().strftime("%y-%m-%d-%H-%M-%S")
 INTERVAL_TYPE = 'days'
-INTERVAL_NUM = 7
+INTERVAL_NUM = 14
 
 parser = argparse.ArgumentParser(description='Perform snapshot tasks')
 
@@ -31,6 +32,12 @@ parser.add_argument(
     '-copy',
     help='Source snapshot ARN',
     type=str,
+    default=os.environ.get(''))
+
+parser.add_argument(
+    '-checksnapshot',
+    help='Please provide the hours to check whether any snapshots presents',
+    type=int,
     default=os.environ.get(''))
 
 args = parser.parse_args()
@@ -155,6 +162,21 @@ def rds_copy_snapshot(sourcesnap):
     return snapshot_description['DBClusterSnapshots'][0]['DBClusterSnapshotArn']
 
 
+def check_snapshot(rds_cluster_name, interval):
+    client = boto3.client('rds')
+    print("Looking for the snapshots available within the last {} hours".format(interval))
+    count = 0
+
+    for snapshot in client.describe_db_cluster_snapshots(DBClusterIdentifier=rds_cluster_name, SnapshotType="manual")['DBClusterSnapshots']:
+        create_ts = snapshot['SnapshotCreateTime'].replace(tzinfo=None)
+        if create_ts > datetime.datetime.now() - datetime.timedelta(**{"hours": interval}):
+            print("Snapshots available - {}".format(snapshot['DBClusterSnapshotIdentifier']))
+            count = count + 1
+    if count == 0:
+        sys.stderr.write("\nError!: No snapshot found \n\n")
+        sys.exit(20)
+
+
 if __name__ == '__main__':
     try:
         if args.create:
@@ -170,7 +192,7 @@ if __name__ == '__main__':
         if args.account:
             if args.create:
                 print("\n \n Executing the snapshot sharing !!! \n")
-                source_snapshot_arn=rds_share_snapshot(new_snapshot_name, args.account)
+                source_snapshot_arn = rds_share_snapshot(new_snapshot_name, args.account)
             else:
                 print("Please use -create option for the RDS Snapshot share")
 
