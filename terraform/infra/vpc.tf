@@ -8,13 +8,13 @@ module "vpc" {
   tags = "${var.default_tags}"
 
   azs  = "${data.aws_availability_zones.available.names}"
-  cidr = "172.20.0.0/21"
+  cidr = "${var.cidr}"
 
   enable_dns_hostnames = true
   enable_dns_support   = true
 
-  public_subnets     = ["172.20.2.0/24", "172.20.3.0/24"]
-  private_subnets    = ["172.20.4.0/24", "172.20.5.0/24"]
+  public_subnets     = "${var.public_subnets}"
+  private_subnets    = "${var.private_subnets}"
   enable_nat_gateway = true
   enable_vpn_gateway = false
   single_nat_gateway = true

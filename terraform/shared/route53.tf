@@ -17,10 +17,10 @@ resource "aws_route53_record" "test" {
   zone_id         = "${aws_route53_zone.public.zone_id}"
 
   records = [
-    "ns-1435.awsdns-51.org",
-    "ns-157.awsdns-19.com",
-    "ns-1836.awsdns-37.co.uk",
-    "ns-797.awsdns-35.net",
+    "ns-1932.awsdns-49.co.uk",
+    "ns-1301.awsdns-34.org",
+    "ns-563.awsdns-06.net",
+    "ns-113.awsdns-14.com"
   ]
 }
 
@@ -32,10 +32,10 @@ resource "aws_route53_record" "stage" {
   zone_id         = "${aws_route53_zone.public.zone_id}"
 
   records = [
-    "ns-344.awsdns-43.com",
-    "ns-550.awsdns-04.net",
-    "ns-1354.awsdns-41.org",
-    "ns-1693.awsdns-19.co.uk"
+    "ns-1214.awsdns-23.org",
+    "ns-1828.awsdns-36.co.uk",
+    "ns-427.awsdns-53.com",
+    "ns-740.awsdns-28.net"
   ]
 }
 
@@ -47,9 +47,9 @@ resource "aws_route53_record" "prod" {
   zone_id         = "${aws_route53_zone.public.zone_id}"
 
   records = [
-    "ns-1448.awsdns-53.org",
-    "ns-1977.awsdns-55.co.uk",
-    "ns-482.awsdns-60.com",
-    "ns-600.awsdns-11.net",
+    "ns-1025.awsdns-00.org",
+    "ns-1633.awsdns-12.co.uk",
+    "ns-506.awsdns-63.com",
+    "ns-657.awsdns-18.net"
   ]
 }
