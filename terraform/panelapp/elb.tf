@@ -35,16 +35,6 @@ resource "aws_security_group_rule" "panelapp_egress_cloudfront" {
   description       = "egress for panelapp"
 }
 
-resource "aws_security_group_rule" "panelapp_egress_cloudflare" {
-  count             = "${!var.create_cloudfront ? 1 : 0}"
-  type              = "egress"
-  from_port         = 443
-  to_port           = 443
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = "${aws_security_group.panelapp_elb.id}"
-  description       = "egress for panelapp"
-}
 
 resource "aws_security_group_rule" "self_egress" {
   type      = "egress"
@@ -68,7 +58,7 @@ resource "aws_security_group_rule" "panelapp_ingress_cloudfront" {
 
   cidr_blocks       = ["${data.aws_ip_ranges.cloudfront_global.cidr_blocks}"]
   security_group_id = "${aws_security_group.panelapp_elb.id}"
-  description       = "egress for panelapp"
+  description       = "ingress for panelapp"
 }
 
 resource "aws_security_group_rule" "panelapp_ingress_cloudflare" {
@@ -78,9 +68,9 @@ resource "aws_security_group_rule" "panelapp_ingress_cloudflare" {
   to_port   = 443
   protocol  = "tcp"
 
-  cidr_blocks       = ["0.0.0.0/0"]
+  cidr_blocks = ["${data.cloudflare_ip_ranges.cloudflare.ipv4_cidr_blocks}"]
   security_group_id = "${aws_security_group.panelapp_elb.id}"
-  description       = "egress for panelapp"
+  description       = "ingress for Panelapp from Cloudflare"
 }
 
 resource "aws_security_group_rule" "self_ingress" {
@@ -91,7 +81,7 @@ resource "aws_security_group_rule" "self_ingress" {
   self      = true
 
   security_group_id = "${aws_security_group.panelapp_elb.id}"
-  description       = "egress for panelapp"
+  description       = "ingress for panelapp"
 }
 
 resource "aws_security_group" "panelapp_elb" {

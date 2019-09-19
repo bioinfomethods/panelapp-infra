@@ -126,8 +126,8 @@ resource "aws_ecs_task_definition" "panelapp_worker" {
   execution_role_arn       = "${aws_iam_role.ecs_task_panelapp.arn}"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = "${var.task_cpu}"
-  memory                   = "${var.task_memory}"
+  cpu                      = "${var.worker_task_cpu}"
+  memory                   = "${var.worker_task_memory}"
   container_definitions    = "${data.template_file.panelapp_worker.rendered}"
 
   # tags = "${merge(
@@ -146,8 +146,8 @@ data "template_file" "panelapp_worker" {
     gunicorn_workers       = "${var.gunicorn_workers}"
     gunicorn_timeout       = "${var.application_connection_timeout}"
     panel_app_base_host    = "${var.cdn_alis}"
-    cpu                    = "${var.task_cpu}"
-    memory                 = "${var.task_memory}"
+    cpu                    = "${var.worker_task_cpu}"
+    memory                 = "${var.worker_task_memory}"
     admin_url              = "${var.admin_url}"
     log_level              = "${var.log_level}"
     database_host          = "${module.aurora.writer_endpoint}"

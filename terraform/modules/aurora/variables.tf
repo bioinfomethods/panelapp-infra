@@ -123,3 +123,7 @@ variable "rds_backup_retention_period"
 {
   description = "Number of days to keep the rds DB snapshot backups"
 }
+
+variable "family_parameters" {
+  default = "aurora-postgresql9.6"
+}

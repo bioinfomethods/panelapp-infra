@@ -7,7 +7,7 @@ module "aurora" {
   subnets      = "${data.terraform_remote_state.infra.private_subnets}"
   private_zone = "${data.terraform_remote_state.infra.dns_private_zone}"
 
-  engine_version        = "9.6.9"
+  engine_version        = "${var.engine_version}"
   skip_final_snapshot   = true
   enable_monitoring     = false
   mon_interval          = false
@@ -22,4 +22,5 @@ module "aurora" {
   cluster_size          = "${var.aurora_replica}"
   rds_db_kms_key        = "${data.terraform_remote_state.infra.rds_shared_kms_arn}"
   rds_backup_retention_period = "${var.rds_backup_retention_period}"
+  family_parameters     = "${var.db_family_parameters}"
 }
