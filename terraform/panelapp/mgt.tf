@@ -28,7 +28,7 @@ module "mgt" {
   #database_port    = "${module.aurora.port}"
   #database_name    = "${module.aurora.database_name}"
   #database_user    = "${module.aurora.database_user}"
-  database_host    = "aurora-test.cluster-csoujpmypmgr.eu-west-2.rds.amazonaws.com"
+  database_host    = "${module.aurora.writer_endpoint}"
   database_port    = "5432"
   database_name    = "panelapp"
   database_user    = "panelapp"
@@ -37,4 +37,5 @@ module "mgt" {
   panelapp_statics = "${aws_s3_bucket.panelapp_statics.id}"
   panelapp_media   = "${aws_s3_bucket.panelapp_media.id}"
   cdn_domain_name  = "${var.cdn_alis}"
+  env_name         = "${var.env_name}"
 }

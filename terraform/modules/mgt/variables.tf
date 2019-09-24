@@ -2,6 +2,8 @@ variable "terraform_state_s3_bucket" {
   default = "panelapp-dev-784145085393-eu-west-2-terraform-state"
 }
 
+variable "env_name" {}
+
 variable "create_lc" {
   description = "Whether to create launch configuration"
   default     = true

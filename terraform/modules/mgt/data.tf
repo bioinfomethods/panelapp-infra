@@ -23,6 +23,7 @@ data "template_file" "user_data" {
     database_port    = "${var.database_port}"
     database_name    = "${var.database_name}"
     database_user    = "${var.database_user}"
+    env              = "${var.env_name}"
     db_password      = "lorenzo knows"
     aws_region       = "${var.aws_region}"
     panelapp_statics = "${var.panelapp_statics}"

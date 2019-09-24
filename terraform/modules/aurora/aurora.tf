@@ -2,7 +2,7 @@ resource "aws_rds_cluster" "aurora_cluster" {
   cluster_identifier = "aurora-${var.env_name}"
 
   engine                    = "aurora-postgresql"
-  engine_version            = "9.6.9"
+  engine_version            = "${var.engine_version}"
   final_snapshot_identifier = "aurora-${var.env_name}"
   skip_final_snapshot       = "${var.skip_final_snapshot}"
   storage_encrypted         = true
@@ -34,7 +34,7 @@ resource "aws_rds_cluster_instance" "aurora_cluster_instance" {
   count = "${var.cluster_size}"
 
   engine                  = "aurora-postgresql"
-  engine_version          = "9.6.9"
+  engine_version          = "${var.engine_version}"
   identifier              = "${var.env_name}-db${count.index + 1}"
   cluster_identifier      = "${aws_rds_cluster.aurora_cluster.id}"
   instance_class          = "${var.instance_class}"

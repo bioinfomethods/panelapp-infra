@@ -133,6 +133,14 @@ variable "task_memory" {
   default = 4096
 }
 
+variable "worker_task_cpu" {
+  default = 512
+}
+
+variable "worker_task_memory" {
+  default = 1024
+}
+
 variable "log_retention" {
   default = 14
 }
@@ -212,6 +220,13 @@ variable "block_public_access" {
 
 variable "whitelisted_ips" {
   type    = "list"
-  default = ["172.0.0.1"]
+  default = ["81.134.251.212", "83.151.220.174"]
 }
 
+variable "engine_version" {
+  default = "9.6.9"
+}
+
+variable "db_family_parameters" {
+  default = "aurora-postgresql9.6"
+}

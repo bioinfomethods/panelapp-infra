@@ -159,6 +159,7 @@ def rds_copy_snapshot(sourcesnap):
     snapshot_description = client.describe_db_cluster_snapshots(
         DBClusterSnapshotIdentifier=targetsnap
     )
+    print("Please use this ARN with terraform script: {}".format(snapshot_description['DBClusterSnapshots'][0]['DBClusterSnapshotArn']))
     return snapshot_description['DBClusterSnapshots'][0]['DBClusterSnapshotArn']
 
 

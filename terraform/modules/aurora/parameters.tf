@@ -1,6 +1,6 @@
 resource "aws_rds_cluster_parameter_group" "custom_cluster_parameters" {
   name        = "custom-cluster-${var.env_name}"
-  family      = "aurora-postgresql9.6"
+  family      = "${var.family_parameters}"
   description = "RDS cluster custom parameters"
 
   # parameter {
@@ -12,7 +12,7 @@ resource "aws_rds_cluster_parameter_group" "custom_cluster_parameters" {
 
 resource "aws_db_parameter_group" "custom_instnace_parameters" {
   name   = "custom-instance-${var.env_name}"
-  family = "aurora-postgresql9.6"
+  family = "${var.family_parameters}"
 
   tags = "${merge(
     var.default_tags,

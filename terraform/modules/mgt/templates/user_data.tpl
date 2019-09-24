@@ -11,7 +11,7 @@ runcmd:
 write_files:
 - path: /etc/profile.d/ssm_vars.sh
   content: |
-    export PGPASSWORD=$(aws --region eu-west-2 ssm get-parameters --name /panelapp/test/database/master_password --with-decryption | jq -r '.Parameters[].Value')
+    export PGPASSWORD=$(aws --region eu-west-2 ssm get-parameters --name /panelapp/${env}/database/master_password --with-decryption | jq -r '.Parameters[].Value')
     export PGHOST=${database_host}
     export PGUSER=${database_user}
     export PGDATABASE=${database_name}
