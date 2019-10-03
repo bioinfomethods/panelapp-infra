@@ -17,3 +17,7 @@ variable "public_dns_zone_name" {}
 variable "default_tags" {
   type = "map"
 }
+
+variable "public_route53_zone_id" {
+  default = "Z3D0BLRM13ENHB"
+}
