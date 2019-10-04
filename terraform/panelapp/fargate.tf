@@ -85,8 +85,11 @@ data "template_file" "panelapp_web" {
     panelapp_email         = "${var.panelapp_email}"
     email_host             = "${var.smtp_server}"
     email_user             = "${aws_iam_access_key.ses.id}"
+    email_password         = "${aws_iam_access_key.ses.ses_smtp_password}"
 
-    email_password = "${aws_iam_access_key.ses.ses_smtp_password}"
+    aws_use_cognito                 = "${var.use_cognito ? "true" : "false"}"
+    aws_cognito_domain_prefix       = "${coalesce(join("", aws_cognito_user_pool_domain.domain.*.domain),"")}"
+    aws_cognito_user_pool_client_id = "${coalesce(join("", aws_cognito_user_pool_client.client.*.id),"")}"
   }
 }
 
