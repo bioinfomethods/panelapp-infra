@@ -38,7 +38,10 @@
       { "name" : "GUNICORN_WORKERS", "value" : "${gunicorn_workers}" },
       { "name" : "GUNICORN_TIMEOUT", "value" : "${gunicorn_timeout}" },
       { "name" : "EMAIL_HOST_USER", "value" : "${email_user}" },
-      { "name" : "EMAIL_HOST_PASSWORD", "value" : "${email_password}" }
+      { "name" : "EMAIL_HOST_PASSWORD", "value" : "${email_password}" },
+      { "name" : "AWS_USE_COGNITO", "value" : "${aws_use_cognito}" },
+      { "name" : "AWS_COGNITO_DOMAIN_PREFIX", "value" : "${aws_cognito_domain_prefix}" },
+      { "name" : "AWS_COGNITO_USER_POOL_CLIENT_ID", "value" : "${aws_cognito_user_pool_client_id}" }
     ],
     "secrets": [
       { "name": "DATABASE_PASSWORD", "valueFrom": "${db_password_secret_arn}" }

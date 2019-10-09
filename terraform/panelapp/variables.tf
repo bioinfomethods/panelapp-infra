@@ -230,3 +230,28 @@ variable "engine_version" {
 variable "db_family_parameters" {
   default = "aurora-postgresql9.6"
 }
+
+variable "use_cognito" {
+  description = "Use Cognito? (true/false)"
+  default = false
+}
+
+variable "cognito_alb_app_login_path" {
+  description = "PanelApp login path to be intercepted by ALB Cognito authenticate action"
+  default = "/accounts/login/*"
+}
+
+variable "cognito_allow_admin_create_user_only" {
+  description = "Only allow administrators to create users in Cognito User Pool"
+  default = true
+}
+
+variable "cognito_password_length" {
+  description = "Cognito User Pool user password length"
+  default = 10
+}
+
+variable "cognito_password_symbols_required" {
+  description = "Cognito password special character required"
+  default = false
+}

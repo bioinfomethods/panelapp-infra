@@ -63,3 +63,44 @@ across all components and environments).
 
 * S3 bucket: `<STACK>-<ENV>-<ACCOUNT-ID>-<REGION>-terraform-state` (e.g. `panelapp-dev-123456789012-eu-west-2-terraform-state`)
 * DynamoDB table: `<STACK>-<ENV>-terraform-lock` (e.g. `panelapp-dev-terraform-lock`)
+
+## Cognito
+
+Using AWS Cognito for user and authentication purpose is totally **optional**. This is set by `use_cognito` variable. The following variables are introduced and configurable.
+
+* `use_cognito` - Boolean variable whether to use Cognito. Default to `false`.
+* `cognito_alb_app_login_path` - PanelApp login path to be intercepted by ALB Cognito authenticate action. Default to `/accounts/login/*`.
+* `cognito_allow_admin_create_user_only` - Only allow administrators to create users in Cognito User Pool. Default to `true`.
+* `cognito_password_length` - Cognito User Pool user password length. Default to `10`.
+* `cognito_password_symbols_required` - Cognito password special character required. Default to `false`.
+
+The Cognito implementation is based on the following articles.
+
+* https://aws.amazon.com/blogs/aws/built-in-authentication-in-alb/
+* https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html
+* https://docs.aws.amazon.com/elasticloadbalancing/latest/application/listener-authenticate-users.html
+
+### Third Party IdP Support
+
+Cognito User Pool support [third party IdP and user federation for Single Sign-On](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-identity-federation.html) (SSO) purpose. Current deployment implementation support this SSO feature by using **Google** as the third party IdP and this is enabled by default. Therefore, if you intend to use Cognito in your deployment, it is required to setup Google API credentials for [OAuth 2.0 client](https://support.google.com/googleapi/answer/6158849) purpose as follows.
+
+1. Go to [Google API console](https://console.developers.google.com/).
+2. Create a new API project.
+3. On the left, click **Credentials**.
+    1. Click **New Credentials**, then select **OAuth client ID**
+    2. Select **Web application** as application type
+    3. Give name e.g. `PanelApp`
+    4. At **Authorized JavaScript origins**, add `https://panelapp-prod.auth.ap-southeast-2.amazoncognito.com`.
+    5. At **Authorized redirect URIs**, add `https://panelapp-prod.auth.ap-southeast-2.amazoncognito.com/oauth2/idpresponse`.
+4. On the left, click **OAuth consent screen**.
+    1. At **Scopes for Google APIs**, add scope for `email`, `profile`, `openid`. Note, one at a time.
+    2. At **Authorized domains**, add `amazoncognito.com`
+
+After Google OAuth 2.0 client is created, its credential must be stored in AWS SSM Parameter Store (just like database master password) as follows. Replace `<Client ID>` and `<Client secret>` with values generated from Step 3.
+
+```
+aws ssm put-parameter --name '/panelapp/prod/cognito/google/oauth_client_id' --type "SecureString" --value '<Client ID>'
+aws ssm put-parameter --name '/panelapp/prod/cognito/google/oauth_client_secret' --type "SecureString" --value '<Client secret>'
+```
+
+Note that the domain `panelapp-prod` and `/panelapp/prod/...` is derived from terraform variables `${var.stack}` and `${var.env_name}`. Currently only Hosted UI mode is tested and supported.
