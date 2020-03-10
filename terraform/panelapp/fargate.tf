@@ -180,6 +180,85 @@ resource "aws_cloudwatch_log_group" "panelapp_worker" {
   )}"
 }
 
+
+## Worker beat
+
+resource "aws_ecs_service" "panelapp_worker_beat" {
+  name            = "panelapp-worker-beat-${var.stack}-${var.env_name}"
+  cluster         = "${aws_ecs_cluster.panelapp_cluster.id}"
+  task_definition = "${aws_ecs_task_definition.panelapp_worker_beat.arn}"
+  desired_count   = 1
+  launch_type     = "FARGATE"
+
+  network_configuration {
+    security_groups = ["${module.aurora.aurora_security_group}", "${aws_security_group.fargate.id}", "${aws_security_group.panelapp_elb.id}"]
+    subnets         = ["${data.terraform_remote_state.infra.private_subnets}"]
+  }
+
+  # tags = "${merge(
+  #   var.default_tags,
+  #   map("Name", "panelapp_worker")
+  # )}"
+}
+
+resource "aws_ecs_task_definition" "panelapp_worker_beat" {
+  family                   = "panelapp-worker-beat-${var.stack}-${var.env_name}"
+  task_role_arn            = "${aws_iam_role.ecs_task_panelapp.arn}"
+  execution_role_arn       = "${aws_iam_role.ecs_task_panelapp.arn}"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = "${var.worker_task_cpu}"
+  memory                   = "${var.worker_task_memory}"
+  container_definitions    = "${data.template_file.panelapp_worker.rendered}"
+
+  # tags = "${merge(
+  #   var.default_tags,
+  #   map("Name", "panelapp_worker")
+  # )}"
+}
+
+data "template_file" "panelapp_worker_beat" {
+  template = "${file("templates/panelapp-worker-beat.tpl")}"
+
+  vars = {
+    image_name = "${var.panelapp_image_repo}/panelapp-worker"
+    image_tag  = "${var.image_tag}"
+
+    gunicorn_workers       = "${var.gunicorn_workers}"
+    gunicorn_timeout       = "${var.application_connection_timeout}"
+    panel_app_base_host    = "${var.cdn_alis}"
+    cpu                    = "${var.worker_task_cpu}"
+    memory                 = "${var.worker_task_memory}"
+    admin_url              = "${var.admin_url}"
+    log_level              = "${var.log_level}"
+    database_host          = "${module.aurora.writer_endpoint}"
+    database_port          = "${module.aurora.port}"
+    database_name          = "${module.aurora.database_name}"
+    database_user          = "${module.aurora.database_user}"
+    db_password_secret_arn = "${local.db_password_secret_arn}"
+    aws_region             = "${var.region}"
+    panelapp_statics       = "${aws_s3_bucket.panelapp_statics.id}"
+    panelapp_media         = "${aws_s3_bucket.panelapp_media.id}"
+    cdn_domain_name        = "${var.cdn_alis}"
+    default_email          = "${var.default_email}"
+    panelapp_email         = "${var.panelapp_email}"
+    email_host             = "${var.smtp_server}"
+    email_user             = "${aws_iam_access_key.ses.id}"
+    email_password         = "${aws_iam_access_key.ses.ses_smtp_password}"
+  }
+}
+
+resource "aws_cloudwatch_log_group" "panelapp_worker_beat" {
+  name              = "panelapp-worker-beat"
+  retention_in_days = "${var.log_retention}"
+
+  tags = "${merge(
+    var.default_tags,
+    map("Name", "panelapp_worker_beat")
+  )}"
+}
+
+
 ######################################
 ## Tasks to run on every deployments
 ######################################
