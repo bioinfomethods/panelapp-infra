@@ -37,6 +37,8 @@
       { "name" : "DJANGO_ADMIN_URL", "value" : "${admin_url}" },
       { "name" : "GUNICORN_WORKERS", "value" : "${gunicorn_workers}" },
       { "name" : "GUNICORN_TIMEOUT", "value" : "${gunicorn_timeout}" },
+      { "name" : "GUNICORN_ACCESSLOG", "value" : "${gunicorn_accesslog}" },
+      { "name" : "GUNICORN_ACCESS_LOG_FORMAT", "value" : "%({cf-connecting-ip}i)s %(l)s %(u)s %(t)s \"%(r)s\" %(s)s %(b)s \"%(f)s\" \"%(a)s\"" },
       { "name" : "EMAIL_HOST_USER", "value" : "${email_user}" },
       { "name" : "EMAIL_HOST_PASSWORD", "value" : "${email_password}" },
       { "name" : "AWS_USE_COGNITO", "value" : "${aws_use_cognito}" },
