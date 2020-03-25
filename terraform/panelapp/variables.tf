@@ -194,6 +194,11 @@ variable "gunicorn_workers" {
   default = 8
 }
 
+variable "gunicorn_accesslog" {
+  description = "The Access log file to write to - means log to stdout"
+  default = "-"
+}
+
 variable "application_connection_timeout" {
   default = 300
 }
