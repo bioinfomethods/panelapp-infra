@@ -114,7 +114,7 @@ resource "aws_iam_role_policy" "panelapp" {
         "sqs:CreateQueue",
         "sqs:ChangeMessageVisibilityBatch"
       ],
-      "Resource": "${aws_sqs_queue.panelapp.arn}"
+      "Resource": "*"
     },
     {
       "Effect": "Allow",

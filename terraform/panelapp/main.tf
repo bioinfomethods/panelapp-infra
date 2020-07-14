@@ -31,4 +31,5 @@ data "terraform_remote_state" "infra" {
 locals {
   vpc_id                 = "${data.terraform_remote_state.infra.vpc_id}"
   db_password_secret_arn = "arn:aws:ssm:${var.region}:${var.account_id}:parameter/${var.stack}/${var.env_name}/database/master_password"
+  omim_api_secret_arn    = "arn:aws:ssm:${var.region}:${var.account_id}:parameter/${var.stack}/${var.env_name}/fargate/omim_api_key"
 }
