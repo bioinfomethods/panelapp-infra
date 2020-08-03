@@ -32,7 +32,8 @@
       { "name" : "EMAIL_HOST_PASSWORD", "value" : "${email_password}" }
     ],
     "secrets": [
-      { "name": "DATABASE_PASSWORD", "valueFrom": "${db_password_secret_arn}" }
+      { "name": "DATABASE_PASSWORD", "valueFrom": "${db_password_secret_arn}" },
+      { "name": "OMIM_API_KEY", "valueFrom": "${omim_api_secret_arn}" }
     ]
   }
 ]

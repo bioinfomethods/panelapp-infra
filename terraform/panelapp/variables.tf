@@ -260,3 +260,8 @@ variable "cognito_password_symbols_required" {
   description = "Cognito password special character required"
   default = false
 }
+
+variable "run_panelapp_beat" {
+  description = "Run Panelapp beat service"
+  default = false
+}
