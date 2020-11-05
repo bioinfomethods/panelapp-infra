@@ -91,6 +91,7 @@ data "template_file" "panelapp_web" {
     aws_use_cognito                 = "${var.use_cognito ? "true" : "false"}"
     aws_cognito_domain_prefix       = "${coalesce(join("", aws_cognito_user_pool_domain.domain.*.domain),"")}"
     aws_cognito_user_pool_client_id = "${coalesce(join("", aws_cognito_user_pool_client.client.*.id),"")}"
+    active_scheduled_tasks = "${var.active_scheduled_tasks}"
   }
 }
 
@@ -169,6 +170,7 @@ data "template_file" "panelapp_worker" {
     email_user             = "${aws_iam_access_key.ses.id}"
     email_password         = "${aws_iam_access_key.ses.ses_smtp_password}"
     omim_api_secret_arn    = "${local.omim_api_secret_arn}"
+    active_scheduled_tasks = "${var.active_scheduled_tasks}"
   }
 }
 
@@ -240,6 +242,7 @@ data "template_file" "panelapp_worker_beat" {
     email_host             = "${var.smtp_server}"
     email_user             = "${aws_iam_access_key.ses.id}"
     email_password         = "${aws_iam_access_key.ses.ses_smtp_password}"
+    active_scheduled_tasks = "${var.active_scheduled_tasks}"
   }
 }
 
@@ -314,8 +317,8 @@ data "template_file" "panelapp_migrate" {
     panelapp_email         = "${var.panelapp_email}"
     email_host             = "${var.smtp_server}"
     email_user             = "${aws_iam_access_key.ses.id}"
-
-    email_password = "${aws_iam_access_key.ses.ses_smtp_password}"
+    email_password         = "${aws_iam_access_key.ses.ses_smtp_password}"
+    active_scheduled_tasks = "${var.active_scheduled_tasks}"
   }
 }
 
@@ -383,8 +386,8 @@ data "template_file" "panelapp_collectstatic" {
     panelapp_email         = "${var.panelapp_email}"
     email_host             = "${var.smtp_server}"
     email_user             = "${aws_iam_access_key.ses.id}"
-
-    email_password = "${aws_iam_access_key.ses.ses_smtp_password}"
+    email_password         = "${aws_iam_access_key.ses.ses_smtp_password}"
+    active_scheduled_tasks = "${var.active_scheduled_tasks}"
   }
 }
 
@@ -460,6 +463,7 @@ data "template_file" "panelapp_loaddata" {
     email_host             = "${var.smtp_server}"
     email_user             = "${aws_iam_access_key.ses.id}"
     email_password         = "${aws_iam_access_key.ses.ses_smtp_password}"
+    active_scheduled_tasks = "${var.active_scheduled_tasks}"
   }
 }
 
@@ -510,5 +514,6 @@ data "template_file" "panelapp_createsuperuser" {
     email_host             = "${var.smtp_server}"
     email_user             = "${aws_iam_access_key.ses.id}"
     email_password         = "${aws_iam_access_key.ses.ses_smtp_password}"
+    active_scheduled_tasks = "${var.active_scheduled_tasks}"
   }
 }
