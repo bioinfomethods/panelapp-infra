@@ -265,3 +265,8 @@ variable "run_panelapp_beat" {
   description = "Run Panelapp beat service"
   default = false
 }
+
+variable "active_scheduled_tasks" {
+  description = "; separated list of periodic celery beat tasks"
+  default = "moi-check"
+}
