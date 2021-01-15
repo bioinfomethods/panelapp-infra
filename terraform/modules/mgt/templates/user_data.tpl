@@ -6,7 +6,10 @@ runcmd:
 - [ usermod, -a, -G, docker, ec2-user ]
 - [ usermod, -a, -G, docker, ssm-user ]
 - [ yum, install, jq, python2-pip, -y ]
-- [ pip, install, docker-compose ]
+- 'sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose'
+- 'sudo chmod +x /usr/local/bin/docker-compose'
+- 'sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose'
+
 
 write_files:
 - path: /etc/profile.d/ssm_vars.sh
