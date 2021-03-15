@@ -270,3 +270,8 @@ variable "active_scheduled_tasks" {
   description = "; separated list of periodic celery beat tasks"
   default = "moi-check"
 }
+
+variable "signed_off_archive_base_url" {
+  description = "Signed off panels static site"
+  default = ""
+}

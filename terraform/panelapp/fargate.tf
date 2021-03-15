@@ -92,6 +92,7 @@ data "template_file" "panelapp_web" {
     aws_cognito_domain_prefix       = "${coalesce(join("", aws_cognito_user_pool_domain.domain.*.domain),"")}"
     aws_cognito_user_pool_client_id = "${coalesce(join("", aws_cognito_user_pool_client.client.*.id),"")}"
     active_scheduled_tasks = "${var.active_scheduled_tasks}"
+    signed_off_archive_base_url = "${var.signed_off_archive_base_url}"
   }
 }
 
@@ -171,6 +172,7 @@ data "template_file" "panelapp_worker" {
     email_password         = "${aws_iam_access_key.ses.ses_smtp_password}"
     omim_api_secret_arn    = "${local.omim_api_secret_arn}"
     active_scheduled_tasks = "${var.active_scheduled_tasks}"
+    signed_off_archive_base_url = "${var.signed_off_archive_base_url}"
   }
 }
 
@@ -243,6 +245,7 @@ data "template_file" "panelapp_worker_beat" {
     email_user             = "${aws_iam_access_key.ses.id}"
     email_password         = "${aws_iam_access_key.ses.ses_smtp_password}"
     active_scheduled_tasks = "${var.active_scheduled_tasks}"
+    signed_off_archive_base_url = "${var.signed_off_archive_base_url}"
   }
 }
 
@@ -319,6 +322,7 @@ data "template_file" "panelapp_migrate" {
     email_user             = "${aws_iam_access_key.ses.id}"
     email_password         = "${aws_iam_access_key.ses.ses_smtp_password}"
     active_scheduled_tasks = "${var.active_scheduled_tasks}"
+    signed_off_archive_base_url = "${var.signed_off_archive_base_url}"
   }
 }
 
@@ -388,6 +392,7 @@ data "template_file" "panelapp_collectstatic" {
     email_user             = "${aws_iam_access_key.ses.id}"
     email_password         = "${aws_iam_access_key.ses.ses_smtp_password}"
     active_scheduled_tasks = "${var.active_scheduled_tasks}"
+    signed_off_archive_base_url = "${var.signed_off_archive_base_url}"
   }
 }
 
@@ -464,6 +469,7 @@ data "template_file" "panelapp_loaddata" {
     email_user             = "${aws_iam_access_key.ses.id}"
     email_password         = "${aws_iam_access_key.ses.ses_smtp_password}"
     active_scheduled_tasks = "${var.active_scheduled_tasks}"
+    signed_off_archive_base_url = "${var.signed_off_archive_base_url}"
   }
 }
 
@@ -515,5 +521,6 @@ data "template_file" "panelapp_createsuperuser" {
     email_user             = "${aws_iam_access_key.ses.id}"
     email_password         = "${aws_iam_access_key.ses.ses_smtp_password}"
     active_scheduled_tasks = "${var.active_scheduled_tasks}"
+    signed_off_archive_base_url = "${var.signed_off_archive_base_url}"
   }
 }
