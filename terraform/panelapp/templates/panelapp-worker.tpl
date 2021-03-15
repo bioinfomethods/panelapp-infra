@@ -30,7 +30,8 @@
       { "name" : "GUNICORN_TIMEOUT", "value" : "${gunicorn_timeout}" },
       { "name" : "EMAIL_HOST_USER", "value" : "${email_user}" },
       { "name" : "EMAIL_HOST_PASSWORD", "value" : "${email_password}" },
-      { "name" : "ACTIVE_SCHEDULED_TASKS", "value": "${active_scheduled_tasks}" }
+      { "name" : "ACTIVE_SCHEDULED_TASKS", "value": "${active_scheduled_tasks}" },
+      { "name" : "SIGNED_OFF_ARCHIVE_BASE_URL", "value": "${signed_off_archive_base_url}" }
     ],
     "secrets": [
       { "name": "DATABASE_PASSWORD", "valueFrom": "${db_password_secret_arn}" },
