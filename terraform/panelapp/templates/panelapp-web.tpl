@@ -45,7 +45,8 @@
       { "name" : "AWS_COGNITO_DOMAIN_PREFIX", "value" : "${aws_cognito_domain_prefix}" },
       { "name" : "AWS_COGNITO_USER_POOL_CLIENT_ID", "value" : "${aws_cognito_user_pool_client_id}" },
       { "name" : "ACTIVE_SCHEDULED_TASKS", "value": "${active_scheduled_tasks}" },
-      { "name" : "SIGNED_OFF_ARCHIVE_BASE_URL", "value": "${signed_off_archive_base_url}" }
+      { "name" : "SIGNED_OFF_ARCHIVE_BASE_URL", "value": "${signed_off_archive_base_url}" },
+      { "name" : "MOI_CHECK_DAY_OF_WEEK", "value": "${moi_check_day_of_week}" }
     ],
     "secrets": [
       { "name": "DATABASE_PASSWORD", "valueFrom": "${db_password_secret_arn}" },

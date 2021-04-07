@@ -271,6 +271,11 @@ variable "active_scheduled_tasks" {
   default = "moi-check"
 }
 
+variable "moi_check_day_of_week" {
+  description = "Crontab day of week for running MOI checks - 0 for Sunday"
+  default = "0"
+}
+
 variable "signed_off_archive_base_url" {
   description = "Signed off panels static site"
   default = ""
