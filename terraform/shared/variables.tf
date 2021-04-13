@@ -52,3 +52,13 @@ variable "stage_panelapp_ns_records" {
   ]
 }
 
+variable "uat_panelapp_ns_records" {
+  type = "list"
+  default = [
+    "ns-1186.awsdns-20.org",
+    "ns-737.awsdns-28.net",
+    "ns-458.awsdns-57.com",
+    "ns-1828.awsdns-36.co.uk"
+  ]
+}
+

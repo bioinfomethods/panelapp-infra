@@ -39,6 +39,16 @@ resource "aws_route53_record" "prod" {
   records         = "${var.prod_panelapp_ns_records}"
 }
 
+resource "aws_route53_record" "uat" {
+  allow_overwrite = true
+  name            = "uat"
+  ttl             = 30
+  type            = "NS"
+  zone_id         = "${aws_route53_zone.public.zone_id}"
+
+  records         = "${var.uat_panelapp_ns_records}"
+}
+
 ################
 #   Route 53
 ################
@@ -76,4 +86,14 @@ resource "aws_route53_record" "ns_prod" {
   zone_id         = "${data.aws_route53_zone.route53_public.zone_id}"
 
   records         = "${var.prod_panelapp_ns_records}"
+}
+
+resource "aws_route53_record" "ns_uat" {
+  allow_overwrite = true
+  name            = "uat"
+  ttl             = 30
+  type            = "NS"
+  zone_id         = "${data.aws_route53_zone.route53_public.zone_id}"
+
+  records         = "${var.uat_panelapp_ns_records}"
 }
