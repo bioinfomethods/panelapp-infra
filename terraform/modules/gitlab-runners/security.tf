@@ -24,9 +24,9 @@ resource "aws_security_group_rule" "runner_egress_https" {
 resource "aws_security_group_rule" "runner_egress_meta" {
   count             = "${var.create_gitlab_runners ? 1 : 0}"
   type              = "egress"
-  from_port         = "80"
-  to_port           = "80"
+  from_port         = "0"
+  to_port           = "65535"
   protocol          = "tcp"
-  cidr_blocks       = ["169.254.170.2/32"]
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.gitlab_runner_fargate.id}"
 }
