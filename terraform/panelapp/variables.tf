@@ -156,7 +156,7 @@ variable "db_instance_class" {
 
 variable "panelapp_image_repo" {
   description = "location for the panelapp name docker image repo"
-  default     = "genomicsengland"
+  default     = "577192787797.dkr.ecr.eu-west-2.amazonaws.com"
 }
 
 variable "create_cloudfront" {}
