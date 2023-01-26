@@ -9,7 +9,7 @@ module "site" {
   share_rds_kms_key = "${var.share_rds_kms_key}"
   trusted_accounts  = "${var.trusted_accounts}"
 
-  create_public_dns_zone = true
+  create_public_dns_zone = false
   public_dns_zone_name   = "${var.public_dns_zone_name}"
 
   enable_datadog                      = "${var.enable_datadog}"

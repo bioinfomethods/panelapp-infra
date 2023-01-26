@@ -25,6 +25,8 @@ resource "aws_rds_cluster" "aurora_cluster" {
     map("Name", "cluster-${var.env_name}")
   )}"
 
+  deletion_protection = "${var.deletion_protection}"
+
   lifecycle {
     create_before_destroy = true
   }

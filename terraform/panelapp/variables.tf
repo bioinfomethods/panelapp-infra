@@ -260,3 +260,23 @@ variable "cognito_password_symbols_required" {
   description = "Cognito password special character required"
   default = false
 }
+
+variable "acm_certificate_arn_use1" {
+  // must set in terraform.tfvars
+}
+
+variable "acm_certificate_arn_apse2" {
+  // must set in terraform.tfvars
+}
+
+variable "route53_zone_id" {
+  // must set in terraform.tfvars
+}
+
+variable "cloudfront_web_acl_id" {
+  // must set in terraform.tfvars
+}
+
+variable "rds_deletion_protection" {
+  // must set in terraform.tfvars
+}

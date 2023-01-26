@@ -127,3 +127,7 @@ variable "rds_backup_retention_period"
 variable "family_parameters" {
   default = "aurora-postgresql9.6"
 }
+
+variable "deletion_protection" {
+  default = false
+}

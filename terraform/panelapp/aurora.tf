@@ -23,4 +23,5 @@ module "aurora" {
   rds_db_kms_key        = "${data.terraform_remote_state.infra.rds_shared_kms_arn}"
   rds_backup_retention_period = "${var.rds_backup_retention_period}"
   family_parameters     = "${var.db_family_parameters}"
+  deletion_protection   = "${var.rds_deletion_protection}"
 }

@@ -1,3 +1,4 @@
+/*
 module "mgt" {
   source = "../modules/mgt"
 
@@ -39,3 +40,4 @@ module "mgt" {
   cdn_domain_name  = "${var.cdn_alis}"
   env_name         = "${var.env_name}"
 }
+*/

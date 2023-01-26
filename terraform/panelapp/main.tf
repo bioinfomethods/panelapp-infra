@@ -24,7 +24,7 @@ data "terraform_remote_state" "infra" {
   config {
     bucket = "${var.terraform_state_s3_bucket}"
     key    = "infra/terraform.tfstate"
-    region = "eu-west-2"
+    region = "${var.region}"
   }
 }
 

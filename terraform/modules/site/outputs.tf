@@ -10,7 +10,7 @@ output "artifacts_bucket" {
 
 output "dns_delegation_set" {
   description = "Route53 Delegation Set ID"
-  value       = "${aws_route53_delegation_set.site.id}"
+  value       = "${aws_route53_delegation_set.site.*.id}"
 }
 
 output "public_dns_zone" {
@@ -20,7 +20,7 @@ output "public_dns_zone" {
 
 output "public_dns_zone_ns" {
   description = "List of NS of the public DNS Zone"
-  value       = "${aws_route53_delegation_set.site.name_servers}"
+  value       = "${aws_route53_delegation_set.site.*.name_servers}"
 }
 
 output "public_dns_zone_name" {

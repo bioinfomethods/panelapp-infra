@@ -27,3 +27,21 @@ resource "aws_s3_bucket" "artifacts" {
   tags = "${merge(var.default_tags,
   map("Name", "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-artifacts"))}"
 }
+
+resource "aws_s3_bucket_public_access_block" "artifacts" {
+  bucket = "${aws_s3_bucket.artifacts.id}"
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_public_access_block" "terraform_state" {
+  bucket = "${aws_s3_bucket.terraform.id}"
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}

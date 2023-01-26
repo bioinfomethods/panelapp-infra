@@ -1,3 +1,4 @@
+/*
 module "gitlab-runners" {
   source = "../modules/gitlab-runners"
 
@@ -15,3 +16,4 @@ module "gitlab-runners" {
   additional_runner_tag   = "TF_${var.stack}_${var.env_name}"
   master_account          = "${var.master_account}"
 }
+*/

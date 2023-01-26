@@ -52,7 +52,7 @@ resource "aws_cognito_user_pool" "pool" {
 
   admin_create_user_config {
     allow_admin_create_user_only = "${var.cognito_allow_admin_create_user_only}"
-    unused_account_validity_days = 7
+    # unused_account_validity_days = 7
   }
 
   password_policy {
@@ -61,6 +61,7 @@ resource "aws_cognito_user_pool" "pool" {
     require_numbers   = true
     require_symbols   = "${var.cognito_password_symbols_required}"
     require_uppercase = true
+    temporary_password_validity_days = 7
   }
 
   tags = "${merge(var.default_tags, map("Name", "${var.stack}-${var.env_name}"))}"
@@ -96,7 +97,8 @@ resource "aws_cognito_user_pool_client" "client" {
   refresh_token_validity = 30
 
   // App client settings
-  supported_identity_providers = ["COGNITO", "${aws_cognito_identity_provider.google.provider_name}"]
+  //FIXME supported_identity_providers = ["COGNITO", "${aws_cognito_identity_provider.google.provider_name}"]
+  supported_identity_providers = ["${aws_cognito_identity_provider.google.provider_name}"]
 
   callback_urls = [
     "https://${var.cdn_alis}/oauth2/idpresponse",
@@ -141,8 +143,9 @@ resource "aws_lb_listener_rule" "accounts" {
   }
 
   condition {
-    field  = "path-pattern"
-    values = ["${var.cognito_alb_app_login_path}"]
+    path_pattern {
+      values = ["${var.cognito_alb_app_login_path}"]
+    }
   }
 }
 

@@ -21,3 +21,8 @@ output "database_name" {
 output "database_user" {
   value = "${var.username}"
 }
+
+output "aurora_cluster_arn" {
+  // required for aws_backup
+  value = "${aws_rds_cluster.aurora_cluster.arn}"
+}

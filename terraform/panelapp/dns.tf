@@ -1,6 +1,8 @@
 resource "aws_route53_record" "panelapp_domain_cloudfront" {
   count   = "${var.create_cloudfront ? 1 : 0}"
-  zone_id = "${data.terraform_remote_state.infra.public_dns_zone}"
+  //zone_id = "${data.terraform_remote_state.infra.public_dns_zone}"
+  // could query using data ^^^ but since underlying code coupled tightly to infra state and, plus we created the hosted zone manually at dev.umccr.org to share with other applications
+  zone_id = "${var.route53_zone_id}"
   name    = "${var.dns_record}"
   type    = "A"
 

@@ -4,6 +4,7 @@
     "image" : "${image_name}:${image_tag}",
     "cpu": ${cpu},
     "memory": ${memory},
+    "memoryReservation": 512,
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {

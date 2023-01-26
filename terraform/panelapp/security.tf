@@ -14,15 +14,16 @@ data "aws_ip_ranges" "amazon_region" {
   services = ["amazon"]
 }
 
-resource "aws_security_group_rule" "fargate_egress" {
-  type              = "egress"
-  from_port         = "443"
-  to_port           = "443"
-  protocol          = "tcp"
-  cidr_blocks       = ["${data.aws_ip_ranges.amazon_region.cidr_blocks}"]
-  security_group_id = "${aws_security_group.fargate.id}"
-  description       = "Allow calls to aws for the region"
-}
+// FIXME Redundant? See fargate_https_egress below
+//resource "aws_security_group_rule" "fargate_egress" {
+//  type              = "egress"
+//  from_port         = "443"
+//  to_port           = "443"
+//  protocol          = "tcp"
+//  cidr_blocks       = ["${data.aws_ip_ranges.amazon_region.cidr_blocks}"]
+//  security_group_id = "${aws_security_group.fargate.id}"
+//  description       = "Allow calls to aws for the region"
+//}
 
 resource "aws_security_group_rule" "fargate_smtp_egress" {
   type              = "egress"
@@ -129,7 +130,8 @@ resource "aws_iam_role_policy" "panelapp" {
         "ecr:GetDownloadUrlForLayer",
         "ecr:BatchGetImage",
         "logs:CreateLogStream",
-        "logs:PutLogEvents"
+        "logs:PutLogEvents",
+        "xray:*"
       ],
       "Resource": "*"
     },

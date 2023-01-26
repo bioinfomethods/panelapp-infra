@@ -1,6 +1,7 @@
 resource "aws_kms_key" "site" {
   description = "${var.stack} site key in ${var.region}"
   policy      = ""
+  enable_key_rotation = true
 }
 
 resource "aws_kms_alias" "site" {

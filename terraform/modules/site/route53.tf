@@ -1,4 +1,5 @@
 resource "aws_route53_delegation_set" "site" {
+  count          = "${var.create_public_dns_zone ? 1 : 0}"
   reference_name = "${var.stack}-${var.env_name}"
 }
 
