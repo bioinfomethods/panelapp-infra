@@ -1,11 +1,11 @@
 module "site" {
   source = "../modules/site"
 
-  stack        = "${var.stack}"
-  env_name     = "${var.env_name}"
-  account_id   = "${var.account_id}"
-  region       = "${var.region}"
-  default_tags = "${var.default_tags}"
+  stack             = "${var.stack}"
+  env_name          = "${var.env_name}"
+  account_id        = "${var.account_id}"
+  region            = "${var.region}"
+  default_tags      = "${var.default_tags}"
   share_rds_kms_key = "${var.share_rds_kms_key}"
   trusted_accounts  = "${var.trusted_accounts}"
 
