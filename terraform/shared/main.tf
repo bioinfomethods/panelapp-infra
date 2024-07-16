@@ -9,7 +9,7 @@ provider "aws" {
   version = "~> 2.8"
 }
 
-// Additional provider used for CloudFront SSL cerfificates (must be in us_east_1 Region)
+// Additional provider used for CloudFront SSL certificates (must be in us_east_1 Region)
 provider "aws" {
   version = "~> 2.8"
   alias   = "us_east_1"

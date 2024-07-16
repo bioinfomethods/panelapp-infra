@@ -5,7 +5,7 @@
 This code has been designed to be multi-environment (e.g. "test", "stage", "prod").
 
 Each environment is supposed to be installed in a **separate AWS account**, plus a *shared* account with some 
-cross-environment resources, like to top level DNS Zone.
+cross-environment resources, like the top level DNS Zone.
 
 The Terraform code for the environments is split into two separate Terraform projects (components):
 
