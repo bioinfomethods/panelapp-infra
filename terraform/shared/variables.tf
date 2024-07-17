@@ -9,7 +9,12 @@ variable "account_id" {}
 variable "region" {}
 
 variable "create_public_dns_zone" {
-  default = true
+  default = false
+}
+
+variable "public_route53_zone" {
+  type = string
+  default = "setme"
 }
 
 variable "public_dns_zone_name" {}
@@ -18,17 +23,14 @@ variable "default_tags" {
   type = map(string)
 }
 
-variable "public_route53_zone_id" {
-  default = "Z0119482IVU9UTDYAM6Y"
-}
 
 variable "test_panelapp_ns_records" {
   type = list(string)
   default = [
-    "ns-1932.awsdns-49.co.uk",
-    "ns-1301.awsdns-34.org",
-    "ns-563.awsdns-06.net",
-    "ns-113.awsdns-14.com"
+    "ns-31.awsdns-03.com",
+    "ns-1784.awsdns-31.co.uk",
+    "ns-1361.awsdns-42.org",
+    "ns-947.awsdns-54.net"
   ]
 }
 

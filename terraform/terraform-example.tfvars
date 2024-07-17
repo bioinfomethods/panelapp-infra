@@ -14,8 +14,17 @@ account_id = "<account-id>"
 # Only used if you enable GitLab runners
 master_account = "<master-account-id>"
 
+# Should be the same as account_id
+trusted_account = "<account-id>"
+
 # AWS Region (e.g. "eu-west-2")
 region = "<region>"
+
+# Set to true if Route53 public hosted zone does not already exist
+create_public_dns_zone = false
+
+# Set this to the Route53 public hosted zone ID (regardless of whether it already exists or created by terraform)
+public_route53_zone = "setme"
 
 # DNS Zone of the AWS application (e.g. "panelapp.mydomain.com")
 public_dns_zone_name = "<public-dns-domain>"

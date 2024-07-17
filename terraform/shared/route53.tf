@@ -10,6 +10,7 @@ resource "aws_route53_zone" "public" {
 }
 
 resource "aws_route53_record" "test" {
+  count           = var.create_public_dns_zone ? 1 : 0
   allow_overwrite = true
   name            = "test"
   ttl             = 30
@@ -20,6 +21,7 @@ resource "aws_route53_record" "test" {
 }
 
 resource "aws_route53_record" "stage" {
+  count           = var.create_public_dns_zone ? 1 : 0
   allow_overwrite = true
   name            = "stage"
   ttl             = 30
@@ -30,6 +32,7 @@ resource "aws_route53_record" "stage" {
 }
 
 resource "aws_route53_record" "prod" {
+  count           = var.create_public_dns_zone ? 1 : 0
   allow_overwrite = true
   name            = "prod"
   ttl             = 30
@@ -42,13 +45,12 @@ resource "aws_route53_record" "prod" {
 ################
 #   Route 53
 ################
-
-
 data "aws_route53_zone" "route53_public" {
-  zone_id = var.public_route53_zone_id
+  zone_id = var.public_route53_zone
 }
 
 resource "aws_route53_record" "ns_test" {
+  count           = var.create_public_dns_zone ? 1 : 0
   allow_overwrite = true
   name            = "test"
   ttl             = 30
@@ -59,6 +61,7 @@ resource "aws_route53_record" "ns_test" {
 }
 
 resource "aws_route53_record" "ns_stage" {
+  count           = var.create_public_dns_zone ? 1 : 0
   allow_overwrite = true
   name            = "stage"
   ttl             = 30
@@ -69,6 +72,7 @@ resource "aws_route53_record" "ns_stage" {
 }
 
 resource "aws_route53_record" "ns_prod" {
+  count           = var.create_public_dns_zone ? 1 : 0
   allow_overwrite = true
   name            = "prod"
   ttl             = 30
