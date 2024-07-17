@@ -5,5 +5,5 @@ resource "aws_kms_key" "shared" {
 
 resource "aws_kms_alias" "shared" {
   name          = "alias/${var.stack}-${var.env_name}"
-  target_key_id = "${aws_kms_key.shared.key_id}"
+  target_key_id = aws_kms_key.shared.key_id
 }
