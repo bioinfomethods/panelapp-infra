@@ -4,27 +4,27 @@ variable "account_id" {}
 variable "region" {}
 
 variable "create_public_dns_zone" {
-  default = true
+  default = false
 }
 
 variable "public_dns_zone_name" {}
 
 variable "default_tags" {
-  type = "map"
+  type = map(string)
 }
 
 variable "enable_datadog" {
   default = false
+  type    = bool
 }
 
 variable "datadog_aws_integration_external_id" {
   default = ""
 }
 
-
-variable "trusted_accounts" {
-  type        = "list"
-  description = "List accounts allowed to acess RDS KMS key"
+variable "trusted_account" {
+  type        = string
+  description = "Account allowed to access RDS KMS key"
 }
 
 variable "share_rds_kms_key" {

@@ -60,6 +60,6 @@ variable "content_based_deduplication" {
 }
 
 variable "default_tags" {
-  type    = "map"
+  type = "map"
   default = {}
 }

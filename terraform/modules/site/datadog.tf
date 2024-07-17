@@ -1,29 +1,29 @@
 resource "aws_iam_role" "datadog_aws_integration" {
-  count              = "${var.enable_datadog}"
+  count              = var.enable_datadog ? 1 : 0
   name               = "${var.stack}-datadog-integration"
   description        = "Role for Datadog AWS Integration"
-  assume_role_policy = "${data.aws_iam_policy_document.datadog_aws_integration_assume_role.json}"
+  assume_role_policy = data.aws_iam_policy_document.datadog_aws_integration_assume_role[0].json
 }
 
 resource "aws_iam_policy" "datadog_aws_integration" {
-  count  = "${var.enable_datadog}"
+  count  = var.enable_datadog ? 1 : 0
   name   = "${var.stack}-datadog-integration"
-  policy = "${data.aws_iam_policy_document.datadog.json}"
+  policy = data.aws_iam_policy_document.datadog[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "datadog_aws_integration" {
-  count      = "${var.enable_datadog}"
-  role       = "${aws_iam_role.datadog_aws_integration.name}"
-  policy_arn = "${aws_iam_policy.datadog_aws_integration.arn}"
+  count      = var.enable_datadog ? 1 : 0
+  role       = aws_iam_role.datadog_aws_integration[0].name
+  policy_arn = aws_iam_policy.datadog_aws_integration[0].arn
 }
 
 data "aws_iam_policy_document" "datadog_aws_integration_assume_role" {
-  count = "${var.enable_datadog}"
+  count = var.enable_datadog ? 1 : 0
   statement {
     actions = ["sts:AssumeRole"]
 
     principals {
-      type        = "AWS"
+      type = "AWS"
       identifiers = ["arn:aws:iam::464622532012:root"]
     }
 
@@ -32,14 +32,14 @@ data "aws_iam_policy_document" "datadog_aws_integration_assume_role" {
       variable = "sts:ExternalId"
 
       values = [
-        "${var.datadog_aws_integration_external_id}",
+        var.datadog_aws_integration_external_id,
       ]
     }
   }
 }
 
 data "aws_iam_policy_document" "datadog" {
-  count = "${var.enable_datadog}"
+  count = var.enable_datadog ? 1 : 0
   statement {
     sid = "1"
 

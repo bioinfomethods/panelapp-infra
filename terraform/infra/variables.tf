@@ -15,6 +15,15 @@ variable "account_id" {
   description = "Account ID"
 }
 
+variable "create_public_dns_zone" {
+  default = false
+  type    = bool
+}
+
+variable "public_route53_zone" {
+  type = string
+}
+
 variable "public_dns_zone_name" {
   description = "Public DNS Zone name"
 }
@@ -25,7 +34,7 @@ variable "generate_ssl_certs" {
 }
 
 variable "default_tags" {
-  type = "map"
+  type = map(string)
 }
 
 variable "gitlab_runner_image_tag" {
@@ -43,12 +52,12 @@ variable "cidr" {
 
 variable "public_subnets" {
   description = "cidr list for public subnets"
-  type        = "list"
+  type = list(string)
 }
 
 variable "private_subnets" {
   description = "cidr list for private subnets"
-  type        = "list"
+  type = list(string)
 }
 
 variable "master_account" {
@@ -63,12 +72,38 @@ variable "datadog_aws_integration_external_id" {
   default = ""
 }
 
-
-variable "trusted_accounts" {
-  type        = "list"
-  description = "List accounts allowed to acess RDS KMS key"
+variable "trusted_account" {
+  description = "Account allowed to access RDS KMS key"
+  type        = string
 }
 
 variable "share_rds_kms_key" {
   default = false
 }
+
+################################
+# Set in terraform.tfvars      #
+################################
+# Note: Some of these are used in "infra" component and some are used in "panelapp" component
+# since terraform/terraform-example.tfvars is shared across both
+variable "terraform_state_s3_bucket" {}
+variable "sqs_name" {}
+variable "dns_record" {}
+variable "create_cloudfront" {}
+variable "cdn_alis" {}
+variable "cloudflare_record" {}
+variable "cloudflare_zone" {}
+variable "cloudflare_static_files_record" {}
+variable "cloudflare_media_files_record" {}
+variable "panelapp_replica" {}
+variable "task_cpu" {}
+variable "task_memory" {}
+variable "log_retention" {}
+variable "gunicorn_workers" {}
+variable "application_connection_timeout" {}
+variable "admin_url" {}
+variable "default_email" {}
+variable "panelapp_email" {}
+variable "aurora_replica" {}
+variable "db_instance_class" {}
+variable "EC2_mgmt_count" {}

@@ -6,15 +6,15 @@ variable "stack" {}
 variable "vpc_id" {}
 
 variable "ecs_subnets" {
-  type = "list"
+  type = list(string)
 }
 
 variable "default_tags" {
-  type = "map"
+  type = map(string)
 }
 
 variable "create_gitlab_runners" {
-  default = true
+  default = false
 }
 
 variable "create_runner_terraform" {

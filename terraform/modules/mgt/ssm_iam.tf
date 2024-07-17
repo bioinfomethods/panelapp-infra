@@ -1,6 +1,6 @@
 resource "aws_iam_instance_profile" "ssm_session_profile" {
   name = "ssm_session_profile"
-  role = "${aws_iam_role.ssm_session.name}"
+  role = aws_iam_role.ssm_session.name
 }
 
 resource "aws_iam_role" "ssm_session" {
@@ -25,13 +25,13 @@ POLICY
 
 ## policies
 resource "aws_iam_role_policy_attachment" "ssm_session_role" {
-  role = "${aws_iam_role.ssm_session.name}"
+  role       = aws_iam_role.ssm_session.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
 
 resource "aws_iam_role_policy_attachment" "ssm_session" {
-  role = "${aws_iam_role.ssm_session.name}"
-  policy_arn = "${aws_iam_policy.ssm_session.arn}"
+  role       = aws_iam_role.ssm_session.name
+  policy_arn = aws_iam_policy.ssm_session.arn
 }
 
 resource "aws_iam_policy" "ssm_session" {

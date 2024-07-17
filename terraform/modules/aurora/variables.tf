@@ -6,7 +6,7 @@ variable "stack" {
 variable "env_name" {}
 
 variable "default_tags" {
-  type    = "map"
+  type    = map(string)
   default = {}
 }
 
@@ -19,7 +19,7 @@ variable "rds_snapshot_type" {
 }
 
 variable "subnets" {
-  type = "list"
+  type = list(string)
 }
 
 variable "instance_class" {}
