@@ -51,3 +51,7 @@ variable "stage_panelapp_ns_records" {
     "ns-740.awsdns-28.net"
   ]
 }
+
+variable "terraform_state_s3_bucket" {}
+
+variable "master_account" {}

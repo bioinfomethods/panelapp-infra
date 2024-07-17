@@ -2,32 +2,9 @@
 
 resource "aws_s3_bucket" "terraform" {
   bucket = "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-terraform-state"
-#   acl    = "private"
-#
-#   versioning {
-#     enabled = true
-#   }
-#
-#   server_side_encryption_configuration {
-#     rule {
-#       apply_server_side_encryption_by_default {
-#         kms_master_key_id = "${aws_kms_key.shared.arn}"
-#         sse_algorithm     = "aws:kms"
-#       }
-#     }
-#   }
-#
-#   lifecycle_rule {
-#     prefix  = "*"
-#     enabled = true
-#
-#     noncurrent_version_expiration {
-#       days = 14
-#     }
-#   }
 
-  tags = "${merge(var.default_tags,
-          tomap({"Name": "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-terraform-state"}))}"
+  tags = merge(var.default_tags,
+          tomap({"Name": "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-terraform-state"}))
 }
 
 resource "aws_s3_bucket_ownership_controls" "terraform_ownership_controls" {
@@ -66,12 +43,12 @@ resource "aws_s3_bucket_lifecycle_configuration" "terraform_lifecycle" {
   }
 }
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "aws_s3_bucket_encryption" {
+resource "aws_s3_bucket_server_side_encryption_configuration" "aws_s3_bucket_terraform_encryption" {
   bucket = aws_s3_bucket.terraform.id
 
   rule {
     apply_server_side_encryption_by_default {
-      kms_master_key_id = "${aws_kms_key.shared.arn}"
+      kms_master_key_id = aws_kms_key.shared.arn
       sse_algorithm     = "aws:kms"
     }
   }
@@ -88,5 +65,5 @@ resource "aws_dynamodb_table" "terraform_state_lock" {
     type = "S"
   }
 
-  tags = "${merge(var.default_tags)}"
+  tags = merge(var.default_tags)
 }
