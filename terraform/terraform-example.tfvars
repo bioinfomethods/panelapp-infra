@@ -1,4 +1,4 @@
-## This file contains all installation-specific parameters to run both Terrafrom ./panelapp and ./infra components.
+## This file contains all installation-specific parameters to run both Terraform ./panelapp and ./infra components.
 ## Please note the configuration for the ./shared project is different
 ## Please amend it and use it when running terraform, specifying -var-file=<path-to-tfvars>
 ## (or, alternatively, rename it terraform.tfvars and copy it in both ./panelapp and ./infra so Terraform will pick it up automatically)
