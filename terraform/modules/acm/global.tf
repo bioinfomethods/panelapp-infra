@@ -32,6 +32,8 @@ resource "aws_route53_record" "global_cert_validation" {
   zone_id         = data.aws_route53_zone.acm_domain[0].zone_id
 }
 
+# When validating certificate, make sure the domain name NS records match the public hosted zone NS records in Route53.
+# Also see https://stackoverflow.com/questions/68177630/aws-acm-certificate-state-is-pending-validation-and-not-changing-to-issues
 resource "aws_acm_certificate_validation" "global_cert" {
   provider = aws.us_east_1
   count    = var.create_global_cert ? 1 : 0
