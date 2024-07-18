@@ -6,13 +6,17 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.58.0"
     }
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 4.37.0"
+    }
   }
 
-#   backend "s3" {}
+  #   backend "s3" {}
 }
 
 provider "aws" {
-  region  = var.region
+  region = var.region
 }
 
 provider "cloudflare" {}
