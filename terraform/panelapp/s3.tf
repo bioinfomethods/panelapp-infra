@@ -2,29 +2,43 @@ data "cloudflare_ip_ranges" "cloudflare" {}
 
 resource "aws_s3_bucket" "panelapp_statics" {
   bucket = "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-panelapp-statics"
-
-  acl = "public-read"
-
-  versioning {
-    enabled = false
-  }
-
   tags = merge(
     var.default_tags,
     tomap({"Name": "panelapp_static"})
   )
 }
 
+resource "aws_s3_bucket_ownership_controls" "panelapp_statics_ownership_controls" {
+  bucket = aws_s3_bucket.panelapp_statics.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_acl" "panelapp_statics_acl" {
+  depends_on = [aws_s3_bucket_ownership_controls.panelapp_statics_ownership_controls]
+
+  bucket = aws_s3_bucket.panelapp_statics.id
+  acl    = "public-read"
+}
+
+resource "aws_s3_bucket_versioning" "panelapp_statics_versioning" {
+  bucket = aws_s3_bucket.panelapp_statics.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket_policy" "panelapp_statics_cloudfront" {
   count  = var.create_cloudfront ? 1 : 0
   bucket = aws_s3_bucket.panelapp_statics.id
-  policy = data.aws_iam_policy_document.s3_static_policy_cloudfront.json
+  policy = data.aws_iam_policy_document.s3_static_policy_cloudfront[0].json
 }
 
 resource "aws_s3_bucket_policy" "panelapp_statics_cloudflare" {
   count  = !var.create_cloudfront ? 1 : 0
   bucket = aws_s3_bucket.panelapp_statics.id
-  policy = data.aws_iam_policy_document.s3_static_policy_cloudflare.json
+  policy = data.aws_iam_policy_document.s3_static_policy_cloudflare[0].json
 }
 
 data "aws_iam_policy_document" "s3_static_policy_cloudfront" {
@@ -36,7 +50,7 @@ data "aws_iam_policy_document" "s3_static_policy_cloudfront" {
 
     principals {
       type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.panelapp_s3.iam_arn]
+      identifiers = [aws_cloudfront_origin_access_identity.panelapp_s3[0].iam_arn]
     }
   }
 
@@ -46,7 +60,7 @@ data "aws_iam_policy_document" "s3_static_policy_cloudfront" {
 
     principals {
       type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.panelapp_s3.iam_arn]
+      identifiers = [aws_cloudfront_origin_access_identity.panelapp_s3[0].iam_arn]
     }
   }
 }
@@ -74,39 +88,58 @@ data "aws_iam_policy_document" "s3_static_policy_cloudflare" {
 resource "aws_s3_bucket" "panelapp_media" {
   bucket = "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-panelapp-media"
 
-  policy = ""
-
-  acl = "public-read"
-
-  versioning {
-    enabled = true
-  }
-
-  lifecycle_rule {
-    prefix  = "*"
-    enabled = true
-
-    noncurrent_version_expiration {
-      days = 180
-    }
-  }
-
   tags = merge(
     var.default_tags,
     tomap({"Name": "panelapp_media"})
   )
 }
 
+resource "aws_s3_bucket_ownership_controls" "panelapp_media_ownership_controls" {
+  bucket = aws_s3_bucket.panelapp_media.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_acl" "panelapp_media_acl" {
+  depends_on = [aws_s3_bucket_ownership_controls.panelapp_media_ownership_controls]
+
+  bucket = aws_s3_bucket.panelapp_media.id
+  acl    = "public-read"
+}
+
+resource "aws_s3_bucket_versioning" "panelapp_media_versioning" {
+  bucket = aws_s3_bucket.panelapp_media.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "panelapp_media_lifecycle" {
+  bucket = aws_s3_bucket.panelapp_media.id
+
+  rule {
+    id = "rule-everything"
+    filter {
+      prefix = "*"
+    }
+    noncurrent_version_expiration {
+      noncurrent_days = 180
+    }
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket_policy" "panelapp_media_cloudfront" {
   count  = var.create_cloudfront ? 1 : 0
   bucket = aws_s3_bucket.panelapp_media.id
-  policy = data.aws_iam_policy_document.s3_media_policy_cloudfront.json
+  policy = data.aws_iam_policy_document.s3_media_policy_cloudfront[0].json
 }
 
 resource "aws_s3_bucket_policy" "panelapp_media_cloudflare" {
   count  = !var.create_cloudfront ? 1 : 0
   bucket = aws_s3_bucket.panelapp_media.id
-  policy = data.aws_iam_policy_document.s3_media_policy_cloudflare.json
+  policy = data.aws_iam_policy_document.s3_media_policy_cloudflare[0].json
 }
 
 data "aws_iam_policy_document" "s3_media_policy_cloudfront" {
@@ -118,7 +151,7 @@ data "aws_iam_policy_document" "s3_media_policy_cloudfront" {
 
     principals {
       type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.panelapp_s3.iam_arn]
+      identifiers = [aws_cloudfront_origin_access_identity.panelapp_s3[0].iam_arn]
     }
   }
 
@@ -128,7 +161,7 @@ data "aws_iam_policy_document" "s3_media_policy_cloudfront" {
 
     principals {
       type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.panelapp_s3.iam_arn]
+      identifiers = [aws_cloudfront_origin_access_identity.panelapp_s3[0].iam_arn]
     }
   }
 }
@@ -156,14 +189,15 @@ data "aws_iam_policy_document" "s3_media_policy_cloudflare" {
 resource "aws_s3_bucket" "panelapp_scripts" {
   bucket = "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-panelap-scripts"
 
-  policy = ""
-
-  versioning {
-    enabled = true
-  }
-
   tags = merge(
     var.default_tags,
     tomap({"Name": "panelapp_scripts"})
   )
+}
+
+resource "aws_s3_bucket_versioning" "panelapp_scripts_versioning" {
+  bucket = aws_s3_bucket.panelapp_scripts.id
+  versioning_configuration {
+    status = "Enabled"
+  }
 }

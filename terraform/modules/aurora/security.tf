@@ -41,6 +41,6 @@ resource "aws_iam_role" "rds_enhanced_monitoring" {
 
 resource "aws_iam_role_policy_attachment" "rds_enhanced_monitoring_policy_attach" {
   count      = "${var.mon_interval > 0 ? 1 : 0}"
-  role       = "${aws_iam_role.rds_enhanced_monitoring.name}"
+  role       = "${aws_iam_role.rds_enhanced_monitoring[0].name}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
 }

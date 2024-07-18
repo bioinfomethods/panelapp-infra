@@ -67,13 +67,13 @@ resource "aws_cognito_user_pool" "pool" {
 
 resource "aws_cognito_identity_provider" "google" {
   count         = var.use_cognito ? 1 : 0
-  user_pool_id  = aws_cognito_user_pool.pool.id
+  user_pool_id  = aws_cognito_user_pool.pool[0].id
   provider_name = "Google"
   provider_type = "Google"
 
   provider_details   = {
-    client_id        = data.aws_ssm_parameter.google_oauth_client_id.value
-    client_secret    = data.aws_ssm_parameter.google_oauth_client_secret.value
+    client_id        = data.aws_ssm_parameter.google_oauth_client_id[0].value
+    client_secret    = data.aws_ssm_parameter.google_oauth_client_secret[0].value
     authorize_scopes = "openid profile email"
   }
 
@@ -89,13 +89,13 @@ resource "aws_cognito_identity_provider" "google" {
 resource "aws_cognito_user_pool_client" "client" {
   count                  = var.use_cognito ? 1 : 0
   name                   = "${var.stack}-${var.env_name}"
-  user_pool_id           = aws_cognito_user_pool.pool.id
+  user_pool_id           = aws_cognito_user_pool.pool[0].id
 
   generate_secret        = true
   refresh_token_validity = 30
 
   // App client settings
-  supported_identity_providers = ["COGNITO", aws_cognito_identity_provider.google.provider_name]
+  supported_identity_providers = ["COGNITO", aws_cognito_identity_provider.google[0].provider_name]
 
   callback_urls = [
     "https://${var.cdn_alis}/oauth2/idpresponse",
@@ -114,7 +114,7 @@ resource "aws_cognito_user_pool_client" "client" {
 resource "aws_cognito_user_pool_domain" "domain" {
   count        = var.use_cognito ? 1 : 0
   domain       = "${var.stack}-${var.env_name}"
-  user_pool_id = aws_cognito_user_pool.pool.id
+  user_pool_id = aws_cognito_user_pool.pool[0].id
 }
 
 resource "aws_lb_listener_rule" "accounts" {

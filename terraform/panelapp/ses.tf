@@ -3,7 +3,7 @@ resource "aws_iam_user" "panelapp_ses" {
 
   tags = merge(
     var.default_tags,
-    map("Name", "ses-user")
+    tomap({"Name": "ses-user"})
   )
 }
 
