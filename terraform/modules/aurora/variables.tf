@@ -119,8 +119,7 @@ variable "backtrack_window" {
 
 variable "rds_db_kms_key" {}
 
-variable "rds_backup_retention_period"
-{
+variable "rds_backup_retention_period" {
   description = "Number of days to keep the rds DB snapshot backups"
 }
 

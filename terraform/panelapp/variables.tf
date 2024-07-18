@@ -22,7 +22,7 @@ variable "public_dns_zone_name" {
 }
 
 variable "default_tags" {
-  type = "map"
+  type = map(string)
 }
 
 variable "cluster_size" {
@@ -224,7 +224,7 @@ variable "block_public_access" {
 }
 
 variable "whitelisted_ips" {
-  type    = "list"
+  type    = list(string)
   default = ["81.134.251.212", "83.151.220.174"]
 }
 
@@ -259,4 +259,34 @@ variable "cognito_password_length" {
 variable "cognito_password_symbols_required" {
   description = "Cognito password special character required"
   default = false
+}
+
+variable "master_account" {
+  default = ""
+}
+
+variable "cidr" {
+  type = string
+}
+
+variable "public_subnets" {
+  type = list(string)
+}
+
+variable "private_subnets" {
+  type = list(string)
+}
+
+variable "create_runner_terraform" {
+  type = bool
+  default = false
+}
+
+variable "enable_datadog" {
+  type = bool
+  default = false
+}
+
+variable "datadog_aws_integration_external_id" {
+  type = string
 }

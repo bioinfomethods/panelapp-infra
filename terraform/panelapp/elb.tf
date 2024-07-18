@@ -3,17 +3,17 @@ resource "aws_lb" "panelapp" {
   internal           = false
   load_balancer_type = "application"
 
-  security_groups = ["${aws_security_group.panelapp_elb.id}"]
-  subnets         = ["${data.terraform_remote_state.infra.public_subnets}"]
+  security_groups = [aws_security_group.panelapp_elb.id]
+  subnets         = [data.terraform_remote_state.infra.public_subnets]
 
   # subnet_mapping {
   #   subnets = "${data.terraform_remote_state.infra.private_subnets}"
   # }
 
-  tags = "${merge(
+  tags = merge(
     var.default_tags,
     map("Name", "panelapp_elb")
-  )}"
+  )
 }
 
 data "aws_ip_ranges" "cloudfront_global" {
@@ -22,16 +22,16 @@ data "aws_ip_ranges" "cloudfront_global" {
 }
 
 resource "aws_security_group_rule" "panelapp_egress_cloudfront" {
-  count     = "${var.create_cloudfront ? 1 : 0}"
+  count     = var.create_cloudfront ? 1 : 0
   type      = "egress"
   from_port = 0
   to_port   = 65535
   protocol  = "tcp"
 
-  cidr_blocks = ["${data.aws_ip_ranges.cloudfront_global.cidr_blocks}"]
+  cidr_blocks = [data.aws_ip_ranges.cloudfront_global.cidr_blocks]
 
   # cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = "${aws_security_group.panelapp_elb.id}"
+  security_group_id = aws_security_group.panelapp_elb.id
   description       = "egress for panelapp"
 }
 
@@ -43,12 +43,12 @@ resource "aws_security_group_rule" "self_egress" {
   protocol  = "tcp"
   self      = true
 
-  security_group_id = "${aws_security_group.panelapp_elb.id}"
+  security_group_id = aws_security_group.panelapp_elb.id
   description       = "egress for panelapp"
 }
 
 resource "aws_security_group_rule" "panelapp_ingress_cloudfront" {
-  count     = "${var.create_cloudfront ? 1 : 0}"
+  count     = var.create_cloudfront ? 1 : 0
   type      = "ingress"
   from_port = 0
   to_port   = 65535
@@ -56,20 +56,20 @@ resource "aws_security_group_rule" "panelapp_ingress_cloudfront" {
 
   # cidr_blocks = ["0.0.0.0/0"]
 
-  cidr_blocks       = ["${data.aws_ip_ranges.cloudfront_global.cidr_blocks}"]
-  security_group_id = "${aws_security_group.panelapp_elb.id}"
+  cidr_blocks       = [data.aws_ip_ranges.cloudfront_global.cidr_blocks]
+  security_group_id = aws_security_group.panelapp_elb.id
   description       = "ingress for panelapp"
 }
 
 resource "aws_security_group_rule" "panelapp_ingress_cloudflare" {
-  count     = "${!var.create_cloudfront ? 1 : 0}"
+  count     = !var.create_cloudfront ? 1 : 0
   type      = "ingress"
   from_port = 443
   to_port   = 443
   protocol  = "tcp"
 
-  cidr_blocks = ["${data.cloudflare_ip_ranges.cloudflare.ipv4_cidr_blocks}"]
-  security_group_id = "${aws_security_group.panelapp_elb.id}"
+  cidr_blocks = [data.cloudflare_ip_ranges.cloudflare.ipv4_cidr_blocks]
+  security_group_id = aws_security_group.panelapp_elb.id
   description       = "ingress for Panelapp from Cloudflare"
 }
 

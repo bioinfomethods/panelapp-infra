@@ -1,16 +1,16 @@
 resource "aws_security_group" "fargate" {
   name        = "panelapp-fargate-${var.stack}-${var.env_name}"
   description = "group for panelapp fargate"
-  vpc_id      = "${data.terraform_remote_state.infra.vpc_id}"
+  vpc_id      = data.terraform_remote_state.infra.vpc_id
 
-  tags = "${merge(
+  tags = merge(
     var.default_tags,
     map("Name", "panelapp_cluster")
-  )}"
+  )
 }
 
 data "aws_ip_ranges" "amazon_region" {
-  regions  = ["${var.region}"]
+  regions  = [var.region]
   services = ["amazon"]
 }
 
@@ -19,8 +19,8 @@ resource "aws_security_group_rule" "fargate_egress" {
   from_port         = "443"
   to_port           = "443"
   protocol          = "tcp"
-  cidr_blocks       = ["${data.aws_ip_ranges.amazon_region.cidr_blocks}"]
-  security_group_id = "${aws_security_group.fargate.id}"
+  cidr_blocks       = [data.aws_ip_ranges.amazon_region.cidr_blocks]
+  security_group_id = aws_security_group.fargate.id
   description       = "Allow calls to aws for the region"
 }
 
@@ -30,7 +30,7 @@ resource "aws_security_group_rule" "fargate_smtp_egress" {
   to_port           = 587
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = "${aws_security_group.fargate.id}"
+  security_group_id = aws_security_group.fargate.id
   description       = "Allow calls to smtp server"
 }
 
@@ -40,7 +40,7 @@ resource "aws_security_group_rule" "fargate_https_egress" {
   to_port           = 443
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = "${aws_security_group.fargate.id}"
+  security_group_id = aws_security_group.fargate.id
   description       = "Allow calls to https server"
 }
 
@@ -49,8 +49,8 @@ resource "aws_security_group_rule" "fargate_ingress_8080_alb" {
   from_port                = "8080"
   to_port                  = "8080"
   protocol                 = "tcp"
-  source_security_group_id = "${aws_security_group.panelapp_elb.id}"
-  security_group_id        = "${aws_security_group.fargate.id}"
+  source_security_group_id = aws_security_group.panelapp_elb.id
+  security_group_id        = aws_security_group.fargate.id
   description              = "Allow 8080 from elb"
 }
 
@@ -77,7 +77,7 @@ EOF
 
 resource "aws_iam_role_policy" "panelapp" {
   name = "panelapp-${var.stack}-${var.env_name}"
-  role = "${aws_iam_role.ecs_task_panelapp.id}"
+  role = aws_iam_role.ecs_task_panelapp.id
 
   policy = <<POLICY
 {
@@ -151,6 +151,6 @@ POLICY
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_policy_panelapp" {
-  role       = "${aws_iam_role.ecs_task_panelapp.name}"
+  role       = aws_iam_role.ecs_task_panelapp.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }

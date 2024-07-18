@@ -3,15 +3,15 @@
 # }
 
 output "db_host" {
-  value = "${module.aurora.writer_endpoint}"
+  value = module.aurora.writer_endpoint
 }
 
 output "db_port" {
-  value = "${module.aurora.port}"
+  value = module.aurora.port
 }
 
 output "db_name" {
-  value = "${module.aurora.database_name}"
+  value = module.aurora.database_name
 }
 
 # output "reader_endpoint" {

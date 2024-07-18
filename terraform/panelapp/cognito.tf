@@ -1,15 +1,15 @@
 data "aws_ssm_parameter" "google_oauth_client_id" {
-  count = "${var.use_cognito ? 1 : 0}"
+  count = var.use_cognito ? 1 : 0
   name  = "/${var.stack}/${var.env_name}/cognito/google/oauth_client_id"
 }
 
 data "aws_ssm_parameter" "google_oauth_client_secret" {
-  count = "${var.use_cognito ? 1 : 0}"
+  count = var.use_cognito ? 1 : 0
   name  = "/${var.stack}/${var.env_name}/cognito/google/oauth_client_secret"
 }
 
 resource "aws_cognito_user_pool" "pool" {
-  count                    = "${var.use_cognito ? 1 : 0}"
+  count                    = var.use_cognito ? 1 : 0
   name                     = "${var.stack}-${var.env_name}"
   username_attributes      = ["email"]
   auto_verified_attributes = ["email"]
@@ -51,30 +51,30 @@ resource "aws_cognito_user_pool" "pool" {
   }
 
   admin_create_user_config {
-    allow_admin_create_user_only = "${var.cognito_allow_admin_create_user_only}"
+    allow_admin_create_user_only = var.cognito_allow_admin_create_user_only
     unused_account_validity_days = 7
   }
 
   password_policy {
-    minimum_length    = "${var.cognito_password_length}"
+    minimum_length    = var.cognito_password_length
     require_lowercase = true
     require_numbers   = true
-    require_symbols   = "${var.cognito_password_symbols_required}"
+    require_symbols   = var.cognito_password_symbols_required
     require_uppercase = true
   }
 
-  tags = "${merge(var.default_tags, map("Name", "${var.stack}-${var.env_name}"))}"
+  tags = merge(var.default_tags, map("Name", "${var.stack}-${var.env_name}"))
 }
 
 resource "aws_cognito_identity_provider" "google" {
-  count         = "${var.use_cognito ? 1 : 0}"
-  user_pool_id  = "${aws_cognito_user_pool.pool.id}"
+  count         = var.use_cognito ? 1 : 0
+  user_pool_id  = aws_cognito_user_pool.pool.id
   provider_name = "Google"
   provider_type = "Google"
 
   provider_details   = {
-    client_id        = "${data.aws_ssm_parameter.google_oauth_client_id.value}"
-    client_secret    = "${data.aws_ssm_parameter.google_oauth_client_secret.value}"
+    client_id        = data.aws_ssm_parameter.google_oauth_client_id.value
+    client_secret    = data.aws_ssm_parameter.google_oauth_client_secret.value
     authorize_scopes = "openid profile email"
   }
 
@@ -88,15 +88,15 @@ resource "aws_cognito_identity_provider" "google" {
 }
 
 resource "aws_cognito_user_pool_client" "client" {
-  count                  = "${var.use_cognito ? 1 : 0}"
+  count                  = var.use_cognito ? 1 : 0
   name                   = "${var.stack}-${var.env_name}"
-  user_pool_id           = "${aws_cognito_user_pool.pool.id}"
+  user_pool_id           = aws_cognito_user_pool.pool.id
 
   generate_secret        = true
   refresh_token_validity = 30
 
   // App client settings
-  supported_identity_providers = ["COGNITO", "${aws_cognito_identity_provider.google.provider_name}"]
+  supported_identity_providers = ["COGNITO", aws_cognito_identity_provider.google.provider_name]
 
   callback_urls = [
     "https://${var.cdn_alis}/oauth2/idpresponse",
@@ -113,41 +113,41 @@ resource "aws_cognito_user_pool_client" "client" {
 }
 
 resource "aws_cognito_user_pool_domain" "domain" {
-  count        = "${var.use_cognito ? 1 : 0}"
+  count        = var.use_cognito ? 1 : 0
   domain       = "${var.stack}-${var.env_name}"
-  user_pool_id = "${aws_cognito_user_pool.pool.id}"
+  user_pool_id = aws_cognito_user_pool.pool.id
 }
 
 resource "aws_lb_listener_rule" "accounts" {
-  count        = "${var.use_cognito ? 1 : 0}"
+  count        = var.use_cognito ? 1 : 0
   priority     = 100
-  listener_arn = "${aws_lb_listener.panelapp_app_web.arn}"
+  listener_arn = aws_lb_listener.panelapp_app_web.arn
 
   action {
     type = "authenticate-cognito"
 
     authenticate_cognito {
       scope                      = "openid profile email"
-      user_pool_arn              = "${aws_cognito_user_pool.pool.arn}"
-      user_pool_domain           = "${aws_cognito_user_pool_domain.domain.domain}"
-      user_pool_client_id        = "${aws_cognito_user_pool_client.client.id}"
+      user_pool_arn              = aws_cognito_user_pool.pool.arn
+      user_pool_domain           = aws_cognito_user_pool_domain.domain.domain
+      user_pool_client_id        = aws_cognito_user_pool_client.client.id
       on_unauthenticated_request = "authenticate"
     }
   }
 
   action {
     type             = "forward"
-    target_group_arn = "${aws_lb_target_group.panelapp_app_web.arn}"
+    target_group_arn = aws_lb_target_group.panelapp_app_web.arn
   }
 
   condition {
     field  = "path-pattern"
-    values = ["${var.cognito_alb_app_login_path}"]
+    values = [var.cognito_alb_app_login_path]
   }
 }
 
 resource "aws_security_group_rule" "egress_cognito" {
-  count     = "${var.use_cognito ? 1 : 0}"
+  count     = var.use_cognito ? 1 : 0
   type      = "egress"
   from_port = 0
   to_port   = 0
@@ -155,5 +155,5 @@ resource "aws_security_group_rule" "egress_cognito" {
 
   cidr_blocks       = ["0.0.0.0/0"]
   description       = "egress for panelapp cognito"
-  security_group_id = "${aws_security_group.panelapp_elb.id}"
+  security_group_id = aws_security_group.panelapp_elb.id
 }

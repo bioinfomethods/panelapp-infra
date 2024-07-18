@@ -1,34 +1,34 @@
 resource "aws_cloudfront_origin_access_identity" "panelapp_s3" {
-  count   = "${var.create_cloudfront ? 1 : 0}"
+  count   = var.create_cloudfront ? 1 : 0
   comment = "access identity to access s3"
 }
 
 resource "aws_cloudfront_distribution" "panelapp_distribution" {
-  count   = "${var.create_cloudfront ? 1 : 0}"
-  aliases = ["${var.cdn_alis}"]
+  count   = var.create_cloudfront ? 1 : 0
+  aliases = [var.cdn_alis]
 
   origin {
-    domain_name = "${aws_s3_bucket.panelapp_statics.bucket_regional_domain_name}"
+    domain_name = aws_s3_bucket.panelapp_statics.bucket_regional_domain_name
     origin_path = ""
     origin_id   = "S3-panelapp-statics"
 
     s3_origin_config {
-      origin_access_identity = "${aws_cloudfront_origin_access_identity.panelapp_s3.cloudfront_access_identity_path}"
+      origin_access_identity = aws_cloudfront_origin_access_identity.panelapp_s3.cloudfront_access_identity_path
     }
   }
 
   origin {
-    domain_name = "${aws_s3_bucket.panelapp_media.bucket_regional_domain_name}"
+    domain_name = aws_s3_bucket.panelapp_media.bucket_regional_domain_name
     origin_path = ""
     origin_id   = "S3-panelapp_media"
 
     s3_origin_config {
-      origin_access_identity = "${aws_cloudfront_origin_access_identity.panelapp_s3.cloudfront_access_identity_path}"
+      origin_access_identity = aws_cloudfront_origin_access_identity.panelapp_s3.cloudfront_access_identity_path
     }
   }
 
   origin {
-    domain_name = "${aws_lb.panelapp.dns_name}"
+    domain_name = aws_lb.panelapp.dns_name
     origin_path = ""
     origin_id   = "panelapp-elb"
 
@@ -113,13 +113,13 @@ resource "aws_cloudfront_distribution" "panelapp_distribution" {
   viewer_certificate {
     cloudfront_default_certificate = false
 
-    acm_certificate_arn = "${data.terraform_remote_state.infra.global_cert}"
+    acm_certificate_arn = data.terraform_remote_state.infra.global_cert
 
     ssl_support_method = "sni-only"
   }
 
-  tags = "${merge(
+  tags = merge(
     var.default_tags,
     map("Name", "panelapp_cdn")
-  )}"
+  )
 }
