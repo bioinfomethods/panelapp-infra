@@ -15,8 +15,20 @@ resource "aws_s3_bucket_ownership_controls" "panelapp_statics_ownership_controls
   }
 }
 
+resource "aws_s3_bucket_public_access_block" "panelapp_statics_block_config" {
+  bucket = aws_s3_bucket.panelapp_statics.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
 resource "aws_s3_bucket_acl" "panelapp_statics_acl" {
-  depends_on = [aws_s3_bucket_ownership_controls.panelapp_statics_ownership_controls]
+  depends_on = [
+    aws_s3_bucket_ownership_controls.panelapp_statics_ownership_controls,
+    aws_s3_bucket_public_access_block.panelapp_statics_block_config
+  ]
 
   bucket = aws_s3_bucket.panelapp_statics.id
   acl    = "public-read"
@@ -101,8 +113,20 @@ resource "aws_s3_bucket_ownership_controls" "panelapp_media_ownership_controls" 
   }
 }
 
+resource "aws_s3_bucket_public_access_block" "panelapp_media_block_config" {
+  bucket = aws_s3_bucket.panelapp_media.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
 resource "aws_s3_bucket_acl" "panelapp_media_acl" {
-  depends_on = [aws_s3_bucket_ownership_controls.panelapp_media_ownership_controls]
+  depends_on = [
+    aws_s3_bucket_ownership_controls.panelapp_media_ownership_controls,
+    aws_s3_bucket_public_access_block.panelapp_media_block_config
+  ]
 
   bucket = aws_s3_bucket.panelapp_media.id
   acl    = "public-read"

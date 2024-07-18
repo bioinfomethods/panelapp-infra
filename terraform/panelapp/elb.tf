@@ -16,9 +16,13 @@ resource "aws_lb" "panelapp" {
   )
 }
 
-data "aws_ip_ranges" "cloudfront_global" {
-  regions  = ["global"]
-  services = ["cloudfront"]
+# data "aws_ip_ranges" "cloudfront_global" {
+#   regions  = ["global"]
+#   services = ["cloudfront"]
+# }
+
+data "aws_ec2_managed_prefix_list" "cloudfront_global" {
+  name = "com.amazonaws.global.cloudfront.origin-facing"
 }
 
 resource "aws_security_group_rule" "panelapp_egress_cloudfront" {
@@ -28,7 +32,7 @@ resource "aws_security_group_rule" "panelapp_egress_cloudfront" {
   to_port   = 65535
   protocol  = "tcp"
 
-  cidr_blocks = data.aws_ip_ranges.cloudfront_global.cidr_blocks
+  prefix_list_ids = [data.aws_ec2_managed_prefix_list.cloudfront_global.id]
 
   # cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.panelapp_elb.id
@@ -56,7 +60,7 @@ resource "aws_security_group_rule" "panelapp_ingress_cloudfront" {
 
   # cidr_blocks = ["0.0.0.0/0"]
 
-  cidr_blocks = data.aws_ip_ranges.cloudfront_global.cidr_blocks
+  prefix_list_ids = [data.aws_ec2_managed_prefix_list.cloudfront_global.id]
   security_group_id = aws_security_group.panelapp_elb.id
   description       = "ingress for panelapp"
 }
@@ -116,7 +120,7 @@ resource "aws_lb_listener" "panelapp_app_web" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = data.terraform_remote_state.infra.outputs.global_cert
+  certificate_arn   = data.terraform_remote_state.infra.outputs.regional_cert
 
   default_action {
     type             = "forward"

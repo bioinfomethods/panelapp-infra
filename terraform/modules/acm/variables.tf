@@ -18,5 +18,5 @@ variable "create_global_cert" {
 }
 
 variable "create_regional_cert" {
-  default = false
+  default = true
 }

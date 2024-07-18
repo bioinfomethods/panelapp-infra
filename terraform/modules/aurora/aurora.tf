@@ -40,7 +40,9 @@ resource "aws_rds_cluster_instance" "aurora_cluster_instance" {
   monitoring_role_arn     = join("", aws_iam_role.rds_enhanced_monitoring.*.arn)
   publicly_accessible     = false
   promotion_tier          = "0"
-  db_parameter_group_name = aws_db_parameter_group.custom_instnace_parameters.id
+  db_parameter_group_name = aws_db_parameter_group.custom_instance_parameters.id
+
+  apply_immediately = true
 
   tags = merge(
     var.default_tags,

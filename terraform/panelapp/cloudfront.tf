@@ -5,7 +5,7 @@ resource "aws_cloudfront_origin_access_identity" "panelapp_s3" {
 
 resource "aws_cloudfront_distribution" "panelapp_distribution" {
   count   = var.create_cloudfront ? 1 : 0
-  aliases = [var.cdn_alis]
+#   aliases = [var.cdn_alis]
 
   origin {
     domain_name = aws_s3_bucket.panelapp_statics.bucket_regional_domain_name

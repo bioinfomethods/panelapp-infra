@@ -31,6 +31,7 @@ variable "cluster_size" {
 
 variable "sqs_queue_with_kms" {
   description = "Whether to create SQS queue with KMS encryption"
+  type = bool
   default     = false
 }
 
@@ -39,7 +40,8 @@ variable "create_aurora" {
 }
 
 variable "create_sqs" {
-  default = "true"
+  default = true
+  type = bool
 }
 
 variable "sqs_name" {
@@ -234,11 +236,11 @@ variable "whitelisted_ips" {
 }
 
 variable "engine_version" {
-  default = "9.6.9"
+  default = "13"
 }
 
 variable "db_family_parameters" {
-  default = "aurora-postgresql9.6"
+  default = "aurora-postgresql13"
 }
 
 variable "use_cognito" {

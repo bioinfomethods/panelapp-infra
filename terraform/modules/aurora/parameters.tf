@@ -1,6 +1,6 @@
 resource "aws_rds_cluster_parameter_group" "custom_cluster_parameters" {
   name        = "custom-cluster-${var.env_name}"
-  family      = "${var.family_parameters}"
+  family      = var.family_parameters
   description = "RDS cluster custom parameters"
 
   # parameter {
@@ -10,9 +10,13 @@ resource "aws_rds_cluster_parameter_group" "custom_cluster_parameters" {
   # }
 }
 
-resource "aws_db_parameter_group" "custom_instnace_parameters" {
+resource "aws_db_parameter_group" "custom_instance_parameters" {
   name   = "custom-instance-${var.env_name}"
-  family = "${var.family_parameters}"
+  family = var.family_parameters
+
+  lifecycle {
+    create_before_destroy = true
+  }
 
   tags = merge(
     var.default_tags,

@@ -19,26 +19,25 @@ resource "aws_acm_certificate" "regional_cert" {
 //  at the same time. This might cause problems if you generate the two certificates with two different Terraform runs.
 //  Also, this way we are not checking whether the Regional Cert Validation has actually passed.
 
-# resource "aws_route53_record" "regional_cert_validation" {
-#   for_each = {
-#     for dvo in aws_acm_certificate.regional_cert[0].domain_validation_options : dvo.domain_name => {
-#       name   = dvo.resource_record_name
-#       record = dvo.resource_record_value
-#       type   = dvo.resource_record_type
-#     } if var.create_regional_cert && !var.create_global_cert
-#   }
-#   allow_overwrite = true
-#   name            = each.value.name
-#   records         = [each.value.record]
-#   ttl             = 60
-#   type            = each.value.type
-#   zone_id         = data.aws_route53_zone.acm_domain[0].zone_id
-# }
-#
-# resource "aws_acm_certificate_validation" "regional_cert" {
-#   provider = aws.us_east_1
-#   count    = var.create_regional_cert ? 1 : 0
-#
-#   certificate_arn = aws_acm_certificate.regional_cert[0].arn
-#   validation_record_fqdns = [for record in aws_route53_record.regional_cert_validation : record.fqdn]
-# }
+resource "aws_route53_record" "regional_cert_validation" {
+  for_each = {
+    for dvo in aws_acm_certificate.regional_cert[0].domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
+  }
+  allow_overwrite = true
+  name            = each.value.name
+  records         = [each.value.record]
+  ttl             = 60
+  type            = each.value.type
+  zone_id         = data.aws_route53_zone.acm_domain[0].zone_id
+}
+
+resource "aws_acm_certificate_validation" "regional_cert" {
+  count    = var.create_regional_cert ? 1 : 0
+
+  certificate_arn = aws_acm_certificate.regional_cert[0].arn
+  validation_record_fqdns = [for record in aws_route53_record.regional_cert_validation : record.fqdn]
+}

@@ -1,7 +1,7 @@
 module "acm" {
   source = "../modules/acm"
 
-  create_regional_cert = false
+  create_regional_cert = true
   create_global_cert   = var.generate_ssl_certs
 
   stack                = var.stack

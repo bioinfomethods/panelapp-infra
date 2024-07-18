@@ -9,9 +9,13 @@ resource "aws_security_group" "fargate" {
   )
 }
 
-data "aws_ip_ranges" "amazon_region" {
-  regions  = [var.region]
-  services = ["amazon"]
+# data "aws_ip_ranges" "amazon_region" {
+#   regions  = [var.region]
+#   services = ["amazon"]
+# }
+
+data "aws_ec2_managed_prefix_list" "amazon_region" {
+  name = "com.amazonaws.${var.region}.s3"
 }
 
 resource "aws_security_group_rule" "fargate_egress" {
@@ -19,7 +23,7 @@ resource "aws_security_group_rule" "fargate_egress" {
   from_port         = "443"
   to_port           = "443"
   protocol          = "tcp"
-  cidr_blocks       = data.aws_ip_ranges.amazon_region.cidr_blocks
+  prefix_list_ids = [data.aws_ec2_managed_prefix_list.amazon_region.id]
   security_group_id = aws_security_group.fargate.id
   description       = "Allow calls to aws for the region"
 }
@@ -71,7 +75,6 @@ resource "aws_iam_role" "ecs_task_panelapp" {
     }
   ]
 }
-  
 EOF
 }
 
@@ -114,7 +117,7 @@ resource "aws_iam_role_policy" "panelapp" {
         "sqs:CreateQueue",
         "sqs:ChangeMessageVisibilityBatch"
       ],
-      "Resource": "aws_sqs_queue.panelapp[0].arn"
+      "Resource": "${aws_sqs_queue.panelapp[0].arn}"
     },
     {
       "Effect": "Allow",

@@ -1,5 +1,5 @@
 resource "aws_sqs_queue" "panelapp" {
-  count = var.create_sqs && var.sqs_queue_with_kms == 0 ? 1 : 0
+  count = (var.create_sqs && !var.sqs_queue_with_kms) ? 1 : 0
 
   name = "panelapp"
 
