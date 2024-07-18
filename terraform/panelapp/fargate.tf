@@ -48,18 +48,7 @@ resource "aws_ecs_task_definition" "panelapp_web" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.task_cpu
   memory                   = var.task_memory
-  container_definitions    = data.template_file.panelapp_web.rendered
-
-  # tags = "${merge(
-  #   var.default_tags,
-  #   map("Name", "panelapp_web")
-  # )}"
-}
-
-data "template_file" "panelapp_web" {
-  template = file("templates/panelapp-web.tpl")
-
-  vars = {
+  container_definitions    = templatefile("templates/panelapp-web.tpl", {
     image_name = "${var.panelapp_image_repo}/panelapp-web"
     image_tag  = var.image_tag
 
@@ -90,7 +79,12 @@ data "template_file" "panelapp_web" {
     aws_use_cognito                 = var.use_cognito ? "true" : "false"
     aws_cognito_domain_prefix       = coalesce(join("", aws_cognito_user_pool_domain.domain.*.domain),"")
     aws_cognito_user_pool_client_id = coalesce(join("", aws_cognito_user_pool_client.client.*.id),"")
-  }
+  })
+
+  # tags = "${merge(
+  #   var.default_tags,
+  #   map("Name", "panelapp_web")
+  # )}"
 }
 
 resource "aws_cloudwatch_log_group" "panelapp_web" {
@@ -131,18 +125,7 @@ resource "aws_ecs_task_definition" "panelapp_worker" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.worker_task_cpu
   memory                   = var.worker_task_memory
-  container_definitions    = data.template_file.panelapp_worker.rendered
-
-  # tags = "${merge(
-  #   var.default_tags,
-  #   map("Name", "panelapp_worker")
-  # )}"
-}
-
-data "template_file" "panelapp_worker" {
-  template = file("templates/panelapp-worker.tpl")
-
-  vars = {
+  container_definitions    = templatefile("templates/panelapp-worker.tpl", {
     image_name = "${var.panelapp_image_repo}/panelapp-worker"
     image_tag  = var.image_tag
 
@@ -167,7 +150,12 @@ data "template_file" "panelapp_worker" {
     email_host             = var.smtp_server
     email_user             = aws_iam_access_key.ses.id
     email_password         = aws_iam_access_key.ses.ses_smtp_password
-  }
+  })
+
+  # tags = "${merge(
+  #   var.default_tags,
+  #   map("Name", "panelapp_worker")
+  # )}"
 }
 
 resource "aws_cloudwatch_log_group" "panelapp_worker" {
@@ -184,7 +172,7 @@ resource "aws_cloudwatch_log_group" "panelapp_worker" {
 ## Tasks to run on every deployments
 ######################################
 
-# All independent taks use the same template
+# All independent tasks use the same template
 
 ## Migrate
 
@@ -196,18 +184,7 @@ resource "aws_ecs_task_definition" "panelapp_migrate" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.task_cpu
   memory                   = var.task_memory
-  container_definitions    = data.template_file.panelapp_migrate.rendered
-
-  tags = merge(
-    var.default_tags,
-    map("Name", "panelapp_migrate")
-  )
-}
-
-data "template_file" "panelapp_migrate" {
-  template = file("templates/sh-task.tpl")
-
-  vars = {
+  container_definitions    = templatefile("templates/sh-task.tpl", {
     container_name = "panelapp-migrate"
 
     image_name = "${var.panelapp_image_repo}/panelapp-web"
@@ -242,7 +219,12 @@ data "template_file" "panelapp_migrate" {
     email_user             = aws_iam_access_key.ses.id
 
     email_password = aws_iam_access_key.ses.ses_smtp_password
-  }
+  })
+
+  tags = merge(
+    var.default_tags,
+    map("Name", "panelapp_migrate")
+  )
 }
 
 resource "aws_cloudwatch_log_group" "panelapp_migrate" {
@@ -265,18 +247,7 @@ resource "aws_ecs_task_definition" "panelapp_collectstatic" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.task_cpu
   memory                   = var.task_memory
-  container_definitions    = data.template_file.panelapp_collectstatic.rendered
-
-  tags = merge(
-    var.default_tags,
-    map("Name", "panelapp_collectstatic")
-  )
-}
-
-data "template_file" "panelapp_collectstatic" {
-  template = file("templates/sh-task.tpl")
-
-  vars = {
+  container_definitions    = templatefile("templates/sh-task.tpl", {
     container_name = "panelapp-collectstatic"
 
     image_name = "${var.panelapp_image_repo}/panelapp-web"
@@ -311,7 +282,12 @@ data "template_file" "panelapp_collectstatic" {
     email_user             = aws_iam_access_key.ses.id
 
     email_password = aws_iam_access_key.ses.ses_smtp_password
-  }
+  })
+
+  tags = merge(
+    var.default_tags,
+    map("Name", "panelapp_collectstatic")
+  )
 }
 
 resource "aws_cloudwatch_log_group" "panelapp-collectstatic" {
@@ -346,13 +322,7 @@ resource "aws_ecs_task_definition" "panelapp_loaddata" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.task_cpu
   memory                   = var.task_memory
-  container_definitions    = data.template_file.panelapp_loaddata.rendered
-}
-
-data "template_file" "panelapp_loaddata" {
-  template = file("templates/sh-task.tpl")
-
-  vars = {
+  container_definitions    = templatefile("templates/sh-task.tpl", {
     container_name = "panelapp-loaddata"
 
     image_name = "${var.panelapp_image_repo}/panelapp-web"
@@ -386,7 +356,7 @@ data "template_file" "panelapp_loaddata" {
     email_host             = var.smtp_server
     email_user             = aws_iam_access_key.ses.id
     email_password         = aws_iam_access_key.ses.ses_smtp_password
-  }
+  })
 }
 
 resource "aws_ecs_task_definition" "panelapp_createsuperuser" {
@@ -397,13 +367,7 @@ resource "aws_ecs_task_definition" "panelapp_createsuperuser" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.task_cpu
   memory                   = var.task_memory
-  container_definitions    = data.template_file.panelapp_createsuperuser.rendered
-}
-
-data "template_file" "panelapp_createsuperuser" {
-  template = file("templates/sh-task.tpl")
-
-  vars = {
+  container_definitions    = templatefile("templates/sh-task.tpl", {
     container_name = "panelapp-createsuperuser"
 
     image_name = "${var.panelapp_image_repo}/panelapp-web"
@@ -436,5 +400,5 @@ data "template_file" "panelapp_createsuperuser" {
     email_host             = var.smtp_server
     email_user             = aws_iam_access_key.ses.id
     email_password         = aws_iam_access_key.ses.ses_smtp_password
-  }
+  })
 }

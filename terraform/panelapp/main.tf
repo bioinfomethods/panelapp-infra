@@ -15,10 +15,6 @@ provider "aws" {
   region  = var.region
 }
 
-provider "template" {
-  version = "~> 2.1"
-}
-
 provider "cloudflare" {}
 
 // State of `infra` component
