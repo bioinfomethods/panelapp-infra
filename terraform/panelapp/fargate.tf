@@ -4,7 +4,7 @@ resource "aws_ecs_cluster" "panelapp_cluster" {
 
   tags = merge(
     var.default_tags,
-    map("Name", "panelapp_cluster")
+    tomap({"Name": "panelapp_cluster"})
   )
 }
 
@@ -93,7 +93,7 @@ resource "aws_cloudwatch_log_group" "panelapp_web" {
 
   tags = merge(
     var.default_tags,
-    map("Name", "panelapp_web")
+    tomap({"Name": "panelapp_web"})
   )
 }
 
@@ -164,7 +164,7 @@ resource "aws_cloudwatch_log_group" "panelapp_worker" {
 
   tags = merge(
     var.default_tags,
-    map("Name", "panelapp_worker")
+    tomap({"Name": "panelapp_worker"})
   )
 }
 
@@ -233,7 +233,7 @@ resource "aws_cloudwatch_log_group" "panelapp_migrate" {
 
   tags = merge(
     var.default_tags,
-    map("Name", "panelapp_migrate")
+    tomap({"Name": "panelapp_migrate"})
   )
 }
 
@@ -286,7 +286,7 @@ resource "aws_ecs_task_definition" "panelapp_collectstatic" {
 
   tags = merge(
     var.default_tags,
-    map("Name", "panelapp_collectstatic")
+    tomap({"Name": "panelapp_collectstatic"})
   )
 }
 
@@ -296,7 +296,7 @@ resource "aws_cloudwatch_log_group" "panelapp-collectstatic" {
 
   tags = merge(
     var.default_tags,
-    map("Name", "panelapp_collectstatic")
+    tomap({"Name": "panelapp_collectstatic"})
   )
 }
 
@@ -310,7 +310,7 @@ resource "aws_cloudwatch_log_group" "panelapp-oneoff" {
 
   tags = merge(
     var.default_tags,
-    map("Name", "panelapp_oneoff")
+    tomap({"Name": "panelapp_oneoff"})
   )
 }
 

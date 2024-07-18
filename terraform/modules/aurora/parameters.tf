@@ -14,10 +14,10 @@ resource "aws_db_parameter_group" "custom_instnace_parameters" {
   name   = "custom-instance-${var.env_name}"
   family = "${var.family_parameters}"
 
-  tags = "${merge(
+  tags = merge(
     var.default_tags,
-    map("Name", "custom-instance-${var.env_name}")
-  )}"
+    tomap({"Name": "custom-instance-${var.env_name}"})
+  )
 
   # parameter {
   #   name         = "slow_query_log"

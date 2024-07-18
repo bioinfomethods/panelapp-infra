@@ -15,6 +15,6 @@ resource "aws_sqs_queue" "panelapp" {
 
   tags = merge(
     var.default_tags,
-    map("Name", "panelapp")
+    tomap({"Name": "panelapp"})
   )
 }

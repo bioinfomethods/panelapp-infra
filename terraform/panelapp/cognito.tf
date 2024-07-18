@@ -52,7 +52,6 @@ resource "aws_cognito_user_pool" "pool" {
 
   admin_create_user_config {
     allow_admin_create_user_only = var.cognito_allow_admin_create_user_only
-    unused_account_validity_days = 7
   }
 
   password_policy {
@@ -63,7 +62,7 @@ resource "aws_cognito_user_pool" "pool" {
     require_uppercase = true
   }
 
-  tags = merge(var.default_tags, map("Name", "${var.stack}-${var.env_name}"))
+  tags = merge(var.default_tags, tomap({"Name": "${var.stack}-${var.env_name}"}))
 }
 
 resource "aws_cognito_identity_provider" "google" {
@@ -141,7 +140,7 @@ resource "aws_lb_listener_rule" "accounts" {
   }
 
   condition {
-    field  = "path-pattern"
+    field = "path-pattern"
     values = [var.cognito_alb_app_login_path]
   }
 }

@@ -11,7 +11,7 @@ resource "aws_s3_bucket" "panelapp_statics" {
 
   tags = merge(
     var.default_tags,
-    map("Name", "panelapp_static")
+    tomap({"Name": "panelapp_static"})
   )
 }
 
@@ -93,7 +93,7 @@ resource "aws_s3_bucket" "panelapp_media" {
 
   tags = merge(
     var.default_tags,
-    map("Name", "panelapp_media")
+    tomap({"Name": "panelapp_media"})
   )
 }
 
@@ -164,6 +164,6 @@ resource "aws_s3_bucket" "panelapp_scripts" {
 
   tags = merge(
     var.default_tags,
-    map("Name", "panelapp_scripts")
+    tomap({"Name": "panelapp_scripts"})
   )
 }
