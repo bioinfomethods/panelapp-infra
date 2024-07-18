@@ -60,6 +60,7 @@ resource "aws_cognito_user_pool" "pool" {
     require_numbers   = true
     require_symbols   = var.cognito_password_symbols_required
     require_uppercase = true
+    temporary_password_validity_days = 7
   }
 
   tags = merge(var.default_tags, tomap({"Name": "${var.stack}-${var.env_name}"}))
@@ -75,6 +76,12 @@ resource "aws_cognito_identity_provider" "google" {
     client_id        = data.aws_ssm_parameter.google_oauth_client_id[0].value
     client_secret    = data.aws_ssm_parameter.google_oauth_client_secret[0].value
     authorize_scopes = "openid profile email"
+    attributes_url                = "https://people.googleapis.com/v1/people/me?personFields="
+    attributes_url_add_attributes = true
+    authorize_url                 = "https://accounts.google.com/o/oauth2/v2/auth"
+    oidc_issuer                   = "https://accounts.google.com"
+    token_request_method          = "POST"
+    token_url                     = "https://www.googleapis.com/oauth2/v4/token"
   }
 
   attribute_mapping = {
