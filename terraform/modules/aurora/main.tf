@@ -6,7 +6,7 @@
 #}
 
 data "aws_ssm_parameter" "root_password" {
-  count = "${var.restore_from_snapshot ? 0 : 1}"
+  count = var.restore_from_snapshot ? 0 : 1
   name  = "/${var.stack}/${var.env_name}/database/master_password"
 }
 
@@ -19,8 +19,8 @@ data "aws_ssm_parameter" "root_password" {
 
 resource "aws_db_subnet_group" "aurora" {
   name       = "aurora-subnet-group-${var.env_name}"
-  subnet_ids = ["${var.subnets}"]
-  tags       = "${merge(var.default_tags, map("Name", "aurora-subnet-group-${var.env_name}"))}"
+  subnet_ids = var.subnets
+  tags       = merge(var.default_tags, tomap({"Name": "aurora-subnet-group-${var.env_name}"}))
 }
 
 # resource "aws_route53_record" "database_master" {

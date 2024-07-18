@@ -49,7 +49,7 @@ variable "additional_security_groups" {
   default = []
 }
 
-variable "private_zone" {}
+# variable "private_zone" {}
 
 variable "database" {
   default = ""
@@ -57,6 +57,7 @@ variable "database" {
 
 variable "mon_interval" {
   default = 0
+  type    = number
 }
 
 variable "username" {

@@ -29,7 +29,7 @@ output "db_name" {
 
 
 # output "ses_password" {
-#   value = "${aws_iam_access_key.ses.ses_smtp_password}"
+#   value = "${aws_iam_access_key.ses.ses_smtp_password_v4}"
 # }
 
 

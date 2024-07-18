@@ -13,7 +13,7 @@ output "dns_delegation_set" {
   value       = aws_route53_delegation_set.site.id
 }
 
-output "public_route53_zone" {
+output "public_dns_zone" {
   description = "Public DNS Zone ID"
   value = coalesce(join("", aws_route53_zone.public.*.id), "not_created")
 }

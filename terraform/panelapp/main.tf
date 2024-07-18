@@ -19,20 +19,23 @@ provider "aws" {
   region = var.region
 }
 
-provider "cloudflare" {}
+provider "cloudflare" {
+    email   = var.default_email
+    api_key = var.cloudflare_api_key
+}
 
 // State of `infra` component
 data "terraform_remote_state" "infra" {
   backend = "s3"
 
-  config {
+  config = {
     bucket = var.terraform_state_s3_bucket
     key    = "infra/terraform.tfstate"
-    region = "eu-west-2"
+    region = var.region
   }
 }
 
 locals {
-  vpc_id                 = data.terraform_remote_state.infra.vpc_id
+  vpc_id                 = data.terraform_remote_state.infra.outputs.vpc_id
   db_password_secret_arn = "arn:aws:ssm:${var.region}:${var.account_id}:parameter/${var.stack}/${var.env_name}/database/master_password"
 }

@@ -9,6 +9,6 @@ module "acm" {
   account_id           = var.account_id
   region               = var.region
   default_tags         = var.default_tags
-  public_route53_zone  = module.site.public_route53_zone
+  public_route53_zone  = module.site.public_dns_zone
   public_dns_zone_name = module.site.public_dns_zone_name
 }

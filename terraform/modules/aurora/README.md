@@ -41,7 +41,7 @@ module "aurora" {
 
   skip_final_snapshot   = true
   enable_monitoring     = false
-  mon_interval          = false
+  mon_interval          = 0
   database              = "panelapp"
   username              = "root"
   restore_from_snapshot = false

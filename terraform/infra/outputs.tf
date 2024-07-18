@@ -1,6 +1,6 @@
-output "public_route53_zone" {
+output "public_dns_zone" {
   description = "Public DNS Zone ID"
-  value       = module.site.public_route53_zone
+  value       = module.site.public_dns_zone
 }
 
 output "public_dns_zone_ns" {

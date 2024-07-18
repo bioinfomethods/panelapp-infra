@@ -127,9 +127,9 @@ resource "aws_lb_listener_rule" "accounts" {
 
     authenticate_cognito {
       scope                      = "openid profile email"
-      user_pool_arn              = aws_cognito_user_pool.pool.arn
-      user_pool_domain           = aws_cognito_user_pool_domain.domain.domain
-      user_pool_client_id        = aws_cognito_user_pool_client.client.id
+      user_pool_arn              = aws_cognito_user_pool.pool[0].arn
+      user_pool_domain           = aws_cognito_user_pool_domain.domain[0].domain
+      user_pool_client_id        = aws_cognito_user_pool_client.client[0].id
       on_unauthenticated_request = "authenticate"
     }
   }
@@ -140,8 +140,9 @@ resource "aws_lb_listener_rule" "accounts" {
   }
 
   condition {
-    field = "path-pattern"
-    values = [var.cognito_alb_app_login_path]
+    path_pattern {
+      values = [var.cognito_alb_app_login_path]
+    }
   }
 }
 

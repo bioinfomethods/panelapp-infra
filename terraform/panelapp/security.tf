@@ -1,11 +1,11 @@
 resource "aws_security_group" "fargate" {
   name        = "panelapp-fargate-${var.stack}-${var.env_name}"
   description = "group for panelapp fargate"
-  vpc_id      = data.terraform_remote_state.infra.vpc_id
+  vpc_id      = data.terraform_remote_state.infra.outputs.vpc_id
 
   tags = merge(
     var.default_tags,
-    map("Name", "panelapp_cluster")
+    tomap({"Name": "panelapp_cluster"})
   )
 }
 
@@ -19,7 +19,7 @@ resource "aws_security_group_rule" "fargate_egress" {
   from_port         = "443"
   to_port           = "443"
   protocol          = "tcp"
-  cidr_blocks       = [data.aws_ip_ranges.amazon_region.cidr_blocks]
+  cidr_blocks       = data.aws_ip_ranges.amazon_region.cidr_blocks
   security_group_id = aws_security_group.fargate.id
   description       = "Allow calls to aws for the region"
 }
@@ -114,7 +114,7 @@ resource "aws_iam_role_policy" "panelapp" {
         "sqs:CreateQueue",
         "sqs:ChangeMessageVisibilityBatch"
       ],
-      "Resource": "${aws_sqs_queue.panelapp[0].arn}"
+      "Resource": "aws_sqs_queue.panelapp[0].arn"
     },
     {
       "Effect": "Allow",

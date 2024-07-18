@@ -3,7 +3,7 @@ output "psql_security_id" {
 }
 
 output "user_data" {
-  value = aws_launch_configuration.this.user_data
+  value = aws_launch_configuration.this[0].user_data
 }
 
 output "ssm_role" {

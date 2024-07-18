@@ -8,7 +8,7 @@ module "mgt" {
   create_lc  = true
 
   instance_type       = "t2.micro"
-  vpc_zone_identifier = [data.terraform_remote_state.infra.private_subnets]
+  vpc_zone_identifier = data.terraform_remote_state.infra.outputs.private_subnets
   vpc_id              = local.vpc_id
   max_size            = var.EC2_mgmt_count
   min_size            = var.EC2_mgmt_count
@@ -19,8 +19,8 @@ module "mgt" {
 
   user_data            = module.mgt.user_data
   iam_instance_profile = module.mgt.ssm_role
-  aritfacts_bucket     = data.terraform_remote_state.infra.artifacts_bucket
-  kms_arn              = data.terraform_remote_state.infra.kms_arn
+  aritfacts_bucket     = data.terraform_remote_state.infra.outputs.artifacts_bucket
+  kms_arn              = data.terraform_remote_state.infra.outputs.kms_arn
 
   image_name       = "${var.panelapp_image_repo}/panelapp-web"
   image_tag        = var.image_tag

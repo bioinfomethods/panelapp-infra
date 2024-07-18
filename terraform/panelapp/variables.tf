@@ -161,6 +161,11 @@ variable "panelapp_image_repo" {
 
 variable "create_cloudfront" {}
 
+variable "cloudflare_api_key" {
+  type = string
+  default = "fffffffffffffffffffffffffffffffffffff"
+}
+
 variable "cloudflare_record" {
   description = "record to be added to the cloudflare"
 }

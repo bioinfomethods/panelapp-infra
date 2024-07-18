@@ -16,7 +16,7 @@ resource "aws_ecs_cluster" "panelapp_cluster" {
 
 resource "aws_ecs_service" "panelapp_web" {
   name            = "panelapp-web-${var.stack}-${var.env_name}"
-  cluster         = aws_ecs_cluster.panelapp_cluster.id
+  cluster         = aws_ecs_cluster.panelapp_cluster[0].id
   task_definition = aws_ecs_task_definition.panelapp_web.arn
   desired_count   = var.panelapp_replica
   launch_type     = "FARGATE"
@@ -29,7 +29,7 @@ resource "aws_ecs_service" "panelapp_web" {
 
   network_configuration {
     security_groups = [module.aurora.aurora_security_group, aws_security_group.fargate.id, aws_security_group.panelapp_elb.id]
-    subnets         = [data.terraform_remote_state.infra.private_subnets]
+    subnets         = data.terraform_remote_state.infra.outputs.private_subnets
   }
 
   depends_on = [aws_lb.panelapp, aws_lb_target_group.panelapp_app_web]
@@ -74,7 +74,7 @@ resource "aws_ecs_task_definition" "panelapp_web" {
     panelapp_email         = var.panelapp_email
     email_host             = var.smtp_server
     email_user             = aws_iam_access_key.ses.id
-    email_password         = aws_iam_access_key.ses.ses_smtp_password
+    email_password         = aws_iam_access_key.ses.ses_smtp_password_v4
     gunicorn_accesslog     = var.gunicorn_accesslog
     aws_use_cognito                 = var.use_cognito ? "true" : "false"
     aws_cognito_domain_prefix       = coalesce(join("", aws_cognito_user_pool_domain.domain.*.domain),"")
@@ -101,14 +101,14 @@ resource "aws_cloudwatch_log_group" "panelapp_web" {
 
 resource "aws_ecs_service" "panelapp_worker" {
   name            = "panelapp-worker-${var.stack}-${var.env_name}"
-  cluster         = aws_ecs_cluster.panelapp_cluster.id
+  cluster         = aws_ecs_cluster.panelapp_cluster[0].id
   task_definition = aws_ecs_task_definition.panelapp_worker.arn
   desired_count   = var.panelapp_replica
   launch_type     = "FARGATE"
 
   network_configuration {
     security_groups = [module.aurora.aurora_security_group, aws_security_group.fargate.id, aws_security_group.panelapp_elb.id]
-    subnets         = [data.terraform_remote_state.infra.private_subnets]
+    subnets         = data.terraform_remote_state.infra.outputs.private_subnets
   }
 
   # tags = "${merge(
@@ -149,7 +149,7 @@ resource "aws_ecs_task_definition" "panelapp_worker" {
     panelapp_email         = var.panelapp_email
     email_host             = var.smtp_server
     email_user             = aws_iam_access_key.ses.id
-    email_password         = aws_iam_access_key.ses.ses_smtp_password
+    email_password         = aws_iam_access_key.ses.ses_smtp_password_v4
   })
 
   # tags = "${merge(
@@ -218,12 +218,12 @@ resource "aws_ecs_task_definition" "panelapp_migrate" {
     email_host             = var.smtp_server
     email_user             = aws_iam_access_key.ses.id
 
-    email_password = aws_iam_access_key.ses.ses_smtp_password
+    email_password = aws_iam_access_key.ses.ses_smtp_password_v4
   })
 
   tags = merge(
     var.default_tags,
-    map("Name", "panelapp_migrate")
+    tomap({"Name": "panelapp_migrate"})
   )
 }
 
@@ -281,7 +281,7 @@ resource "aws_ecs_task_definition" "panelapp_collectstatic" {
     email_host             = var.smtp_server
     email_user             = aws_iam_access_key.ses.id
 
-    email_password = aws_iam_access_key.ses.ses_smtp_password
+    email_password = aws_iam_access_key.ses.ses_smtp_password_v4
   })
 
   tags = merge(
@@ -355,7 +355,7 @@ resource "aws_ecs_task_definition" "panelapp_loaddata" {
     panelapp_email         = var.panelapp_email
     email_host             = var.smtp_server
     email_user             = aws_iam_access_key.ses.id
-    email_password         = aws_iam_access_key.ses.ses_smtp_password
+    email_password         = aws_iam_access_key.ses.ses_smtp_password_v4
   })
 }
 
@@ -399,6 +399,6 @@ resource "aws_ecs_task_definition" "panelapp_createsuperuser" {
     panelapp_email         = var.panelapp_email
     email_host             = var.smtp_server
     email_user             = aws_iam_access_key.ses.id
-    email_password         = aws_iam_access_key.ses.ses_smtp_password
+    email_password         = aws_iam_access_key.ses.ses_smtp_password_v4
   })
 }

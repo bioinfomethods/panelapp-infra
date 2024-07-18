@@ -13,7 +13,7 @@ resource "aws_cloudfront_distribution" "panelapp_distribution" {
     origin_id   = "S3-panelapp-statics"
 
     s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.panelapp_s3.cloudfront_access_identity_path
+      origin_access_identity = aws_cloudfront_origin_access_identity.panelapp_s3[0].cloudfront_access_identity_path
     }
   }
 
@@ -23,7 +23,7 @@ resource "aws_cloudfront_distribution" "panelapp_distribution" {
     origin_id   = "S3-panelapp_media"
 
     s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.panelapp_s3.cloudfront_access_identity_path
+      origin_access_identity = aws_cloudfront_origin_access_identity.panelapp_s3[0].cloudfront_access_identity_path
     }
   }
 
@@ -113,13 +113,13 @@ resource "aws_cloudfront_distribution" "panelapp_distribution" {
   viewer_certificate {
     cloudfront_default_certificate = false
 
-    acm_certificate_arn = data.terraform_remote_state.infra.global_cert
+    acm_certificate_arn = data.terraform_remote_state.infra.outputs.global_cert
 
     ssl_support_method = "sni-only"
   }
 
   tags = merge(
     var.default_tags,
-    map("Name", "panelapp_cdn")
+    tomap({"Name": "panelapp_cdn"})
   )
 }
