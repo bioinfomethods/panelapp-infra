@@ -20,8 +20,8 @@ provider "aws" {
 }
 
 provider "cloudflare" {
-    email   = var.default_email
-    api_key = var.cloudflare_api_key
+  email   = var.default_email
+  api_key = var.cloudflare_api_key
 }
 
 // State of `infra` component

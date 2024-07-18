@@ -3,12 +3,12 @@ data "aws_iam_policy_document" "rds_kms_policy" {
 
   statement {
     principals {
-      type        = "AWS"
+      type = "AWS"
       identifiers = ["arn:aws:iam::${var.account_id}:root"]
     }
 
     resources = ["*"]
-    actions   = ["kms:*"]
+    actions = ["kms:*"]
   }
 
   statement {

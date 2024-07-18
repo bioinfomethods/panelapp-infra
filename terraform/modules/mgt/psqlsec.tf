@@ -30,5 +30,5 @@ resource "aws_security_group" "postgres_client" {
     create_before_destroy = true
   }
 
-#   tags = merge(var.default_tags, tomap({"Name": "postgres-client-${var.stack}-${var.env_name}"}))
+  #   tags = merge(var.default_tags, tomap({"Name": "postgres-client-${var.stack}-${var.env_name}"}))
 }

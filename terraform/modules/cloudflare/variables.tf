@@ -35,6 +35,6 @@ variable "block_public_access" {
 }
 
 variable "whitelisted_ips" {
-  type    = list(string)
+  type = list(string)
   default = ["127.0.0.1"]
 }

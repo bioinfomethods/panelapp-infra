@@ -202,7 +202,7 @@ variable "target_group_arns" {
 
 variable "termination_policies" {
   description = "A list of policies to decide how the instances in the auto scale group should be terminated. The allowed values are OldestInstance, NewestInstance, OldestLaunchConfiguration, ClosestToNextInstanceHour, Default"
-  type        = list(string)
+  type = list(string)
   default = ["Default"]
 }
 

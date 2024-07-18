@@ -13,7 +13,7 @@ variable "create_public_dns_zone" {
 }
 
 variable "public_route53_zone" {
-  type = string
+  type    = string
   default = "setme"
 }
 

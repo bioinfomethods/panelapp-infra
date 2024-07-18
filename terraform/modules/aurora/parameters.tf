@@ -20,7 +20,7 @@ resource "aws_db_parameter_group" "custom_instance_parameters" {
 
   tags = merge(
     var.default_tags,
-    tomap({"Name": "custom-instance-${var.env_name}"})
+    tomap({ "Name" : "custom-instance-${var.env_name}" })
   )
 
   # parameter {

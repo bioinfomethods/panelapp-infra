@@ -5,7 +5,7 @@ variable "create" {
 
 variable "sqs_queue_with_kms" {
   description = "Whether to create SQS queue with KMS encryption"
-  type = bool
+  type        = bool
   default     = false
 }
 

@@ -12,11 +12,11 @@ terraform {
 }
 
 provider "aws" {
-  region  = var.region
+  region = var.region
 }
 
 // Additional provider used for CloudFront SSL certificates (must be in us_east_1 Region)
 provider "aws" {
-  alias   = "us_east_1"
-  region  = "us-east-1"
+  alias  = "us_east_1"
+  region = "us-east-1"
 }

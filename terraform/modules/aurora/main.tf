@@ -20,7 +20,7 @@ data "aws_ssm_parameter" "root_password" {
 resource "aws_db_subnet_group" "aurora" {
   name       = "aurora-subnet-group-${var.env_name}"
   subnet_ids = var.subnets
-  tags       = merge(var.default_tags, tomap({"Name": "aurora-subnet-group-${var.env_name}"}))
+  tags = merge(var.default_tags, tomap({ "Name" : "aurora-subnet-group-${var.env_name}" }))
 }
 
 # resource "aws_route53_record" "database_master" {

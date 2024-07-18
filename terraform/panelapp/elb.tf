@@ -4,7 +4,7 @@ resource "aws_lb" "panelapp" {
   load_balancer_type = "application"
 
   security_groups = [aws_security_group.panelapp_elb.id]
-  subnets         = data.terraform_remote_state.infra.outputs.public_subnets
+  subnets = data.terraform_remote_state.infra.outputs.public_subnets
 
   # subnet_mapping {
   #   subnets = "${data.terraform_remote_state.infra.private_subnets}"
@@ -12,7 +12,7 @@ resource "aws_lb" "panelapp" {
 
   tags = merge(
     var.default_tags,
-    tomap({"Name": "panelapp_elb"})
+    tomap({ "Name" : "panelapp_elb" })
   )
 }
 
@@ -56,7 +56,7 @@ resource "aws_security_group_rule" "panelapp_ingress_cloudfront" {
   type      = "ingress"
   from_port = 0
   to_port   = 65535
-  protocol  = "tcp"
+  protocol = "tcp"
 
   # cidr_blocks = ["0.0.0.0/0"]
 
@@ -99,7 +99,7 @@ resource "aws_security_group" "panelapp_elb" {
 
   tags = merge(
     var.default_tags,
-    tomap({"Name": "panelapp_elb_sec"})
+    tomap({ "Name" : "panelapp_elb_sec" })
   )
 }
 

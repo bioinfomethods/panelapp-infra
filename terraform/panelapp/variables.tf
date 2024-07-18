@@ -35,7 +35,7 @@ variable "cluster_size" {
 
 variable "sqs_queue_with_kms" {
   description = "Whether to create SQS queue with KMS encryption"
-  type = bool
+  type        = bool
   default     = false
 }
 
@@ -45,7 +45,7 @@ variable "create_aurora" {
 
 variable "create_sqs" {
   default = true
-  type = bool
+  type    = bool
 }
 
 variable "sqs_name" {
@@ -168,7 +168,7 @@ variable "panelapp_image_repo" {
 variable "create_cloudfront" {}
 
 variable "cloudflare_api_key" {
-  type = string
+  type    = string
   default = "fffffffffffffffffffffffffffffffffffff"
 }
 
@@ -207,7 +207,7 @@ variable "gunicorn_workers" {
 
 variable "gunicorn_accesslog" {
   description = "The Access log file to write to - means log to stdout"
-  default = "-"
+  default     = "-"
 }
 
 variable "application_connection_timeout" {
@@ -235,7 +235,7 @@ variable "block_public_access" {
 }
 
 variable "whitelisted_ips" {
-  type    = list(string)
+  type = list(string)
   default = ["81.134.251.212", "83.151.220.174"]
 }
 
@@ -249,27 +249,27 @@ variable "db_family_parameters" {
 
 variable "use_cognito" {
   description = "Use Cognito? (true/false)"
-  default = true
+  default     = true
 }
 
 variable "cognito_alb_app_login_path" {
   description = "PanelApp login path to be intercepted by ALB Cognito authenticate action"
-  default = "/accounts/login/*"
+  default     = "/accounts/login/*"
 }
 
 variable "cognito_allow_admin_create_user_only" {
   description = "Only allow administrators to create users in Cognito User Pool"
-  default = true
+  default     = true
 }
 
 variable "cognito_password_length" {
   description = "Cognito User Pool user password length"
-  default = 10
+  default     = 10
 }
 
 variable "cognito_password_symbols_required" {
   description = "Cognito password special character required"
-  default = false
+  default     = false
 }
 
 variable "master_account" {
@@ -289,12 +289,12 @@ variable "private_subnets" {
 }
 
 variable "create_runner_terraform" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "enable_datadog" {
-  type = bool
+  type    = bool
   default = false
 }
 

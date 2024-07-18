@@ -4,7 +4,7 @@ resource "aws_ecs_cluster" "panelapp_cluster" {
 
   tags = merge(
     var.default_tags,
-    tomap({"Name": "panelapp_cluster"})
+    tomap({ "Name" : "panelapp_cluster" })
   )
 }
 
@@ -28,8 +28,10 @@ resource "aws_ecs_service" "panelapp_web" {
   }
 
   network_configuration {
-    security_groups = [module.aurora.aurora_security_group, aws_security_group.fargate.id, aws_security_group.panelapp_elb.id]
-    subnets         = data.terraform_remote_state.infra.outputs.private_subnets
+    security_groups = [
+      module.aurora.aurora_security_group, aws_security_group.fargate.id, aws_security_group.panelapp_elb.id
+    ]
+    subnets = data.terraform_remote_state.infra.outputs.private_subnets
   }
 
   depends_on = [aws_lb.panelapp, aws_lb_target_group.panelapp_app_web]
@@ -41,18 +43,18 @@ resource "aws_ecs_service" "panelapp_web" {
 }
 
 resource "aws_ecs_task_definition" "panelapp_web" {
-  family                   = "panelapp-web-${var.stack}-${var.env_name}"
-  task_role_arn            = aws_iam_role.ecs_task_panelapp.arn
-  execution_role_arn       = aws_iam_role.ecs_task_panelapp.arn
-  network_mode             = "awsvpc"
+  family             = "panelapp-web-${var.stack}-${var.env_name}"
+  task_role_arn      = aws_iam_role.ecs_task_panelapp.arn
+  execution_role_arn = aws_iam_role.ecs_task_panelapp.arn
+  network_mode       = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.task_cpu
-  memory                   = var.task_memory
-  container_definitions    = templatefile("templates/panelapp-web.tpl", {
+  cpu                = var.task_cpu
+  memory             = var.task_memory
+  container_definitions = templatefile("templates/panelapp-web.tpl", {
     image_name = "${var.panelapp_image_repo}/panelapp-web"
     image_tag  = var.image_tag
 
-    cpu    = var.task_cpu
+    cpu = var.task_cpu
     memory = var.task_memory
 
     # Application parameters
@@ -76,9 +78,9 @@ resource "aws_ecs_task_definition" "panelapp_web" {
     email_user             = aws_iam_access_key.ses.id
     email_password         = aws_iam_access_key.ses.ses_smtp_password_v4
     gunicorn_accesslog     = var.gunicorn_accesslog
-    aws_use_cognito                 = var.use_cognito ? "true" : "false"
-    aws_cognito_domain_prefix       = coalesce(join("", aws_cognito_user_pool_domain.domain.*.domain),"")
-    aws_cognito_user_pool_client_id = coalesce(join("", aws_cognito_user_pool_client.client.*.id),"")
+    aws_use_cognito        = var.use_cognito ? "true" : "false"
+    aws_cognito_domain_prefix = coalesce(join("", aws_cognito_user_pool_domain.domain.*.domain), "")
+    aws_cognito_user_pool_client_id = coalesce(join("", aws_cognito_user_pool_client.client.*.id), "")
   })
 
   # tags = "${merge(
@@ -93,7 +95,7 @@ resource "aws_cloudwatch_log_group" "panelapp_web" {
 
   tags = merge(
     var.default_tags,
-    tomap({"Name": "panelapp_web"})
+    tomap({ "Name" : "panelapp_web" })
   )
 }
 
@@ -107,8 +109,10 @@ resource "aws_ecs_service" "panelapp_worker" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    security_groups = [module.aurora.aurora_security_group, aws_security_group.fargate.id, aws_security_group.panelapp_elb.id]
-    subnets         = data.terraform_remote_state.infra.outputs.private_subnets
+    security_groups = [
+      module.aurora.aurora_security_group, aws_security_group.fargate.id, aws_security_group.panelapp_elb.id
+    ]
+    subnets = data.terraform_remote_state.infra.outputs.private_subnets
   }
 
   # tags = "${merge(
@@ -118,17 +122,16 @@ resource "aws_ecs_service" "panelapp_worker" {
 }
 
 resource "aws_ecs_task_definition" "panelapp_worker" {
-  family                   = "panelapp-worker-${var.stack}-${var.env_name}"
-  task_role_arn            = aws_iam_role.ecs_task_panelapp.arn
-  execution_role_arn       = aws_iam_role.ecs_task_panelapp.arn
-  network_mode             = "awsvpc"
+  family             = "panelapp-worker-${var.stack}-${var.env_name}"
+  task_role_arn      = aws_iam_role.ecs_task_panelapp.arn
+  execution_role_arn = aws_iam_role.ecs_task_panelapp.arn
+  network_mode       = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.worker_task_cpu
-  memory                   = var.worker_task_memory
-  container_definitions    = templatefile("templates/panelapp-worker.tpl", {
-    image_name = "${var.panelapp_image_repo}/panelapp-worker"
-    image_tag  = var.image_tag
-
+  cpu                = var.worker_task_cpu
+  memory             = var.worker_task_memory
+  container_definitions = templatefile("templates/panelapp-worker.tpl", {
+    image_name             = "${var.panelapp_image_repo}/panelapp-worker"
+    image_tag              = var.image_tag
     gunicorn_workers       = var.gunicorn_workers
     gunicorn_timeout       = var.application_connection_timeout
     panel_app_base_host    = var.cdn_alis
@@ -164,7 +167,7 @@ resource "aws_cloudwatch_log_group" "panelapp_worker" {
 
   tags = merge(
     var.default_tags,
-    tomap({"Name": "panelapp_worker"})
+    tomap({ "Name" : "panelapp_worker" })
   )
 }
 
@@ -177,14 +180,14 @@ resource "aws_cloudwatch_log_group" "panelapp_worker" {
 ## Migrate
 
 resource "aws_ecs_task_definition" "panelapp_migrate" {
-  family                   = "panelapp-migrate-${var.stack}-${var.env_name}"
-  task_role_arn            = aws_iam_role.ecs_task_panelapp.arn
-  execution_role_arn       = aws_iam_role.ecs_task_panelapp.arn
-  network_mode             = "awsvpc"
+  family             = "panelapp-migrate-${var.stack}-${var.env_name}"
+  task_role_arn      = aws_iam_role.ecs_task_panelapp.arn
+  execution_role_arn = aws_iam_role.ecs_task_panelapp.arn
+  network_mode       = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.task_cpu
-  memory                   = var.task_memory
-  container_definitions    = templatefile("templates/sh-task.tpl", {
+  cpu                = var.task_cpu
+  memory             = var.task_memory
+  container_definitions = templatefile("templates/sh-task.tpl", {
     container_name = "panelapp-migrate"
 
     image_name = "${var.panelapp_image_repo}/panelapp-web"
@@ -195,7 +198,7 @@ resource "aws_ecs_task_definition" "panelapp_migrate" {
     cpu    = var.task_cpu
     memory = var.task_memory
 
-    log_group         = "panelapp-migrate"
+    log_group = "panelapp-migrate"
     log_stream_prefix = "panelapp-migrate"
 
     # Application parameters
@@ -217,13 +220,12 @@ resource "aws_ecs_task_definition" "panelapp_migrate" {
     panelapp_email         = var.panelapp_email
     email_host             = var.smtp_server
     email_user             = aws_iam_access_key.ses.id
-
-    email_password = aws_iam_access_key.ses.ses_smtp_password_v4
+    email_password         = aws_iam_access_key.ses.ses_smtp_password_v4
   })
 
   tags = merge(
     var.default_tags,
-    tomap({"Name": "panelapp_migrate"})
+    tomap({ "Name" : "panelapp_migrate" })
   )
 }
 
@@ -233,21 +235,21 @@ resource "aws_cloudwatch_log_group" "panelapp_migrate" {
 
   tags = merge(
     var.default_tags,
-    tomap({"Name": "panelapp_migrate"})
+    tomap({ "Name" : "panelapp_migrate" })
   )
 }
 
 ## CollectStatic
 
 resource "aws_ecs_task_definition" "panelapp_collectstatic" {
-  family                   = "panelapp-collectstatic-${var.stack}-${var.env_name}"
-  task_role_arn            = aws_iam_role.ecs_task_panelapp.arn
-  execution_role_arn       = aws_iam_role.ecs_task_panelapp.arn
-  network_mode             = "awsvpc"
+  family             = "panelapp-collectstatic-${var.stack}-${var.env_name}"
+  task_role_arn      = aws_iam_role.ecs_task_panelapp.arn
+  execution_role_arn = aws_iam_role.ecs_task_panelapp.arn
+  network_mode       = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.task_cpu
-  memory                   = var.task_memory
-  container_definitions    = templatefile("templates/sh-task.tpl", {
+  cpu                = var.task_cpu
+  memory             = var.task_memory
+  container_definitions = templatefile("templates/sh-task.tpl", {
     container_name = "panelapp-collectstatic"
 
     image_name = "${var.panelapp_image_repo}/panelapp-web"
@@ -258,7 +260,7 @@ resource "aws_ecs_task_definition" "panelapp_collectstatic" {
     cpu    = var.task_cpu
     memory = var.task_memory
 
-    log_group         = "panelapp-collectstatic"
+    log_group = "panelapp-collectstatic"
     log_stream_prefix = "panelapp-collectstatic"
 
     # Application parameters
@@ -280,13 +282,12 @@ resource "aws_ecs_task_definition" "panelapp_collectstatic" {
     panelapp_email         = var.panelapp_email
     email_host             = var.smtp_server
     email_user             = aws_iam_access_key.ses.id
-
-    email_password = aws_iam_access_key.ses.ses_smtp_password_v4
+    email_password         = aws_iam_access_key.ses.ses_smtp_password_v4
   })
 
   tags = merge(
     var.default_tags,
-    tomap({"Name": "panelapp_collectstatic"})
+    tomap({ "Name" : "panelapp_collectstatic" })
   )
 }
 
@@ -296,7 +297,7 @@ resource "aws_cloudwatch_log_group" "panelapp-collectstatic" {
 
   tags = merge(
     var.default_tags,
-    tomap({"Name": "panelapp_collectstatic"})
+    tomap({ "Name" : "panelapp_collectstatic" })
   )
 }
 
@@ -310,19 +311,19 @@ resource "aws_cloudwatch_log_group" "panelapp-oneoff" {
 
   tags = merge(
     var.default_tags,
-    tomap({"Name": "panelapp_oneoff"})
+    tomap({ "Name" : "panelapp_oneoff" })
   )
 }
 
 resource "aws_ecs_task_definition" "panelapp_loaddata" {
-  family                   = "panelapp-loaddata-${var.stack}-${var.env_name}"
-  task_role_arn            = aws_iam_role.ecs_task_panelapp.arn
-  execution_role_arn       = aws_iam_role.ecs_task_panelapp.arn
-  network_mode             = "awsvpc"
+  family             = "panelapp-loaddata-${var.stack}-${var.env_name}"
+  task_role_arn      = aws_iam_role.ecs_task_panelapp.arn
+  execution_role_arn = aws_iam_role.ecs_task_panelapp.arn
+  network_mode       = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.task_cpu
-  memory                   = var.task_memory
-  container_definitions    = templatefile("templates/sh-task.tpl", {
+  cpu                = var.task_cpu
+  memory             = var.task_memory
+  container_definitions = templatefile("templates/sh-task.tpl", {
     container_name = "panelapp-loaddata"
 
     image_name = "${var.panelapp_image_repo}/panelapp-web"
@@ -333,7 +334,7 @@ resource "aws_ecs_task_definition" "panelapp_loaddata" {
     cpu    = var.task_cpu
     memory = var.task_memory
 
-    log_group         = "panelapp-oneoff"
+    log_group = "panelapp-oneoff"
     log_stream_prefix = "panelapp-oneoff"
 
     # Application parameters
@@ -360,14 +361,14 @@ resource "aws_ecs_task_definition" "panelapp_loaddata" {
 }
 
 resource "aws_ecs_task_definition" "panelapp_createsuperuser" {
-  family                   = "panelapp-createsuperuser-${var.stack}-${var.env_name}"
-  task_role_arn            = aws_iam_role.ecs_task_panelapp.arn
-  execution_role_arn       = aws_iam_role.ecs_task_panelapp.arn
-  network_mode             = "awsvpc"
+  family             = "panelapp-createsuperuser-${var.stack}-${var.env_name}"
+  task_role_arn      = aws_iam_role.ecs_task_panelapp.arn
+  execution_role_arn = aws_iam_role.ecs_task_panelapp.arn
+  network_mode       = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.task_cpu
-  memory                   = var.task_memory
-  container_definitions    = templatefile("templates/sh-task.tpl", {
+  cpu                = var.task_cpu
+  memory             = var.task_memory
+  container_definitions = templatefile("templates/sh-task.tpl", {
     container_name = "panelapp-createsuperuser"
 
     image_name = "${var.panelapp_image_repo}/panelapp-web"
@@ -377,7 +378,7 @@ resource "aws_ecs_task_definition" "panelapp_createsuperuser" {
     cpu     = var.task_cpu
     memory  = var.task_memory
 
-    log_group         = "panelapp-oneoff"
+    log_group = "panelapp-oneoff"
     log_stream_prefix = "panelapp-oneoff"
 
     # Application parameters

@@ -1,6 +1,6 @@
 resource "aws_route53_record" "panelapp_domain_cloudfront" {
-  count   = var.create_cloudfront ? 1 : 0
-#   zone_id = data.terraform_remote_state.infra.outputs.public_dns_zone
+  count = var.create_cloudfront ? 1 : 0
+  #   zone_id = data.terraform_remote_state.infra.outputs.public_dns_zone
   zone_id = var.public_dns_zone
   name    = var.dns_record
   type    = "A"

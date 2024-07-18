@@ -9,9 +9,9 @@ data "aws_ssm_parameter" "google_oauth_client_secret" {
 }
 
 resource "aws_cognito_user_pool" "pool" {
-  count                    = var.use_cognito ? 1 : 0
-  name                     = "${var.stack}-${var.env_name}"
-  username_attributes      = ["email"]
+  count = var.use_cognito ? 1 : 0
+  name  = "${var.stack}-${var.env_name}"
+  username_attributes = ["email"]
   auto_verified_attributes = ["email"]
 
   schema {
@@ -55,15 +55,15 @@ resource "aws_cognito_user_pool" "pool" {
   }
 
   password_policy {
-    minimum_length    = var.cognito_password_length
-    require_lowercase = true
-    require_numbers   = true
-    require_symbols   = var.cognito_password_symbols_required
-    require_uppercase = true
+    minimum_length                   = var.cognito_password_length
+    require_lowercase                = true
+    require_numbers                  = true
+    require_symbols                  = var.cognito_password_symbols_required
+    require_uppercase                = true
     temporary_password_validity_days = 7
   }
 
-  tags = merge(var.default_tags, tomap({"Name": "${var.stack}-${var.env_name}"}))
+  tags = merge(var.default_tags, tomap({ "Name" : "${var.stack}-${var.env_name}" }))
 }
 
 resource "aws_cognito_identity_provider" "google" {
@@ -72,10 +72,10 @@ resource "aws_cognito_identity_provider" "google" {
   provider_name = "Google"
   provider_type = "Google"
 
-  provider_details   = {
-    client_id        = data.aws_ssm_parameter.google_oauth_client_id[0].value
-    client_secret    = data.aws_ssm_parameter.google_oauth_client_secret[0].value
-    authorize_scopes = "openid profile email"
+  provider_details = {
+    client_id                     = data.aws_ssm_parameter.google_oauth_client_id[0].value
+    client_secret                 = data.aws_ssm_parameter.google_oauth_client_secret[0].value
+    authorize_scopes              = "openid profile email"
     attributes_url                = "https://people.googleapis.com/v1/people/me?personFields="
     attributes_url_add_attributes = true
     authorize_url                 = "https://accounts.google.com/o/oauth2/v2/auth"
@@ -85,20 +85,20 @@ resource "aws_cognito_identity_provider" "google" {
   }
 
   attribute_mapping = {
-    email           = "email"
-    username        = "sub"
-    given_name      = "given_name"
-    family_name     = "family_name"
-    email_verified  = "email_verified"
+    email          = "email"
+    username       = "sub"
+    given_name     = "given_name"
+    family_name    = "family_name"
+    email_verified = "email_verified"
   }
 }
 
 resource "aws_cognito_user_pool_client" "client" {
-  count                  = var.use_cognito ? 1 : 0
-  name                   = "${var.stack}-${var.env_name}"
-  user_pool_id           = aws_cognito_user_pool.pool[0].id
+  count        = var.use_cognito ? 1 : 0
+  name         = "${var.stack}-${var.env_name}"
+  user_pool_id = aws_cognito_user_pool.pool[0].id
 
-  generate_secret        = true
+  generate_secret = true
   refresh_token_validity = 30
 
   // App client settings
@@ -113,8 +113,8 @@ resource "aws_cognito_user_pool_client" "client" {
   ]
 
   default_redirect_uri                 = "https://${var.cdn_alis}/oauth2/idpresponse"
-  allowed_oauth_flows                  = ["code"]
-  allowed_oauth_scopes                 = ["openid", "profile", "email"]
+  allowed_oauth_flows = ["code"]
+  allowed_oauth_scopes = ["openid", "profile", "email"]
   allowed_oauth_flows_user_pool_client = true
 }
 
@@ -160,7 +160,7 @@ resource "aws_security_group_rule" "egress_cognito" {
   to_port   = 0
   protocol  = "-1"
 
-  cidr_blocks       = ["0.0.0.0/0"]
+  cidr_blocks = ["0.0.0.0/0"]
   description       = "egress for panelapp cognito"
   security_group_id = aws_security_group.panelapp_elb.id
 }

@@ -45,7 +45,7 @@ variable "master_account" {
 
 variable "gitlab_runner_token" {
   description = "arn for the tocken in parameter store"
-  default = ""
+  default     = ""
 }
 
 variable "cloudflare_token" {

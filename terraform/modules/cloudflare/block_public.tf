@@ -1,5 +1,5 @@
 locals {
-  ips      = join(" and ip.src ne ", var.whitelisted_ips)
+  ips = join(" and ip.src ne ", var.whitelisted_ips)
   hostname = "${var.cloudflare_record}.${var.cloudflare_zone}"
 }
 

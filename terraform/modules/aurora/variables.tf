@@ -6,7 +6,7 @@ variable "stack" {
 variable "env_name" {}
 
 variable "default_tags" {
-  type    = map(string)
+  type = map(string)
   default = {}
 }
 

@@ -1,7 +1,7 @@
 resource "aws_security_group" "aurora" {
   name   = "aurora-${var.env_name}"
   vpc_id = var.vpc_id
-  tags   = merge(var.default_tags, tomap({"Name": "aurora-${var.env_name}"}))
+  tags = merge(var.default_tags, tomap({ "Name" : "aurora-${var.env_name}" }))
 }
 
 resource "aws_security_group_rule" "outbound" {
@@ -27,7 +27,7 @@ data "aws_iam_policy_document" "monitoring_rds_assume_role_policy" {
     actions = ["sts:AssumeRole"]
 
     principals {
-      type        = "Service"
+      type = "Service"
       identifiers = ["monitoring.rds.amazonaws.com"]
     }
   }

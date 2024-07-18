@@ -4,7 +4,7 @@ resource "aws_s3_bucket" "terraform" {
   bucket = "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-terraform-state"
 
   tags = merge(var.default_tags,
-          tomap({"Name": "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-terraform-state"}))
+    tomap({ "Name" : "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-terraform-state" }))
 }
 
 resource "aws_s3_bucket_ownership_controls" "terraform_ownership_controls" {

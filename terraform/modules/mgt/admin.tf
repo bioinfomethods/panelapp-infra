@@ -7,7 +7,7 @@ resource "aws_launch_configuration" "this" {
   key_name                    = var.key_name
   security_groups             = var.security_groups
   associate_public_ip_address = var.associate_public_ip_address
-  user_data                   = templatefile("${path.module}/templates/user_data.tpl", {
+  user_data = templatefile("${path.module}/templates/user_data.tpl", {
     image_name       = var.image_name
     image_tag        = var.image_tag
     database_host    = var.database_host
@@ -21,9 +21,9 @@ resource "aws_launch_configuration" "this" {
     panelapp_media   = var.panelapp_media
     cdn_domain_name  = var.cdn_domain_name
   })
-  enable_monitoring           = var.enable_monitoring
-  ebs_optimized               = var.ebs_optimized
-  iam_instance_profile        = var.iam_instance_profile
+  enable_monitoring    = var.enable_monitoring
+  ebs_optimized        = var.ebs_optimized
+  iam_instance_profile = var.iam_instance_profile
 
   lifecycle {
     create_before_destroy = true
@@ -31,7 +31,7 @@ resource "aws_launch_configuration" "this" {
 }
 
 resource "aws_autoscaling_group" "this" {
-  count = var.create_asg && ! var.create_asg_with_initial_lifecycle_hook ? 1 : 0
+  count = var.create_asg && !var.create_asg_with_initial_lifecycle_hook ? 1 : 0
 
   name                 = "mgt-${var.name}"
   launch_configuration = var.create_lc ? element(concat(aws_launch_configuration.this.*.name, [""]), 0) : var.launch_configuration
@@ -47,8 +47,8 @@ resource "aws_autoscaling_group" "this" {
   suspended_processes  = var.suspended_processes
 
   tag {
-    key   = "Name"
-    value = "mgt"
+    key                 = "Name"
+    value               = "mgt"
     propagate_at_launch = true
   }
 

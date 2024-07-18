@@ -4,8 +4,8 @@ resource "aws_cloudfront_origin_access_identity" "panelapp_s3" {
 }
 
 resource "aws_cloudfront_distribution" "panelapp_distribution" {
-  count   = var.create_cloudfront ? 1 : 0
-#   aliases = [var.cdn_alis]
+  count = var.create_cloudfront ? 1 : 0
+  #   aliases = [var.cdn_alis]
 
   origin {
     domain_name = aws_s3_bucket.panelapp_statics.bucket_regional_domain_name
@@ -36,7 +36,7 @@ resource "aws_cloudfront_distribution" "panelapp_distribution" {
       http_port              = 80
       https_port             = 443
       origin_protocol_policy = "https-only"
-      origin_ssl_protocols   = ["TLSv1"]
+      origin_ssl_protocols = ["TLSv1"]
     }
   }
 
@@ -49,13 +49,13 @@ resource "aws_cloudfront_distribution" "panelapp_distribution" {
   }
 
   default_cache_behavior {
-    allowed_methods  = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
-    cached_methods   = ["GET", "HEAD"]
+    allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods = ["GET", "HEAD"]
     target_origin_id = "panelapp-elb"
 
     forwarded_values {
       query_string = true
-      headers      = ["*"]
+      headers = ["*"]
 
       cookies {
         forward = "all"
@@ -74,8 +74,8 @@ resource "aws_cloudfront_distribution" "panelapp_distribution" {
 
   ordered_cache_behavior {
     path_pattern           = "static/*"
-    allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
-    cached_methods         = ["GET", "HEAD"]
+    allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods = ["GET", "HEAD"]
     target_origin_id       = "S3-panelapp-statics"
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
@@ -93,8 +93,8 @@ resource "aws_cloudfront_distribution" "panelapp_distribution" {
 
   ordered_cache_behavior {
     path_pattern           = "media/*"
-    allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
-    cached_methods         = ["GET", "HEAD"]
+    allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods = ["GET", "HEAD"]
     target_origin_id       = "S3-panelapp_media"
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
@@ -120,6 +120,6 @@ resource "aws_cloudfront_distribution" "panelapp_distribution" {
 
   tags = merge(
     var.default_tags,
-    tomap({"Name": "panelapp_cdn"})
+    tomap({ "Name" : "panelapp_cdn" })
   )
 }

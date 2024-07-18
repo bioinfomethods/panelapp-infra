@@ -1,7 +1,7 @@
 // S3 buckets and DynamoDB tables for Terraform state and locking
 
 resource "aws_s3_bucket" "terraform" {
-  bucket        = "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-terraform-state"
+  bucket = "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-terraform-state"
 
   tags = merge(var.default_tags,
     tomap({ "Name" : "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-terraform-state" }))

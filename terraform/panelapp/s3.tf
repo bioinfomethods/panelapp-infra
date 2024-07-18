@@ -4,7 +4,7 @@ resource "aws_s3_bucket" "panelapp_statics" {
   bucket = "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-panelapp-statics"
   tags = merge(
     var.default_tags,
-    tomap({"Name": "panelapp_static"})
+    tomap({ "Name" : "panelapp_static" })
   )
 }
 
@@ -57,21 +57,21 @@ data "aws_iam_policy_document" "s3_static_policy_cloudfront" {
   count = var.create_cloudfront ? 1 : 0
 
   statement {
-    actions   = ["s3:GetObject"]
+    actions = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.panelapp_statics.arn}/*"]
 
     principals {
-      type        = "AWS"
+      type = "AWS"
       identifiers = [aws_cloudfront_origin_access_identity.panelapp_s3[0].iam_arn]
     }
   }
 
   statement {
-    actions   = ["s3:ListBucket"]
+    actions = ["s3:ListBucket"]
     resources = [aws_s3_bucket.panelapp_statics.arn]
 
     principals {
-      type        = "AWS"
+      type = "AWS"
       identifiers = [aws_cloudfront_origin_access_identity.panelapp_s3[0].iam_arn]
     }
   }
@@ -81,17 +81,17 @@ data "aws_iam_policy_document" "s3_static_policy_cloudflare" {
   count = !var.create_cloudfront ? 1 : 0
 
   statement {
-    actions   = ["s3:GetObject"]
+    actions = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.panelapp_statics.arn}/*"]
 
     condition {
       test     = "IpAddress"
       variable = "aws:SourceIp"
-      values   = [data.cloudflare_ip_ranges.cloudflare.ipv4_cidr_blocks]
+      values = [data.cloudflare_ip_ranges.cloudflare.ipv4_cidr_blocks]
     }
 
     principals {
-      type        = "*"
+      type = "*"
       identifiers = ["*"]
     }
   }
@@ -102,7 +102,7 @@ resource "aws_s3_bucket" "panelapp_media" {
 
   tags = merge(
     var.default_tags,
-    tomap({"Name": "panelapp_media"})
+    tomap({ "Name" : "panelapp_media" })
   )
 }
 
@@ -170,21 +170,21 @@ data "aws_iam_policy_document" "s3_media_policy_cloudfront" {
   count = var.create_cloudfront ? 1 : 0
 
   statement {
-    actions   = ["s3:GetObject"]
+    actions = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.panelapp_media.arn}/*"]
 
     principals {
-      type        = "AWS"
+      type = "AWS"
       identifiers = [aws_cloudfront_origin_access_identity.panelapp_s3[0].iam_arn]
     }
   }
 
   statement {
-    actions   = ["s3:ListBucket"]
+    actions = ["s3:ListBucket"]
     resources = [aws_s3_bucket.panelapp_media.arn]
 
     principals {
-      type        = "AWS"
+      type = "AWS"
       identifiers = [aws_cloudfront_origin_access_identity.panelapp_s3[0].iam_arn]
     }
   }
@@ -194,17 +194,17 @@ data "aws_iam_policy_document" "s3_media_policy_cloudflare" {
   count = !var.create_cloudfront ? 1 : 0
 
   statement {
-    actions   = ["s3:GetObject"]
+    actions = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.panelapp_media.arn}/*"]
 
     condition {
       test     = "IpAddress"
       variable = "aws:SourceIp"
-      values   = [data.cloudflare_ip_ranges.cloudflare.ipv4_cidr_blocks]
+      values = [data.cloudflare_ip_ranges.cloudflare.ipv4_cidr_blocks]
     }
 
     principals {
-      type        = "*"
+      type = "*"
       identifiers = ["*"]
     }
   }
@@ -215,7 +215,7 @@ resource "aws_s3_bucket" "panelapp_scripts" {
 
   tags = merge(
     var.default_tags,
-    tomap({"Name": "panelapp_scripts"})
+    tomap({ "Name" : "panelapp_scripts" })
   )
 }
 

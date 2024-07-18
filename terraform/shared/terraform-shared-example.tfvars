@@ -26,8 +26,8 @@ terraform_state_s3_bucket = "panelapp-shared-<account-id>-<region>-terraform-sta
 
 # Default Tags for AWS resources. Change it into anything suitable for you.
 default_tags = {
-  "Stack"    = "panelapp"
-  "Env"      = "shared"
+  "Stack" = "panelapp"
+  "Env"   = "shared"
 }
 
 # AWS Account ID for ECR (may be the same as the previous one or different)

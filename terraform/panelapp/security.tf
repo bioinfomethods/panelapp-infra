@@ -5,7 +5,7 @@ resource "aws_security_group" "fargate" {
 
   tags = merge(
     var.default_tags,
-    tomap({"Name": "panelapp_cluster"})
+    tomap({ "Name" : "panelapp_cluster" })
   )
 }
 
@@ -33,7 +33,7 @@ resource "aws_security_group_rule" "fargate_smtp_egress" {
   from_port         = 587
   to_port           = 587
   protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
+  cidr_blocks = ["0.0.0.0/0"]
   security_group_id = aws_security_group.fargate.id
   description       = "Allow calls to smtp server"
 }
@@ -43,7 +43,7 @@ resource "aws_security_group_rule" "fargate_https_egress" {
   from_port         = 443
   to_port           = 443
   protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
+  cidr_blocks = ["0.0.0.0/0"]
   security_group_id = aws_security_group.fargate.id
   description       = "Allow calls to https server"
 }

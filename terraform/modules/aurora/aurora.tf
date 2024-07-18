@@ -10,16 +10,16 @@ resource "aws_rds_cluster" "aurora_cluster" {
   kms_key_id                = var.rds_db_kms_key
   vpc_security_group_ids = concat([aws_security_group.aurora.id], var.additional_security_groups)
 
-  database_name   = var.database
-  master_username = var.username
+  database_name           = var.database
+  master_username         = var.username
   backup_retention_period = var.rds_backup_retention_period
 
-  master_password     = join("",data.aws_ssm_parameter.root_password.*.value)
+  master_password = join("", data.aws_ssm_parameter.root_password.*.value)
   snapshot_identifier = var.restore_from_snapshot ? var.rds_snapshot : ""
 
   tags = merge(
     var.default_tags,
-    tomap({"Name": "cluster-${var.env_name}"})
+    tomap({ "Name" : "cluster-${var.env_name}" })
   )
 
   lifecycle {
@@ -28,8 +28,7 @@ resource "aws_rds_cluster" "aurora_cluster" {
 }
 
 resource "aws_rds_cluster_instance" "aurora_cluster_instance" {
-  count = var.cluster_size
-
+  count                   = var.cluster_size
   engine                  = "aurora-postgresql"
   engine_version          = var.engine_version
   identifier              = "${var.env_name}-db${count.index + 1}"
@@ -37,16 +36,15 @@ resource "aws_rds_cluster_instance" "aurora_cluster_instance" {
   instance_class          = var.instance_class
   db_subnet_group_name    = aws_db_subnet_group.aurora.name
   monitoring_interval     = var.mon_interval
-  monitoring_role_arn     = join("", aws_iam_role.rds_enhanced_monitoring.*.arn)
+  monitoring_role_arn = join("", aws_iam_role.rds_enhanced_monitoring.*.arn)
   publicly_accessible     = false
   promotion_tier          = "0"
   db_parameter_group_name = aws_db_parameter_group.custom_instance_parameters.id
-
-  apply_immediately = true
+  apply_immediately       = true
 
   tags = merge(
     var.default_tags,
-    tomap({"Name": "${var.env_name}-db${count.index + 1}"})
+    tomap({ "Name" : "${var.env_name}-db${count.index + 1}" })
   )
 
   lifecycle {

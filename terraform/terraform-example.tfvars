@@ -43,8 +43,8 @@ dns_record = ""
 
 # Default Tags for AWS resources. Change it into anything suitable for you.
 default_tags = {
-  "Stack"    = "panelapp"
-  "Env"      = "<env>"
+  "Stack" = "panelapp"
+  "Env"   = "<env>"
 }
 
 # Create GitHub runners?
@@ -69,7 +69,7 @@ cloudflare_zone = "<dns-domain>"
 
 # CloudFlare DNS host record for static and media files (change to any suitable, valid hostname)
 cloudflare_static_files_record = "prod-static-panelapp"
-cloudflare_media_files_record = "prod-media-panelapp"
+cloudflare_media_files_record  = "prod-media-panelapp"
 
 ########################
 ## Fargate/Application
@@ -99,7 +99,7 @@ application_connection_timeout = 300
 admin_url = "hideme/"
 
 # Default FROM email address and official contact email address
-default_email = "panelapp@mydomain.com"
+default_email  = "panelapp@mydomain.com"
 panelapp_email = "panelapp@mydomain.com"
 
 ######################
@@ -120,6 +120,6 @@ db_instance_class = "db.r5.large"
 EC2_mgmt_count = 0
 
 # Datadog integration
-enable_datadog                      = false
+enable_datadog = false
 # Datadog integration ID
 datadog_aws_integration_external_id = ""
