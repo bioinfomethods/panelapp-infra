@@ -238,7 +238,7 @@ variable "db_family_parameters" {
 
 variable "use_cognito" {
   description = "Use Cognito? (true/false)"
-  default = false
+  default = true
 }
 
 variable "cognito_alb_app_login_path" {
