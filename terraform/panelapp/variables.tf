@@ -17,6 +17,10 @@ variable "account_id" {
   description = "Account ID"
 }
 
+variable "public_dns_zone" {
+  description = "Public DNS Zone ID"
+}
+
 variable "public_dns_zone_name" {
   description = "Public DNS Zone name"
 }
