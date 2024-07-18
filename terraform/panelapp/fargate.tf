@@ -32,7 +32,7 @@ resource "aws_ecs_service" "panelapp_web" {
     subnets         = [data.terraform_remote_state.infra.private_subnets]
   }
 
-  depends_on = ["aws_lb.panelapp", "aws_lb_target_group.panelapp_app_web"]
+  depends_on = [aws_lb.panelapp, aws_lb_target_group.panelapp_app_web]
 
   # tags = "${merge(
   #   var.default_tags,
