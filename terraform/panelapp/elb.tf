@@ -58,7 +58,7 @@ resource "aws_security_group_rule" "panelapp_ingress_cloudfront" {
   to_port   = 65535
   protocol = "tcp"
 
-  # cidr_blocks = ["0.0.0.0/0"]
+#   cidr_blocks = ["0.0.0.0/0"]
 
   prefix_list_ids = [data.aws_ec2_managed_prefix_list.cloudfront_global.id]
   security_group_id = aws_security_group.panelapp_elb.id
