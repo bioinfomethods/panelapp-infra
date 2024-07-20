@@ -55,3 +55,19 @@ output "kms_arn" {
 output "rds_shared_kms_arn" {
   value = module.site.rds_shared_key
 }
+
+output "ecr_repo_web_id" {
+  value = aws_ecr_repository.repo_web.registry_id
+}
+
+output "panelapp_web_image" {
+  value = aws_ecr_repository.repo_web.repository_url
+}
+
+output "ecr_repo_worker_id" {
+  value = aws_ecr_repository.repo_worker.registry_id
+}
+
+output "panelapp_worker_image" {
+  value = aws_ecr_repository.repo_worker.repository_url
+}
