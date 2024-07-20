@@ -36,6 +36,6 @@ module "mgt" {
   aws_region       = var.region
   panelapp_statics = aws_s3_bucket.panelapp_statics.id
   panelapp_media   = aws_s3_bucket.panelapp_media.id
-  cdn_domain_name  = var.cdn_alis
+  cdn_domain_name  = var.cdn_alias
   env_name         = var.env_name
 }

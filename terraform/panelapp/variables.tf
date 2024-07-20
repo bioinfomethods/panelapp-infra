@@ -104,7 +104,7 @@ variable "panelapp_replica" {
   default = 2
 }
 
-variable "cdn_alis" {
+variable "cdn_alias" {
   description = "CDN alias"
   default     = ""
 }

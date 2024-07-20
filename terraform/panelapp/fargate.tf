@@ -64,7 +64,7 @@ resource "aws_ecs_task_definition" "panelapp_web" {
     # Application parameters
     gunicorn_workers       = var.gunicorn_workers
     gunicorn_timeout       = var.application_connection_timeout
-    panel_app_base_host    = var.cdn_alis
+    panel_app_base_host    = var.cdn_alias
     admin_url              = var.admin_url
     log_level              = var.log_level
     database_host          = module.aurora.writer_endpoint
@@ -75,7 +75,7 @@ resource "aws_ecs_task_definition" "panelapp_web" {
     aws_region             = var.region
     panelapp_statics       = aws_s3_bucket.panelapp_statics.id
     panelapp_media         = aws_s3_bucket.panelapp_media.id
-    cdn_domain_name        = var.cdn_alis
+    cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
     email_host             = var.smtp_server
@@ -138,7 +138,7 @@ resource "aws_ecs_task_definition" "panelapp_worker" {
     image_tag              = var.image_tag
     gunicorn_workers       = var.gunicorn_workers
     gunicorn_timeout       = var.application_connection_timeout
-    panel_app_base_host    = var.cdn_alis
+    panel_app_base_host    = var.cdn_alias
     cpu                    = var.worker_task_cpu
     memory                 = var.worker_task_memory
     admin_url              = var.admin_url
@@ -151,7 +151,7 @@ resource "aws_ecs_task_definition" "panelapp_worker" {
     aws_region             = var.region
     panelapp_statics       = aws_s3_bucket.panelapp_statics.id
     panelapp_media         = aws_s3_bucket.panelapp_media.id
-    cdn_domain_name        = var.cdn_alis
+    cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
     email_host             = var.smtp_server
@@ -208,7 +208,7 @@ resource "aws_ecs_task_definition" "panelapp_migrate" {
     # Application parameters
     gunicorn_workers       = var.gunicorn_workers
     gunicorn_timeout       = var.application_connection_timeout
-    panel_app_base_host    = var.cdn_alis
+    panel_app_base_host    = var.cdn_alias
     admin_url              = var.admin_url
     log_level              = var.log_level
     database_host          = module.aurora.writer_endpoint
@@ -219,7 +219,7 @@ resource "aws_ecs_task_definition" "panelapp_migrate" {
     aws_region             = var.region
     panelapp_statics       = aws_s3_bucket.panelapp_statics.id
     panelapp_media         = aws_s3_bucket.panelapp_media.id
-    cdn_domain_name        = var.cdn_alis
+    cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
     email_host             = var.smtp_server
@@ -270,7 +270,7 @@ resource "aws_ecs_task_definition" "panelapp_collectstatic" {
     # Application parameters
     gunicorn_workers       = var.gunicorn_workers
     gunicorn_timeout       = var.application_connection_timeout
-    panel_app_base_host    = var.cdn_alis
+    panel_app_base_host    = var.cdn_alias
     admin_url              = var.admin_url
     log_level              = var.log_level
     database_host          = module.aurora.writer_endpoint
@@ -281,7 +281,7 @@ resource "aws_ecs_task_definition" "panelapp_collectstatic" {
     aws_region             = var.region
     panelapp_statics       = aws_s3_bucket.panelapp_statics.id
     panelapp_media         = aws_s3_bucket.panelapp_media.id
-    cdn_domain_name        = var.cdn_alis
+    cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
     email_host             = var.smtp_server
@@ -344,7 +344,7 @@ resource "aws_ecs_task_definition" "panelapp_loaddata" {
     # Application parameters
     gunicorn_workers       = var.gunicorn_workers
     gunicorn_timeout       = var.application_connection_timeout
-    panel_app_base_host    = var.cdn_alis
+    panel_app_base_host    = var.cdn_alias
     admin_url              = var.admin_url
     log_level              = var.log_level
     database_host          = module.aurora.writer_endpoint
@@ -355,7 +355,7 @@ resource "aws_ecs_task_definition" "panelapp_loaddata" {
     aws_region             = var.region
     panelapp_statics       = aws_s3_bucket.panelapp_statics.id
     panelapp_media         = aws_s3_bucket.panelapp_media.id
-    cdn_domain_name        = var.cdn_alis
+    cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
     email_host             = var.smtp_server
@@ -388,7 +388,7 @@ resource "aws_ecs_task_definition" "panelapp_createsuperuser" {
     # Application parameters
     gunicorn_workers       = var.gunicorn_workers
     gunicorn_timeout       = var.application_connection_timeout
-    panel_app_base_host    = var.cdn_alis
+    panel_app_base_host    = var.cdn_alias
     admin_url              = var.admin_url
     log_level              = var.log_level
     database_host          = module.aurora.writer_endpoint
@@ -399,7 +399,7 @@ resource "aws_ecs_task_definition" "panelapp_createsuperuser" {
     aws_region             = var.region
     panelapp_statics       = aws_s3_bucket.panelapp_statics.id
     panelapp_media         = aws_s3_bucket.panelapp_media.id
-    cdn_domain_name        = var.cdn_alis
+    cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
     email_host             = var.smtp_server

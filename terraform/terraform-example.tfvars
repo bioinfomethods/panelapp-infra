@@ -60,7 +60,7 @@ create_cloudfront = false
 
 # Fully-Qualified DNS name used by the CDN (usually different from the domain defined above)
 # (note this is redundant with the two settings below, as it must match <cloudflare_record>.<cloudflare_zone> - we need to improve this)
-cdn_alis = "<cdn-domain>"
+cdn_alias = "<cdn-domain>"
 
 # Host name in the domain below
 cloudflare_record = "<hostname>"

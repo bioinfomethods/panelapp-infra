@@ -105,14 +105,14 @@ resource "aws_cognito_user_pool_client" "client" {
   supported_identity_providers = ["COGNITO", aws_cognito_identity_provider.google[0].provider_name]
 
   callback_urls = [
-    "https://${var.cdn_alis}/oauth2/idpresponse",
+    "https://${var.cdn_alias}/oauth2/idpresponse",
   ]
 
   logout_urls = [
-    "https://${var.cdn_alis}/accounts/logout/"
+    "https://${var.cdn_alias}/accounts/logout/"
   ]
 
-  default_redirect_uri                 = "https://${var.cdn_alis}/oauth2/idpresponse"
+  default_redirect_uri                 = "https://${var.cdn_alias}/oauth2/idpresponse"
   allowed_oauth_flows = ["code"]
   allowed_oauth_scopes = ["openid", "profile", "email"]
   allowed_oauth_flows_user_pool_client = true

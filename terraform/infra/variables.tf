@@ -90,7 +90,7 @@ variable "terraform_state_s3_bucket" {}
 variable "sqs_name" {}
 variable "dns_record" {}
 variable "create_cloudfront" {}
-variable "cdn_alis" {}
+variable "cdn_alias" {}
 variable "cloudflare_record" {}
 variable "cloudflare_zone" {}
 variable "cloudflare_static_files_record" {}
