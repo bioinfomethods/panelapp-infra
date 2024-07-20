@@ -11,7 +11,7 @@ resource "aws_acm_certificate" "global_cert" {
     create_before_destroy = true
   }
 
-  tags_all = {
+  tags = {
     Name : "${var.stack}-${var.env_name}"
   }
 }

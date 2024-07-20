@@ -4,7 +4,7 @@ resource "aws_acm_certificate" "regional_cert" {
   subject_alternative_names = [replace(data.aws_route53_zone.acm_domain[0].name, "/[.]$/", "")]
   validation_method = "DNS"
 
-  tags_all = {
+  tags = {
     Name : "${var.stack}-${var.env_name}"
   }
 }
