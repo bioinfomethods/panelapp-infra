@@ -22,7 +22,7 @@ module "mgt" {
   aritfacts_bucket     = data.terraform_remote_state.infra.outputs.artifacts_bucket
   kms_arn              = data.terraform_remote_state.infra.outputs.kms_arn
 
-  image_name       = "${var.panelapp_image_repo}/panelapp-web"
+  image_name       = data.terraform_remote_state.infra.outputs.panelapp_web_image
   image_tag        = var.image_tag
   #database_host    = "${module.aurora.writer_endpoint}"
   #database_port    = "${module.aurora.port}"

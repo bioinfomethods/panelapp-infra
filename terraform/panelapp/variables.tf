@@ -2,7 +2,8 @@ variable "region" {
   description = "AWS Region"
 }
 
-variable "terraform_state_s3_bucket" {}
+variable "terraform_shared_state_s3_bucket" {}
+variable "terraform_infra_state_s3_bucket" {}
 
 variable "stack" {
   description = "Stack name"
@@ -158,11 +159,6 @@ variable "log_level" {
 variable "db_instance_class" {
   description = "size of the database"
   default     = "db.r5.large"
-}
-
-variable "panelapp_image_repo" {
-  description = "location for the panelapp name docker image repo"
-  default     = "genomicsengland"
 }
 
 variable "create_cloudfront" {}

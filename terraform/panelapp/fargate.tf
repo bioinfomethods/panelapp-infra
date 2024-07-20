@@ -1,3 +1,7 @@
+locals {
+  panelapp_container_registry = "${var.account_id}.dkr.ecr.${var.region}.amazonaws.com"
+}
+
 resource "aws_ecs_cluster" "panelapp_cluster" {
   count = var.create_panelapp_cluster ? 1 : 0
   name  = "panelapp-cluster-${var.env_name}"
@@ -51,7 +55,7 @@ resource "aws_ecs_task_definition" "panelapp_web" {
   cpu                = var.task_cpu
   memory             = var.task_memory
   container_definitions = templatefile("templates/panelapp-web.tpl", {
-    image_name = "${var.panelapp_image_repo}/panelapp-web"
+    image_name = data.terraform_remote_state.infra.outputs.panelapp_web_image
     image_tag  = var.image_tag
 
     cpu = var.task_cpu
@@ -130,7 +134,7 @@ resource "aws_ecs_task_definition" "panelapp_worker" {
   cpu                = var.worker_task_cpu
   memory             = var.worker_task_memory
   container_definitions = templatefile("templates/panelapp-worker.tpl", {
-    image_name             = "${var.panelapp_image_repo}/panelapp-worker"
+    image_name             = data.terraform_remote_state.infra.outputs.panelapp_worker_image
     image_tag              = var.image_tag
     gunicorn_workers       = var.gunicorn_workers
     gunicorn_timeout       = var.application_connection_timeout
@@ -190,7 +194,7 @@ resource "aws_ecs_task_definition" "panelapp_migrate" {
   container_definitions = templatefile("templates/sh-task.tpl", {
     container_name = "panelapp-migrate"
 
-    image_name = "${var.panelapp_image_repo}/panelapp-web"
+    image_name = data.terraform_remote_state.infra.outputs.panelapp_web_image
     image_tag  = var.image_tag
 
     command = "python manage.py migrate"
@@ -252,7 +256,7 @@ resource "aws_ecs_task_definition" "panelapp_collectstatic" {
   container_definitions = templatefile("templates/sh-task.tpl", {
     container_name = "panelapp-collectstatic"
 
-    image_name = "${var.panelapp_image_repo}/panelapp-web"
+    image_name = data.terraform_remote_state.infra.outputs.panelapp_web_image
     image_tag  = var.image_tag
 
     command = "python manage.py collectstatic --noinput"
@@ -326,7 +330,7 @@ resource "aws_ecs_task_definition" "panelapp_loaddata" {
   container_definitions = templatefile("templates/sh-task.tpl", {
     container_name = "panelapp-loaddata"
 
-    image_name = "${var.panelapp_image_repo}/panelapp-web"
+    image_name = data.terraform_remote_state.infra.outputs.panelapp_web_image
     image_tag  = var.image_tag
 
     command = "python -c \\\"import boto3,botocore;boto3.resource('s3').Bucket('${aws_s3_bucket.panelapp_scripts.id}').download_file('genes.json.gz', '/var/tmp/genes.json.gz')\\\" ; python manage.py loaddata --verbosity 3 /var/tmp/genes.json"
@@ -371,7 +375,7 @@ resource "aws_ecs_task_definition" "panelapp_createsuperuser" {
   container_definitions = templatefile("templates/sh-task.tpl", {
     container_name = "panelapp-createsuperuser"
 
-    image_name = "${var.panelapp_image_repo}/panelapp-web"
+    image_name = data.terraform_remote_state.infra.outputs.panelapp_web_image
     image_tag  = var.image_tag
 
     command = "echo \\\"from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', '${var.admin_email}', 'secret')\\\" | python manage.py shell"

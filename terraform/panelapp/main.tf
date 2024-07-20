@@ -24,12 +24,23 @@ provider "cloudflare" {
   api_key = var.cloudflare_api_key
 }
 
+// State of `shared` component
+data "terraform_remote_state" "shared" {
+  backend = "s3"
+
+  config = {
+    bucket = var.terraform_shared_state_s3_bucket
+    key    = "terraform.tfstate"
+    region = var.region
+  }
+}
+
 // State of `infra` component
 data "terraform_remote_state" "infra" {
   backend = "s3"
 
   config = {
-    bucket = var.terraform_state_s3_bucket
+    bucket = var.terraform_infra_state_s3_bucket
     key    = "infra/terraform.tfstate"
     region = var.region
   }
