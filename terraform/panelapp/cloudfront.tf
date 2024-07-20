@@ -38,6 +38,11 @@ resource "aws_cloudfront_distribution" "panelapp_distribution" {
       origin_protocol_policy = "https-only"
       origin_ssl_protocols = ["SSLv3", "TLSv1.2"]
     }
+
+    custom_header {
+      name  = var.waf_acl_cf_req_header_name
+      value = data.aws_ssm_parameter.cf_req_header_value[0].value
+    }
   }
 
   enabled = true

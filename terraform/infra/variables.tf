@@ -95,6 +95,7 @@ variable "cloudflare_record" {}
 variable "cloudflare_zone" {}
 variable "cloudflare_static_files_record" {}
 variable "cloudflare_media_files_record" {}
+variable "waf_acl_cf_req_header_name" {}
 variable "panelapp_replica" {}
 variable "task_cpu" {}
 variable "task_memory" {}

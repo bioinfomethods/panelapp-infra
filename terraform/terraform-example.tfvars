@@ -71,6 +71,9 @@ cloudflare_zone = "<dns-domain>"
 cloudflare_static_files_record = "prod-static-panelapp"
 cloudflare_media_files_record  = "prod-media-panelapp"
 
+# CDN (CloudFront or CloudFlare) to ELB request header name
+waf_acl_cf_req_header_name = "cf_req_header"
+
 ########################
 ## Fargate/Application
 ########################

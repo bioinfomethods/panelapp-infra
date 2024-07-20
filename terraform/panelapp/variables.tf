@@ -184,6 +184,11 @@ variable "cloudflare_media_files_record" {
   description = "cloudflare record to add page rule for media files, pointing to media s3 bucket"
 }
 
+variable "waf_acl_cf_req_header_name" {
+  description = "CDN (CloudFront or CloudFlare) to ELB request header name"
+  type = string
+}
+
 variable "create_panelapp_cluster" {
   description = "To whether create panelapp fargate cluster"
   default     = true
