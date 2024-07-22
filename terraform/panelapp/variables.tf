@@ -191,7 +191,7 @@ variable "cloudflare_media_files_record" {
 
 variable "waf_acl_cf_req_header_name" {
   description = "CDN (CloudFront or CloudFlare) to ELB request header name"
-  type = string
+  type        = string
 }
 
 variable "create_panelapp_cluster" {
