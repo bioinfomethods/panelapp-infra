@@ -246,6 +246,16 @@ variable "rds_backup_retention_period" {
   default = 7
 }
 
+variable "create_bastion_host" {
+  default = false
+  type    = bool
+}
+
+variable "bastion_host_key_name" {
+  default = "id_ed25519"
+  type    = string
+}
+
 variable "block_public_access" {
   default = false
 }

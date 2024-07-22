@@ -112,4 +112,6 @@ variable "db_instance_class" {}
 variable "mon_interval" {}
 variable "performance_insights_enabled" {}
 variable "performance_insights_retention_period" {}
+variable "create_bastion_host" {}
+variable "bastion_host_key_name" {}
 variable "EC2_mgmt_count" {}

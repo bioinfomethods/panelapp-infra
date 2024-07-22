@@ -10,8 +10,16 @@ output "db_port" {
   value = module.aurora.port
 }
 
+output "db_user" {
+  value = module.aurora.database_user
+}
+
 output "db_name" {
   value = module.aurora.database_name
+}
+
+output "bastion_host_ip" {
+  value = var.create_bastion_host ? aws_instance.bastion[0].public_ip : "not created"
 }
 
 # output "reader_endpoint" {

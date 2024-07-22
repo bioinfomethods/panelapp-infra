@@ -127,6 +127,13 @@ performance_insights_enabled = false
 # Number of days to retain performance insights metrics, more than 7 is not free
 performance_insights_retention_period = 7
 
+# Flag to create a bastion host to access the RDS cluster
+create_bastion_host = false
+
+# Name of the SSH key pair to access the bastion host
+# To create new key pair, see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html#having-ec2-create-your-key-pair
+bastion_host_key_name = "id_ed25519_mcri_aws"
+
 ###################
 ## Other settings
 ###################
