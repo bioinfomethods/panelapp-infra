@@ -256,7 +256,7 @@ variable "whitelisted_ips" {
 }
 
 variable "engine_version" {
-  default = "13"
+  default = "13.12"
 }
 
 variable "db_family_parameters" {
