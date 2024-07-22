@@ -99,6 +99,8 @@ variable "waf_acl_cf_req_header_name" {}
 variable "panelapp_replica" {}
 variable "task_cpu" {}
 variable "task_memory" {}
+variable "worker_task_cpu" {}
+variable "worker_task_memory" {}
 variable "log_retention" {}
 variable "gunicorn_workers" {}
 variable "application_connection_timeout" {}

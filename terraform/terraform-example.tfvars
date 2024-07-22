@@ -90,6 +90,8 @@ panelapp_replica = 2
 # A limitation of the current implementation is all Fargate tasks use the same settings
 task_cpu = 2048
 task_memory = 4096
+worker_task_cpu = 512
+worker_task_memory = 1024
 
 # CloudWatch log retention (days)
 log_retention = 30
