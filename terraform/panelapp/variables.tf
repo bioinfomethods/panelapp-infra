@@ -166,6 +166,16 @@ variable "mon_interval" {
   type    = number
 }
 
+variable "performance_insights_enabled" {
+  default = false
+  type    = bool
+}
+
+variable "performance_insights_retention_period" {
+  default = 7
+  type    = number
+}
+
 variable "create_cloudfront" {}
 
 variable "cloudflare_api_key" {

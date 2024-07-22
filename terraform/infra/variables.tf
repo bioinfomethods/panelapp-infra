@@ -108,4 +108,6 @@ variable "panelapp_email" {}
 variable "aurora_replica" {}
 variable "db_instance_class" {}
 variable "mon_interval" {}
+variable "performance_insights_enabled" {}
+variable "performance_insights_retention_period" {}
 variable "EC2_mgmt_count" {}

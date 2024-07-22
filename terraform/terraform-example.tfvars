@@ -119,6 +119,12 @@ db_instance_class = "db.r5.large"
 # Turn on Aurora RDS Enhanced Monitoring
 mon_interval = 0
 
+# Turn on Aurora RDS Performance Insights
+performance_insights_enabled = false
+
+# Number of days to retain performance insights metrics, more than 7 is not free
+performance_insights_retention_period = 7
+
 ###################
 ## Other settings
 ###################

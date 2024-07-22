@@ -26,19 +26,22 @@ resource "aws_rds_cluster" "aurora_cluster" {
 }
 
 resource "aws_rds_cluster_instance" "aurora_cluster_instance" {
-  count                   = var.cluster_size
-  engine                  = "aurora-postgresql"
-  engine_version          = var.engine_version
-  identifier              = "${var.env_name}-db${count.index + 1}"
-  cluster_identifier      = aws_rds_cluster.aurora_cluster.id
-  instance_class          = var.instance_class
-  db_subnet_group_name    = aws_db_subnet_group.aurora.name
-  monitoring_interval     = var.mon_interval
-  monitoring_role_arn     = join("", aws_iam_role.rds_enhanced_monitoring.*.arn)
-  publicly_accessible     = false
-  promotion_tier          = "0"
-  db_parameter_group_name = aws_db_parameter_group.custom_instance_parameters.id
-  apply_immediately       = true
+  count                           = var.cluster_size
+  engine                          = "aurora-postgresql"
+  engine_version                  = var.engine_version
+  identifier                      = "${var.env_name}-db${count.index + 1}"
+  cluster_identifier              = aws_rds_cluster.aurora_cluster.id
+  instance_class                  = var.instance_class
+  db_subnet_group_name            = aws_db_subnet_group.aurora.name
+  monitoring_interval             = var.mon_interval
+  monitoring_role_arn             = join("", aws_iam_role.rds_enhanced_monitoring.*.arn)
+  performance_insights_enabled    = var.performance_insights_enabled
+  performance_insights_kms_key_id = var.performance_insights_enabled ? var.rds_db_kms_key : null
+  performance_insights_retention_period = var.performance_insights_enabled ? var.performance_insights_retention_period : null
+  publicly_accessible             = false
+  promotion_tier                  = "0"
+  db_parameter_group_name         = aws_db_parameter_group.custom_instance_parameters.id
+  apply_immediately               = true
 
   tags = merge(
     var.default_tags,
