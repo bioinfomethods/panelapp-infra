@@ -102,7 +102,8 @@ resource "aws_cognito_user_pool_client" "client" {
   refresh_token_validity = 30
 
   // App client settings
-  supported_identity_providers = ["COGNITO", aws_cognito_identity_provider.google[0].provider_name]
+  // Include "COGNITO" to re-enable Cognito sign-in options
+  supported_identity_providers = [aws_cognito_identity_provider.google[0].provider_name]
 
   callback_urls = [
     "https://${var.cdn_alias}/oauth2/idpresponse",
