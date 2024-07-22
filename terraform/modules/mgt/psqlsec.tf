@@ -6,7 +6,7 @@ resource "aws_security_group_rule" "postgres_client_egress_http" {
   protocol    = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
   security_group_id = join("", aws_security_group.postgres_client.*.id)
-  description = "http egres for software repos"
+  description = "http egress for software repos"
 }
 
 resource "aws_security_group_rule" "postgres_client_egress_https" {
@@ -17,7 +17,7 @@ resource "aws_security_group_rule" "postgres_client_egress_https" {
   protocol    = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
   security_group_id = join("", aws_security_group.postgres_client.*.id)
-  description = "https egres for aws apis"
+  description = "https egress for aws apis"
 }
 
 resource "aws_security_group" "postgres_client" {
