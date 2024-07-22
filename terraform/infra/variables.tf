@@ -107,4 +107,5 @@ variable "default_email" {}
 variable "panelapp_email" {}
 variable "aurora_replica" {}
 variable "db_instance_class" {}
+variable "mon_interval" {}
 variable "EC2_mgmt_count" {}

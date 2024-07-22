@@ -9,7 +9,7 @@ module "aurora" {
   engine_version              = var.engine_version
   skip_final_snapshot         = true
   enable_monitoring           = false
-  mon_interval                = 0
+  mon_interval                = var.mon_interval
   database                    = "panelapp"
   username                    = "panelapp"
   restore_from_snapshot       = var.restore_from_snapshot

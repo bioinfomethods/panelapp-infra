@@ -161,6 +161,11 @@ variable "db_instance_class" {
   default     = "db.r5.large"
 }
 
+variable "mon_interval" {
+  default = 0
+  type    = number
+}
+
 variable "create_cloudfront" {}
 
 variable "cloudflare_api_key" {

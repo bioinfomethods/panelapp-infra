@@ -115,6 +115,9 @@ aurora_replica = 1
 # Size of Aurora instances
 db_instance_class = "db.r5.large"
 
+# Turn on Aurora RDS Enhanced Monitoring
+mon_interval = 0
+
 ###################
 ## Other settings
 ###################
