@@ -105,6 +105,8 @@ variable "log_retention" {}
 variable "gunicorn_workers" {}
 variable "application_connection_timeout" {}
 variable "admin_url" {}
+variable "admin_email" {}
+variable "admin_secret" {}
 variable "default_email" {}
 variable "panelapp_email" {}
 variable "aurora_replica" {}

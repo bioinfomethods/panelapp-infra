@@ -378,7 +378,7 @@ resource "aws_ecs_task_definition" "panelapp_createsuperuser" {
     image_name = data.terraform_remote_state.infra.outputs.panelapp_web_image
     image_tag  = var.image_tag
 
-    command = "echo \\\"from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', '${var.admin_email}', 'secret')\\\" | python manage.py shell"
+    command = "echo \\\"from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', '${var.admin_email}', '${var.admin_secret}')\\\" | python manage.py shell"
     cpu     = var.task_cpu
     memory  = var.task_memory
 

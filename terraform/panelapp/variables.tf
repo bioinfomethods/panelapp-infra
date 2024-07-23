@@ -126,8 +126,13 @@ variable "panelapp_email" {
 }
 
 variable "admin_email" {
-  description = "email used to creat super user task"
+  description = "email used to create super user task"
   default     = "test@test.com"
+}
+
+variable "admin_secret" {
+  description = "password of Django admin user"
+  default     = "secret"
 }
 
 variable "image_tag" {}

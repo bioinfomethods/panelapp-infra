@@ -104,6 +104,10 @@ application_connection_timeout = 300
 # path of the Django Admin site. Change so something as unpredictable as possible (security by obscurity ;) )
 admin_url = "hideme/"
 
+# Django admin user email and password, obviously change it to something secure
+admin_email = "test@test.com"
+admin_secret = "secret"
+
 # Default FROM email address and official contact email address
 default_email  = "panelapp@mydomain.com"
 panelapp_email = "panelapp@mydomain.com"
