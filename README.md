@@ -104,3 +104,11 @@ aws ssm put-parameter --name '/panelapp/prod/cognito/google/oauth_client_secret'
 ```
 
 Note that the domain `panelapp-prod` and `/panelapp/prod/...` is derived from terraform variables `${var.stack}` and `${var.env_name}`. Currently only Hosted UI mode is tested and supported.
+
+## Security
+
+### Only CloudFront Can Access Load Balancer
+
+See https://repost.aws/knowledge-center/waf-restrict-alb-allow-cloudfront
+
+This is configured in [elb.tf](terraform/panelapp/elb.tf)
