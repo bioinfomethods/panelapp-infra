@@ -4,7 +4,7 @@ resource "aws_instance" "bastion" {
   ami                         = "ami-030a5acd7c996ef60"
   instance_type               = "t3.micro"
   subnet_id                   = data.terraform_remote_state.infra.outputs.public_subnets[0]
-  security_groups = [aws_security_group.bastion_sg[0].id]
+  vpc_security_group_ids = [aws_security_group.bastion_sg[0].id]
   associate_public_ip_address = true
   key_name                    = var.bastion_host_key_name
   tags = merge(
