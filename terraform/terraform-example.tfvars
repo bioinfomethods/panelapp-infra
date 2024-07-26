@@ -136,7 +136,7 @@ create_bastion_host = false
 
 # Name of the SSH key pair to access the bastion host
 # To create new key pair, see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html#having-ec2-create-your-key-pair
-bastion_host_key_name = "id_ed25519_mcri_aws"
+bastion_host_key_name = "id_ed25519"
 
 ###################
 ## Other settings
