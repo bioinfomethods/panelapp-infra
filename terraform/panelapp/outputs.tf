@@ -35,13 +35,11 @@ output "bastion_host_ip" {
 #   value = "${data.aws_ip_ranges.european_us_cloudfront.cidr_blocks}"
 # }
 
+output "ses_password" {
+  value = aws_iam_access_key.ses.ses_smtp_password_v4
+  sensitive = true
+}
 
-# output "ses_password" {
-#   value = "${aws_iam_access_key.ses.ses_smtp_password_v4}"
-# }
-
-
-# output "ses_id" {
-#   value = "${aws_iam_access_key.ses.id}"
-# }
-
+output "ses_id" {
+  value = aws_iam_access_key.ses.id
+}

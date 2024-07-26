@@ -78,7 +78,7 @@ resource "aws_ecs_task_definition" "panelapp_web" {
     cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
-    email_host             = var.smtp_server
+    email_host             = "email-smtp.${var.region}.amazonaws.com"
     email_user             = aws_iam_access_key.ses.id
     email_password         = aws_iam_access_key.ses.ses_smtp_password_v4
     gunicorn_accesslog     = var.gunicorn_accesslog
@@ -154,7 +154,7 @@ resource "aws_ecs_task_definition" "panelapp_worker" {
     cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
-    email_host             = var.smtp_server
+    email_host             = "email-smtp.${var.region}.amazonaws.com"
     email_user             = aws_iam_access_key.ses.id
     email_password         = aws_iam_access_key.ses.ses_smtp_password_v4
   })
@@ -222,7 +222,7 @@ resource "aws_ecs_task_definition" "panelapp_migrate" {
     cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
-    email_host             = var.smtp_server
+    email_host             = "email-smtp.${var.region}.amazonaws.com"
     email_user             = aws_iam_access_key.ses.id
     email_password         = aws_iam_access_key.ses.ses_smtp_password_v4
   })
@@ -284,7 +284,7 @@ resource "aws_ecs_task_definition" "panelapp_collectstatic" {
     cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
-    email_host             = var.smtp_server
+    email_host             = "email-smtp.${var.region}.amazonaws.com"
     email_user             = aws_iam_access_key.ses.id
     email_password         = aws_iam_access_key.ses.ses_smtp_password_v4
   })
@@ -358,7 +358,7 @@ resource "aws_ecs_task_definition" "panelapp_loaddata" {
     cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
-    email_host             = var.smtp_server
+    email_host             = "email-smtp.${var.region}.amazonaws.com"
     email_user             = aws_iam_access_key.ses.id
     email_password         = aws_iam_access_key.ses.ses_smtp_password_v4
   })
@@ -402,7 +402,7 @@ resource "aws_ecs_task_definition" "panelapp_createsuperuser" {
     cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
-    email_host             = var.smtp_server
+    email_host             = "email-smtp.${var.region}.amazonaws.com"
     email_user             = aws_iam_access_key.ses.id
     email_password         = aws_iam_access_key.ses.ses_smtp_password_v4
   })
