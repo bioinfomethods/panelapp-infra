@@ -71,3 +71,13 @@ output "ecr_repo_worker_id" {
 output "panelapp_worker_image" {
   value = aws_ecr_repository.repo_worker.repository_url
 }
+
+output "oidc_provider_arn" {
+  description = "OIDC provider ARN"
+  value       = module.github-oidc.oidc_provider_arn
+}
+
+output "github_oidc_role" {
+  description = "CICD GitHub role."
+  value       = module.github-oidc.oidc_role
+}
