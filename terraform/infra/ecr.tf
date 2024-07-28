@@ -1,3 +1,17 @@
+resource "aws_ecr_repository" "repo_base" {
+  name                 = "${var.stack}_base_${var.env_name}"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  encryption_configuration {
+    encryption_type = "KMS"
+    kms_key         = module.site.site_key
+  }
+}
+
 resource "aws_ecr_repository" "repo_web" {
   name                 = "${var.stack}_web_${var.env_name}"
   image_tag_mutability = "MUTABLE"
