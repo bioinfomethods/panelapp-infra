@@ -213,6 +213,7 @@ resource "aws_ecs_task_definition" "panelapp_migrate" {
     panel_app_base_host    = var.cdn_alias
     admin_url              = var.admin_url
     log_level              = var.log_level
+    env_name               = var.env_name
     database_host          = module.aurora.writer_endpoint
     database_port          = module.aurora.port
     database_name          = module.aurora.database_name
@@ -270,11 +271,13 @@ resource "aws_ecs_task_definition" "panelapp_collectstatic" {
     log_stream_prefix = "panelapp-collectstatic"
 
     # Application parameters
+
     gunicorn_workers       = var.gunicorn_workers
     gunicorn_timeout       = var.application_connection_timeout
     panel_app_base_host    = var.cdn_alias
     admin_url              = var.admin_url
     log_level              = var.log_level
+    env_name               = var.env_name
     database_host          = module.aurora.writer_endpoint
     database_port          = module.aurora.port
     database_name          = module.aurora.database_name
@@ -349,6 +352,7 @@ resource "aws_ecs_task_definition" "panelapp_loaddata" {
     panel_app_base_host    = var.cdn_alias
     admin_url              = var.admin_url
     log_level              = var.log_level
+    env_name               = var.env_name
     database_host          = module.aurora.writer_endpoint
     database_port          = module.aurora.port
     database_name          = module.aurora.database_name
@@ -393,6 +397,7 @@ resource "aws_ecs_task_definition" "panelapp_createsuperuser" {
     panel_app_base_host    = var.cdn_alias
     admin_url              = var.admin_url
     log_level              = var.log_level
+    env_name               = var.env_name
     database_host          = module.aurora.writer_endpoint
     database_port          = module.aurora.port
     database_name          = module.aurora.database_name
