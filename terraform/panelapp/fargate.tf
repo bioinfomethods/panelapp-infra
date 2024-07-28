@@ -67,6 +67,7 @@ resource "aws_ecs_task_definition" "panelapp_web" {
     panel_app_base_host    = var.cdn_alias
     admin_url              = var.admin_url
     log_level              = var.log_level
+    env_name               = var.env_name
     database_host          = module.aurora.writer_endpoint
     database_port          = module.aurora.port
     database_name          = module.aurora.database_name
@@ -143,6 +144,7 @@ resource "aws_ecs_task_definition" "panelapp_worker" {
     memory                 = var.worker_task_memory
     admin_url              = var.admin_url
     log_level              = var.log_level
+    env_name               = var.env_name
     database_host          = module.aurora.writer_endpoint
     database_port          = module.aurora.port
     database_name          = module.aurora.database_name

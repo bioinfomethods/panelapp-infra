@@ -15,6 +15,7 @@
       }
     },
     "environment" : [
+      { "name" : "ENV_NAME", "value" : "${env_name}" },
       { "name" : "DATABASE_HOST", "value" : "${database_host}" },
       { "name" : "DATABASE_PORT", "value" : "${database_port}" },
       { "name" : "DATABASE_NAME", "value" : "${database_name}" },
