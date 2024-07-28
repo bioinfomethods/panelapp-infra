@@ -112,3 +112,16 @@ Note that the domain `panelapp-prod` and `/panelapp/prod/...` is derived from te
 See https://repost.aws/knowledge-center/waf-restrict-alb-allow-cloudfront
 
 This is configured in [elb.tf](terraform/panelapp/elb.tf)
+
+### GitHub Actions
+
+CI/CD are employed using GitHub Actions (see [main.yml](../.github/workflows/main.yml)).  It uses OIDC to authenticate
+with AWS.  AWS is configured (see [github.tf](terraform/infra/github.tf)) to trust this OIDC provider and its
+authorisation policies is also in this file.  The following articles are used as
+reference.
+
+https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
+
+https://aws.amazon.com/blogs/security/use-iam-roles-to-connect-github-actions-to-actions-in-aws/
+
+https://registry.terraform.io/modules/terraform-module/github-oidc-provider/aws/latest
