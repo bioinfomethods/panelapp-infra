@@ -80,3 +80,12 @@ resource "aws_route53_record" "spf_domain" {
   ttl     = "600"
   records = ["v=spf1 include:amazonses.com -all"]
 }
+
+resource "aws_route53_record" "mx" {
+  #   zone_id = data.terraform_remote_state.infra.outputs.public_dns_zone
+  zone_id = var.public_dns_zone
+  name    = aws_ses_domain_mail_from.main.mail_from_domain
+  type    = "MX"
+  ttl     = "600"
+  records = ["10 feedback-smtp.ap-southeast-2.amazonses.com"]
+}
