@@ -50,7 +50,8 @@ variable "create_sqs" {
 }
 
 variable "sqs_name" {
-  default = ""
+  type    = string
+  default = "pannelapp"
 }
 
 # FIXME Qualify all the variables below, making it clear they refer to the SQS queue
@@ -110,27 +111,33 @@ variable "cdn_alias" {
 }
 
 variable "dns_record" {
+  type    = string
   default = ""
 }
 
 variable "smtp_server" {
+  type    = string
   default = "email-smtp.eu-west-1.amazonaws.com"
 }
 
 variable "default_email" {
+  type        = string
   description = "email used as sender"
 }
 
 variable "panelapp_email" {
+  type        = string
   description = "contact email"
 }
 
 variable "admin_email" {
+  type        = string
   description = "email used to create super user task"
   default     = "test@test.com"
 }
 
 variable "admin_secret" {
+  type        = string
   description = "password of Django admin user"
   default     = "secret"
 }
@@ -181,7 +188,10 @@ variable "performance_insights_retention_period" {
   type    = number
 }
 
-variable "create_cloudfront" {}
+variable "create_cloudfront" {
+  type    = bool
+  default = true
+}
 
 variable "cloudflare_api_key" {
   type    = string
@@ -308,15 +318,18 @@ variable "master_account" {
 }
 
 variable "cidr" {
-  type = string
+  type    = string
+  default = "172.16.5.0/26"
 }
 
 variable "public_subnets" {
   type = list(string)
+  default = ["172.16.5.0/28", "172.16.5.16/28"]
 }
 
 variable "private_subnets" {
   type = list(string)
+  default = ["172.16.5.32/28", "172.16.5.48/28"]
 }
 
 variable "create_runner_terraform" {
