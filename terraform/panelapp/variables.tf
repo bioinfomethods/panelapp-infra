@@ -20,6 +20,7 @@ variable "account_id" {
 
 variable "public_dns_zone" {
   description = "Public DNS Zone ID"
+  default = ""
 }
 
 variable "public_dns_zone_name" {
@@ -28,6 +29,7 @@ variable "public_dns_zone_name" {
 
 variable "default_tags" {
   type = map(string)
+  default = null
 }
 
 variable "cluster_size" {
@@ -201,30 +203,31 @@ variable "cloudflare_api_key" {
 variable "cloudflare_record" {
   type = string
   description = "record to be added to the cloudflare"
-  default = null
+  default = ""
 }
 
 variable "cloudflare_zone" {
   type = string
   description = "zone on cloudflare"
-  default = null
+  default = ""
 }
 
 variable "cloudflare_static_files_record" {
   type = string
   description = "cloudflare record to add page rule for static files, pointing to static s3 bucket"
-  default = null
+  default = ""
 }
 
 variable "cloudflare_media_files_record" {
   type = string
   description = "cloudflare record to add page rule for media files, pointing to media s3 bucket"
-  default = null
+  default = ""
 }
 
 variable "waf_acl_cf_req_header_name" {
   description = "CDN (CloudFront or CloudFlare) to ELB request header name"
   type        = string
+  default     = "cf_req_header"
 }
 
 variable "create_panelapp_cluster" {
@@ -352,4 +355,5 @@ variable "enable_datadog" {
 
 variable "datadog_aws_integration_external_id" {
   type = string
+  default = ""
 }
