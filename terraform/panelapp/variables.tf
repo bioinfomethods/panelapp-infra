@@ -199,19 +199,27 @@ variable "cloudflare_api_key" {
 }
 
 variable "cloudflare_record" {
+  type = string
   description = "record to be added to the cloudflare"
+  default = null
 }
 
 variable "cloudflare_zone" {
+  type = string
   description = "zone on cloudflare"
+  default = null
 }
 
 variable "cloudflare_static_files_record" {
+  type = string
   description = "cloudflare record to add page rule for static files, pointing to static s3 bucket"
+  default = null
 }
 
 variable "cloudflare_media_files_record" {
+  type = string
   description = "cloudflare record to add page rule for media files, pointing to media s3 bucket"
+  default = null
 }
 
 variable "waf_acl_cf_req_header_name" {
