@@ -29,7 +29,7 @@ variable "public_dns_zone_name" {
 
 variable "default_tags" {
   type = map(string)
-  default = null
+  default = {}
 }
 
 variable "cluster_size" {
@@ -147,19 +147,19 @@ variable "admin_secret" {
 variable "image_tag" {}
 
 variable "task_cpu" {
-  default = 2048
-}
-
-variable "task_memory" {
-  default = 4096
-}
-
-variable "worker_task_cpu" {
   default = 512
 }
 
-variable "worker_task_memory" {
+variable "task_memory" {
   default = 1024
+}
+
+variable "worker_task_cpu" {
+  default = 256
+}
+
+variable "worker_task_memory" {
+  default = 512
 }
 
 variable "log_retention" {
