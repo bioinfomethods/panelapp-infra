@@ -2,6 +2,9 @@ variable "region" {
   description = "AWS Region"
 }
 
+variable "terraform_shared_state_s3_bucket" {}
+variable "terraform_infra_state_s3_bucket" {}
+
 variable "stack" {
   description = "Stack name"
   default     = "panelapp"
@@ -20,8 +23,9 @@ variable "create_public_dns_zone" {
   type    = bool
 }
 
-variable "public_route53_zone" {
-  type = string
+variable "public_dns_zone" {
+  description = "Public DNS Zone ID"
+  default = ""
 }
 
 variable "public_dns_zone_name" {
@@ -64,17 +68,17 @@ variable "master_account" {
   default = ""
 }
 
+variable "trusted_account" {
+  description = "Account allowed to access RDS KMS key"
+  type        = string
+}
+
 variable "enable_datadog" {
   default = false
 }
 
 variable "datadog_aws_integration_external_id" {
   default = ""
-}
-
-variable "trusted_account" {
-  description = "Account allowed to access RDS KMS key"
-  type        = string
 }
 
 variable "share_rds_kms_key" {
@@ -86,7 +90,6 @@ variable "share_rds_kms_key" {
 ################################
 # Note: Some of these are used in "infra" component and some are used in "panelapp" component
 # since terraform/terraform-example.tfvars is shared across both
-variable "terraform_state_s3_bucket" {}
 variable "sqs_name" {}
 variable "dns_record" {}
 variable "create_cloudfront" {}
@@ -105,8 +108,10 @@ variable "log_retention" {}
 variable "gunicorn_workers" {}
 variable "application_connection_timeout" {}
 variable "admin_url" {}
+variable "smtp_server" {}
 variable "admin_email" {}
 variable "admin_secret" {}
+variable "image_tag" {}
 variable "default_email" {}
 variable "panelapp_email" {}
 variable "aurora_replica" {}

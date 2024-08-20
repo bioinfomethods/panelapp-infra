@@ -18,6 +18,11 @@ variable "account_id" {
   description = "Account ID"
 }
 
+variable "create_public_dns_zone" {
+  default = false
+  type    = bool
+}
+
 variable "public_dns_zone" {
   description = "Public DNS Zone ID"
   default = ""
@@ -326,6 +331,11 @@ variable "cognito_password_symbols_required" {
 
 variable "master_account" {
   default = ""
+}
+
+variable "trusted_account" {
+  description = "Account allowed to access RDS KMS key"
+  type        = string
 }
 
 variable "cidr" {

@@ -30,8 +30,11 @@ public_route53_zone = "setme"
 # DNS Zone of the AWS application (e.g. "panelapp.mydomain.com")
 public_dns_zone_name = "<public-dns-domain>"
 
-# Name of the Terraform State bucket. It must match the name defined in backend.conf
-terraform_state_s3_bucket = "panelapp-<env>-<account-id>-<region>-terraform-state"
+# Name of the Terraform State shared bucket. It must match the name defined in backend.conf
+terraform_shared_state_s3_bucket = "panelapp-shared-<account-id>-<region>-terraform-state"
+
+# Name of the Terraform State infra bucket. It must match the name defined in backend.conf
+terraform_infra_state_s3_bucket = "panelapp-test-<account-id>-<region>-terraform-state"
 
 # CIDR of the VPC and subnet masks (change it as suitable)
 cidr = "172.16.5.0/26"
@@ -58,7 +61,6 @@ create_runner_terraform = false
 # True: Use CloudFront CDN. False: Use CloudFlare CDN
 create_cloudfront = false
 
-
 # Fully-Qualified DNS name used by the CDN (usually different from the domain defined above)
 # (note this is redundant with the two settings below, as it must match <cloudflare_record>.<cloudflare_zone> - we need to improve this)
 cdn_alias = "<cdn-domain>"
@@ -72,7 +74,7 @@ cloudflare_zone = "<dns-domain>"
 cloudflare_static_files_record = "prod-static-panelapp"
 cloudflare_media_files_record  = "prod-media-panelapp"
 
-# CDN (CloudFront or CloudFlare) to ELB request header name
+# CDN (CloudFront or CloudFlare) to ELB request header name, shouldn't need to change
 waf_acl_cf_req_header_name = "cf_req_header"
 
 ########################
@@ -103,6 +105,7 @@ application_connection_timeout = 300
 
 # path of the Django Admin site. Change so something as unpredictable as possible (security by obscurity ;) )
 admin_url = "hideme/"
+smtp_server = "email-smtp.ap-southeast-2.amazonaws.com"
 
 # Django admin user email and password, obviously change it to something secure
 admin_email = "test@test.com"
@@ -149,3 +152,6 @@ EC2_mgmt_count = 0
 enable_datadog = false
 # Datadog integration ID
 datadog_aws_integration_external_id = ""
+
+# Used for deployment and release process of the application
+image_tag = "latest"
