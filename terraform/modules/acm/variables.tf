@@ -5,6 +5,10 @@ variable "region" {}
 variable "public_route53_zone" {
   type = string
 }
+variable "public_dns_zone" {
+  type = string
+}
+
 variable "public_dns_zone_name" {
   type = string
 }

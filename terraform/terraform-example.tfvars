@@ -25,7 +25,8 @@ create_public_dns_zone = false
 
 # Set this to the Route53 public hosted zone ID (regardless of whether it already exists or created by terraform)
 # E.g. Z0012345678ABCDEFGHIJ
-public_route53_zone = "setme"
+# public_route53_zone = "setme"
+public_dns_zone = "setme"
 
 # DNS Zone of the AWS application (e.g. "panelapp.mydomain.com")
 public_dns_zone_name = "<public-dns-domain>"
