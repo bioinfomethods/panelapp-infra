@@ -367,3 +367,8 @@ variable "datadog_aws_integration_external_id" {
   type = string
   default = ""
 }
+
+variable "cognito_suffix" {
+  type = string
+  default = ""
+}

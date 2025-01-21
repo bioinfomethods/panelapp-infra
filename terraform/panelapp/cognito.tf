@@ -121,7 +121,7 @@ resource "aws_cognito_user_pool_client" "client" {
 
 resource "aws_cognito_user_pool_domain" "domain" {
   count        = var.use_cognito ? 1 : 0
-  domain       = "${var.stack}-${var.env_name}"
+  domain       = var.cognito_suffix == "" ? "${var.stack}-${var.env_name}" : "${var.stack}-${var.env_name}-${var.cognito_suffix}"
   user_pool_id = aws_cognito_user_pool.pool[0].id
 }
 

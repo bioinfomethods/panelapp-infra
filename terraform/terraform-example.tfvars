@@ -145,6 +145,8 @@ bastion_host_key_name = "id_ed25519"
 ###################
 ## Other settings
 ###################
+# Cognito suffix when: "Domain already associated with another user pool"
+cognito_suffix = ""
 
 # Management box. Change to 1 to start the management box EC2 instance
 EC2_mgmt_count = 0
