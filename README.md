@@ -96,6 +96,7 @@ Cognito User Pool support [third party IdP and user federation for Single Sign-O
     1. At **Scopes for Google APIs**, add scope for `email`, `profile`, `openid`. Note, one at a time.
     2. At **Authorized domains**, add `amazoncognito.com`
 
+
 After Google OAuth 2.0 client is created, its credential must be stored in AWS SSM Parameter Store (just like database master password) as follows. Replace `<Client ID>` and `<Client secret>` with values generated from Step 3.
 
 ```
@@ -104,6 +105,17 @@ aws ssm put-parameter --name '/panelapp/prod/cognito/google/oauth_client_secret'
 ```
 
 Note that the domain `panelapp-prod` and `/panelapp/prod/...` is derived from terraform variables `${var.stack}` and `${var.env_name}`. Currently only Hosted UI mode is tested and supported.
+
+**NB: cognito_suffix**
+
+- If you use the cognito_suffix variable to specify ${var.stack}-${var.env_name}-${var.cognito_suffix}**
+
+- Then when specifying the URIs you will need to account for this when registering the URIs in Google Cloud (see below)
+
+```
+    4. At **Authorized JavaScript origins**, add `https://panelapp-prod-{cognito_suffix}.auth.ap-southeast-2.amazoncognito.com`.
+    5. At **Authorized redirect URIs**, add `https://panelapp-prod-{cognito_suffix}.auth.ap-southeast-2.amazoncognito.com/oauth2/idpresponse`.
+```
 
 ## Security
 
