@@ -3,6 +3,9 @@
     "name": "panelapp-web",
     "image" : "${image_name}:${image_tag}",
     "cpu": ${cpu},
+    "command": [
+      "ddtrace-run", "gunicorn", "--worker-tmp-dir=/dev/shm", "--config=file:/app/gunicorn_config.py", "panelapp.wsgi:application"
+    ],
     "memory": ${memory},
     "logConfiguration": {
       "logDriver": "awslogs",
@@ -44,7 +47,8 @@
       { "name" : "EMAIL_HOST_PASSWORD", "value" : "${email_password}" },
       { "name" : "AWS_USE_COGNITO", "value" : "${aws_use_cognito}" },
       { "name" : "AWS_COGNITO_DOMAIN_PREFIX", "value" : "${aws_cognito_domain_prefix}" },
-      { "name" : "AWS_COGNITO_USER_POOL_CLIENT_ID", "value" : "${aws_cognito_user_pool_client_id}" }
+      { "name" : "AWS_COGNITO_USER_POOL_CLIENT_ID", "value" : "${aws_cognito_user_pool_client_id}" },
+      { "name" : "DJANGO_SETTINGS_MODULE", "value" : "panelapp.settings.docker-aws" },
     ],
     "secrets": [
       { "name": "DATABASE_PASSWORD", "valueFrom": "${db_password_secret_arn}" }
