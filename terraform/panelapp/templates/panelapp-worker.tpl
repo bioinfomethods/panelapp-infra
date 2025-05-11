@@ -5,7 +5,7 @@
     "cpu": ${cpu},
     "memory": ${memory},
     "command": [
-      "ddtrace-run", "celery", "--app", "panelapp", "--quiet", "worker", "--task-events", "--concurrency", "2"
+      "celery", "--app", "panelapp", "--quiet", "worker", "--task-events", "--concurrency", "2"
     ],
     "logConfiguration": {
       "logDriver": "awslogs",

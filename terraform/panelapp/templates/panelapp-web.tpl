@@ -4,7 +4,7 @@
     "image" : "${image_name}:${image_tag}",
     "cpu": ${cpu},
     "command": [
-      "ddtrace-run", "gunicorn", "--worker-tmp-dir=/dev/shm", "--config=file:/app/gunicorn_config.py", "panelapp.wsgi:application"
+      "gunicorn", "--worker-tmp-dir=/dev/shm", "--config=file:/app/gunicorn_config.py", "panelapp.wsgi:application"
     ],
     "memory": ${memory},
     "logConfiguration": {
