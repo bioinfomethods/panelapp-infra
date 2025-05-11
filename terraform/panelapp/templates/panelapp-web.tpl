@@ -48,7 +48,7 @@
       { "name" : "AWS_USE_COGNITO", "value" : "${aws_use_cognito}" },
       { "name" : "AWS_COGNITO_DOMAIN_PREFIX", "value" : "${aws_cognito_domain_prefix}" },
       { "name" : "AWS_COGNITO_USER_POOL_CLIENT_ID", "value" : "${aws_cognito_user_pool_client_id}" },
-      { "name" : "DJANGO_SETTINGS_MODULE", "value" : "panelapp.settings.docker-aws" },
+      { "name" : "DJANGO_SETTINGS_MODULE", "value" : "panelapp.settings.docker-aws" }
     ],
     "secrets": [
       { "name": "DATABASE_PASSWORD", "valueFrom": "${db_password_secret_arn}" }
