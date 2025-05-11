@@ -35,7 +35,8 @@
       { "name" : "GUNICORN_WORKERS", "value" : "${gunicorn_workers}" },
       { "name" : "GUNICORN_TIMEOUT", "value" : "${gunicorn_timeout}" },
       { "name" : "EMAIL_HOST_USER", "value" : "${email_user}" },
-      { "name" : "EMAIL_HOST_PASSWORD", "value" : "${email_password}" }
+      { "name" : "EMAIL_HOST_PASSWORD", "value" : "${email_password}" },
+      { "name" : "DJANGO_SETTINGS_MODULE", "value" : "panelapp.settings.docker-aws" }
     ],
     "secrets": [
       { "name": "DATABASE_PASSWORD", "valueFrom": "${db_password_secret_arn}" }
