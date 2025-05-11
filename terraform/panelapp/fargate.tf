@@ -262,7 +262,7 @@ resource "aws_ecs_task_definition" "panelapp_collectstatic" {
     image_name = data.terraform_remote_state.infra.outputs.panelapp_web_image
     image_tag  = var.image_tag
 
-    command = "python -c 'import os; from django.conf import settings; print(\'STATICFILES_STORAGE:\', settings.STATICFILES_STORAGE); print(\'AWS_S3_STATICFILES_BUCKET_NAME:\', os.getenv(\'AWS_S3_STATICFILES_BUCKET_NAME\'));' python manage.py collectstatic --noinput --verbosity 2"
+    command = "python manage.py collectstatic --noinput --verbosity 2"
 
     cpu    = var.task_cpu
     memory = var.task_memory
