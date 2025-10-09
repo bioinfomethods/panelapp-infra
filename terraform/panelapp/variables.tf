@@ -109,7 +109,7 @@ variable "content_based_deduplication" {
 }
 
 variable "panelapp_replica" {
-  default = 2
+  default = 4
 }
 
 variable "cdn_alias" {
@@ -152,19 +152,19 @@ variable "admin_secret" {
 variable "image_tag" {}
 
 variable "task_cpu" {
-  default = 512
+  default = 2048
 }
 
 variable "task_memory" {
-  default = 1024
+  default = 4096
 }
 
 variable "worker_task_cpu" {
-  default = 256
+  default = 512
 }
 
 variable "worker_task_memory" {
-  default = 512
+  default = 1024
 }
 
 variable "log_retention" {
@@ -297,7 +297,7 @@ variable "whitelisted_ips" {
 }
 
 variable "engine_version" {
-  default = "13.12"
+  default = "13.20"
 }
 
 variable "db_family_parameters" {
