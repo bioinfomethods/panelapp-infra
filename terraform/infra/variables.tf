@@ -23,6 +23,11 @@ variable "create_public_dns_zone" {
   type    = bool
 }
 
+variable "public_route53_zone" {
+  description = "Public Route53 Zone"
+  default = ""
+}
+
 variable "public_dns_zone" {
   description = "Public DNS Zone ID"
   default = ""
@@ -99,7 +104,8 @@ variable "cloudflare_zone" {}
 variable "cloudflare_static_files_record" {}
 variable "cloudflare_media_files_record" {}
 variable "waf_acl_cf_req_header_name" {}
-variable "panelapp_replica" {}
+variable "panelapp_replica_web" {}
+variable "panelapp_replica_worker" {}
 variable "task_cpu" {}
 variable "task_memory" {}
 variable "worker_task_cpu" {}

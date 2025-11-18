@@ -108,7 +108,11 @@ variable "content_based_deduplication" {
   default     = false
 }
 
-variable "panelapp_replica" {
+variable "panelapp_replica_web" {
+  default = 4
+}
+
+variable "panelapp_replica_worker" {
   default = 4
 }
 

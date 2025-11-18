@@ -85,7 +85,8 @@ waf_acl_cf_req_header_name = "cf_req_header"
 # Number of instances of Web AND Worker containers.
 # To scale, increase replicas rather than making them bigger or increasing gunicorn worker threads
 # A limitation of the current implementation is the number of Worker and Web containers must be the same
-panelapp_replica = 2
+panelapp_replica_web = 2
+panelapp_replica_worker = 2
 
 
 # Fargate tasks resources

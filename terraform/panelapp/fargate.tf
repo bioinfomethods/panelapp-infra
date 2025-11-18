@@ -22,7 +22,7 @@ resource "aws_ecs_service" "panelapp_web" {
   name            = "panelapp-web-${var.stack}-${var.env_name}"
   cluster         = aws_ecs_cluster.panelapp_cluster[0].id
   task_definition = aws_ecs_task_definition.panelapp_web.arn
-  desired_count   = var.panelapp_replica
+  desired_count   = var.panelapp_replica_web
   launch_type     = "FARGATE"
 
   load_balancer {
@@ -110,7 +110,7 @@ resource "aws_ecs_service" "panelapp_worker" {
   name            = "panelapp-worker-${var.stack}-${var.env_name}"
   cluster         = aws_ecs_cluster.panelapp_cluster[0].id
   task_definition = aws_ecs_task_definition.panelapp_worker.arn
-  desired_count   = var.panelapp_replica
+  desired_count   = var.panelapp_replica_worker
   launch_type     = "FARGATE"
 
   network_configuration {
