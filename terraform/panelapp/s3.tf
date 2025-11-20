@@ -225,3 +225,73 @@ resource "aws_s3_bucket_versioning" "panelapp_scripts_versioning" {
     status = "Enabled"
   }
 }
+
+// Reports bucket
+resource "aws_s3_bucket" "panelapp_reports" {
+  bucket = "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-panelapp-reports"
+
+  tags = merge(
+    var.default_tags,
+    tomap({ "Name" : "panelapp_reports" })
+  )
+}
+
+resource "aws_s3_bucket_ownership_controls" "panelapp_reports_ownership_controls" {
+  bucket = aws_s3_bucket.panelapp_reports.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "panelapp_reports_block_config" {
+  bucket = aws_s3_bucket.panelapp_reports.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_acl" "panelapp_reports_acl" {
+  depends_on = [
+    aws_s3_bucket_ownership_controls.panelapp_reports_ownership_controls,
+    aws_s3_bucket_public_access_block.panelapp_reports_block_config
+  ]
+
+  bucket = aws_s3_bucket.panelapp_reports.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_versioning" "panelapp_reports_versioning" {
+  bucket = aws_s3_bucket.panelapp_reports.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+// IAM Policies for report bucket acces by ECS Task Panelapp
+resource "aws_iam_policy" "panelapp_reports_read" {
+  name   = "panelapp-reports-read-${var.stack}-${var.env_name}"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid = "AllowGetObject"
+        Effect = "Allow"
+        Action = ["s3:GetObject"]
+        Resource = ["${aws_s3_bucket.panelapp_reports.arn}/*"]
+      },
+      {
+        Sid = "AllowListBucket"
+        Effect = "Allow"
+        Action = ["s3:ListBucket"]
+        Resource = ["${aws_s3_bucket.panelapp_reports.arn}"]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "panelapp_reports_read" {
+  role       = aws_iam_role.ecs_task_panelapp.name
+  policy_arn = aws_iam_policy.panelapp_reports_read.arn
+}
