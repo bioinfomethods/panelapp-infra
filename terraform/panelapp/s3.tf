@@ -295,3 +295,65 @@ resource "aws_iam_role_policy_attachment" "panelapp_reports_read" {
   role       = aws_iam_role.ecs_task_panelapp.name
   policy_arn = aws_iam_policy.panelapp_reports_read.arn
 }
+
+resource "aws_iam_user" "panelapp_reports_uploader" {
+  name = "panelapp-reports-uploader-${var.stack}-${var.env_name}"
+  path = "/service-users/"
+
+  tags = merge(
+    var.default_tags,
+    tomap({ "Name" = "panelapp_reports_uploader" })
+  )
+}
+
+// IAM Policies for report user such that we can upload to the bucket
+resource "aws_iam_user_policy" "panelapp_reports_uploader_policy" {
+  user = aws_iam_user.panelapp_reports_uploader.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid = "AllowPutObject"
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject",
+          "s3:PutObjectAcl"
+        ]
+        Resource = ["${aws_s3_bucket.panelapp_reports.arn}/*"]
+      },
+      {
+        Sid = "AllowListBucket"
+        Effect = "Allow"
+        Action = [
+          "s3:ListBucket"
+        ]
+        Resource = ["${aws_s3_bucket.panelapp_reports.arn}"]
+      },
+      {
+        Sid = "OptionalMultipartAndDelete"
+        Effect = "Allow"
+        Action = [
+          "s3:AbortMultipartUpload",
+          "s3:ListMultipartUploadParts",
+          "s3:DeleteObject"
+        ]
+        Resource = ["${aws_s3_bucket.panelapp_reports.arn}/*"]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_access_key" "panelapp_reports_uploader_key" {
+  user = aws_iam_user.panelapp_reports_uploader.name
+}
+
+output "panelapp_reports_uploader_access_key_id" {
+  value     = aws_iam_access_key.panelapp_reports_uploader_key.id
+  sensitive = true
+}
+
+output "panelapp_reports_uploader_secret_access_key" {
+  value     = aws_iam_access_key.panelapp_reports_uploader_key.secret
+  sensitive = true
+}
