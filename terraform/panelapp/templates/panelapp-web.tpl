@@ -27,6 +27,7 @@
       { "name" : "AWS_REGION", "value" : "${aws_region}" },
       { "name" : "AWS_S3_STATICFILES_BUCKET_NAME", "value" : "${panelapp_statics}" },
       { "name" : "AWS_S3_MEDIAFILES_BUCKET_NAME", "value" : "${panelapp_media}" },
+      { "name" : "AWS_S3_REPORTS_BUCKET_NAME", "value" : "${panelapp_reports}" },
       { "name" : "AWS_S3_STATICFILES_CUSTOM_DOMAIN", "value" : "${cdn_domain_name}" },
       { "name" : "AWS_S3_MEDIAFILES_CUSTOM_DOMAIN", "value" : "${cdn_domain_name}" },
       { "name" : "ALLOWED_HOSTS", "value" : "*" },
