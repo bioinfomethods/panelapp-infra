@@ -225,3 +225,135 @@ resource "aws_s3_bucket_versioning" "panelapp_scripts_versioning" {
     status = "Enabled"
   }
 }
+
+// Reports bucket
+resource "aws_s3_bucket" "panelapp_reports" {
+  bucket = "${var.stack}-${var.env_name}-${var.account_id}-${var.region}-panelapp-reports"
+
+  tags = merge(
+    var.default_tags,
+    tomap({ "Name" : "panelapp_reports" })
+  )
+}
+
+resource "aws_s3_bucket_ownership_controls" "panelapp_reports_ownership_controls" {
+  bucket = aws_s3_bucket.panelapp_reports.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "panelapp_reports_block_config" {
+  bucket = aws_s3_bucket.panelapp_reports.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_acl" "panelapp_reports_acl" {
+  depends_on = [
+    aws_s3_bucket_ownership_controls.panelapp_reports_ownership_controls,
+    aws_s3_bucket_public_access_block.panelapp_reports_block_config
+  ]
+
+  bucket = aws_s3_bucket.panelapp_reports.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_versioning" "panelapp_reports_versioning" {
+  bucket = aws_s3_bucket.panelapp_reports.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+// IAM Policies for report bucket acces by ECS Task Panelapp
+resource "aws_iam_policy" "panelapp_reports_read" {
+  name   = "panelapp-reports-read-${var.stack}-${var.env_name}"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid = "AllowGetObject"
+        Effect = "Allow"
+        Action = ["s3:GetObject"]
+        Resource = ["${aws_s3_bucket.panelapp_reports.arn}/*"]
+      },
+      {
+        Sid = "AllowListBucket"
+        Effect = "Allow"
+        Action = ["s3:ListBucket"]
+        Resource = ["${aws_s3_bucket.panelapp_reports.arn}"]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "panelapp_reports_read" {
+  role       = aws_iam_role.ecs_task_panelapp.name
+  policy_arn = aws_iam_policy.panelapp_reports_read.arn
+}
+
+resource "aws_iam_user" "panelapp_reports_uploader" {
+  name = "panelapp-reports-uploader-${var.stack}-${var.env_name}"
+  path = "/service-users/"
+
+  tags = merge(
+    var.default_tags,
+    tomap({ "Name" = "panelapp_reports_uploader" })
+  )
+}
+
+// IAM Policies for report user such that we can upload to the bucket
+resource "aws_iam_user_policy" "panelapp_reports_uploader_policy" {
+  user = aws_iam_user.panelapp_reports_uploader.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid = "AllowPutObject"
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject",
+          "s3:PutObjectAcl"
+        ]
+        Resource = ["${aws_s3_bucket.panelapp_reports.arn}/*"]
+      },
+      {
+        Sid = "AllowListBucket"
+        Effect = "Allow"
+        Action = [
+          "s3:ListBucket"
+        ]
+        Resource = ["${aws_s3_bucket.panelapp_reports.arn}"]
+      },
+      {
+        Sid = "OptionalMultipartAndDelete"
+        Effect = "Allow"
+        Action = [
+          "s3:AbortMultipartUpload",
+          "s3:ListMultipartUploadParts",
+          "s3:DeleteObject"
+        ]
+        Resource = ["${aws_s3_bucket.panelapp_reports.arn}/*"]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_access_key" "panelapp_reports_uploader_key" {
+  user = aws_iam_user.panelapp_reports_uploader.name
+}
+
+output "panelapp_reports_uploader_access_key_id" {
+  value     = aws_iam_access_key.panelapp_reports_uploader_key.id
+  sensitive = true
+}
+
+output "panelapp_reports_uploader_secret_access_key" {
+  value     = aws_iam_access_key.panelapp_reports_uploader_key.secret
+  sensitive = true
+}

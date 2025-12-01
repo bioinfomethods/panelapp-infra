@@ -76,6 +76,7 @@ resource "aws_ecs_task_definition" "panelapp_web" {
     aws_region             = var.region
     panelapp_statics       = aws_s3_bucket.panelapp_statics.id
     panelapp_media         = aws_s3_bucket.panelapp_media.id
+    panelapp_reports       = aws_s3_bucket.panelapp_reports.id
     cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
@@ -153,6 +154,7 @@ resource "aws_ecs_task_definition" "panelapp_worker" {
     aws_region             = var.region
     panelapp_statics       = aws_s3_bucket.panelapp_statics.id
     panelapp_media         = aws_s3_bucket.panelapp_media.id
+    panelapp_reports       = aws_s3_bucket.panelapp_reports.id
     cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
@@ -222,6 +224,7 @@ resource "aws_ecs_task_definition" "panelapp_migrate" {
     aws_region             = var.region
     panelapp_statics       = aws_s3_bucket.panelapp_statics.id
     panelapp_media         = aws_s3_bucket.panelapp_media.id
+    panelapp_reports       = aws_s3_bucket.panelapp_reports.id
     cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
@@ -286,6 +289,7 @@ resource "aws_ecs_task_definition" "panelapp_collectstatic" {
     aws_region             = var.region
     panelapp_statics       = aws_s3_bucket.panelapp_statics.id
     panelapp_media         = aws_s3_bucket.panelapp_media.id
+    panelapp_reports       = aws_s3_bucket.panelapp_reports.id
     cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
@@ -361,6 +365,7 @@ resource "aws_ecs_task_definition" "panelapp_loaddata" {
     aws_region             = var.region
     panelapp_statics       = aws_s3_bucket.panelapp_statics.id
     panelapp_media         = aws_s3_bucket.panelapp_media.id
+    panelapp_reports       = aws_s3_bucket.panelapp_reports.id
     cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
@@ -406,6 +411,7 @@ resource "aws_ecs_task_definition" "panelapp_createsuperuser" {
     aws_region             = var.region
     panelapp_statics       = aws_s3_bucket.panelapp_statics.id
     panelapp_media         = aws_s3_bucket.panelapp_media.id
+    panelapp_reports       = aws_s3_bucket.panelapp_reports.id
     cdn_domain_name        = var.cdn_alias
     default_email          = var.default_email
     panelapp_email         = var.panelapp_email
