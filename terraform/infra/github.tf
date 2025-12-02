@@ -19,6 +19,7 @@ module "github-oidc" {
     "arn:aws:iam::aws:policy/AmazonRDSReadOnlyAccess",
     "arn:aws:iam::aws:policy/AmazonSQSReadOnlyAccess",
     "arn:aws:iam::aws:policy/AmazonCognitoReadOnly",
+    "arn:aws:iam::aws:policy/CloudFrontFullAccess",
     "arn:aws:iam::aws:policy/ElasticLoadBalancingReadOnly",
     "arn:aws:iam::aws:policy/IAMReadOnlyAccess"
   ]
